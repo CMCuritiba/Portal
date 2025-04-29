@@ -2,7 +2,7 @@ name: Docker Build and Push
 
 on:
   push:
-    branches: [ "homolog" ]
+    branches: [ "develop" ]
   workflow_dispatch:
 
 env:
@@ -113,7 +113,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DEV_GHCR_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
