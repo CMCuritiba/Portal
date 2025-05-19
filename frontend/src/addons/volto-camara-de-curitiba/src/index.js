@@ -22,6 +22,15 @@ const applyConfig = (config) => {
     },
   ];
 
+  config.addonRoutes = [
+    {
+      path: '/institucional/agenda-de-atividades', // URL onde a página será acessível
+      component: AgendaListView,
+    },
+  ];
+
+
+
   config.blocks.initialBlocks = {
     'News Item': [
       { '@type': 'title' },
