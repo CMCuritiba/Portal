@@ -27,14 +27,25 @@ from plone.restapi.serializer.converters import json_compatible
 def NoticiasFilhasVocabulary(context):
     """Vocabulário para notícias filhas da editoria"""
     catalog = getToolByName(context, 'portal_catalog')
-    path = '/'.join(context.getPhysicalPath())
-    print("Path original:", path)
     
-    # Remove o último segmento do path se for "noticias/teste-1"
-    if path.endswith("/noticias/teste-1"):
-        path = path[:-len("/noticias/teste-1")]
-    
-    print("Path ajustado:", path)
+    # Se o contexto for uma editoria, usa ele mesmo
+    if IEditoria.providedBy(context):
+        editoria = context
+    else:
+        # Se não for, tenta pegar a editoria do contexto
+        try:
+            editoria = aq_parent(aq_inner(context))
+            while editoria and not IEditoria.providedBy(editoria):
+                editoria = aq_parent(aq_inner(editoria))
+        except (AttributeError, TypeError):
+            # Se não conseguir acessar o parent, retorna vocabulário vazio
+            return SimpleVocabulary([])
+
+    if not editoria:
+        return SimpleVocabulary([])
+
+    path = '/'.join(editoria.getPhysicalPath())
+    print("Path da editoria:", path)
     results = catalog(
         portal_type='News Item',
         path={'query': path, 'depth': 1},
@@ -57,11 +68,7 @@ def NoticiasFilhasVocabulary(context):
             continue
 
     vocab = SimpleVocabulary(terms)
-    print("Vocabulary terms:", [term.title for term in vocab])
-    return vocab
-
-    vocab = SimpleVocabulary(terms)
-    print("Vocabulary terms:", [term.title for term in vocab])
+    print("Vocabulary terms:", [term.token for term in vocab])
     return vocab
 
 

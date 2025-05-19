@@ -51,28 +51,6 @@ const View: React.FC<ViewProps> = (props) => {
     }, [items, data.defaultFilter]);
 
     const handleFilterChange = (filter: string) => {
-        setActiveFilter(filter);
-        if (filter === 'all') {
-            setFilteredItems(items);
-        } else if (filter === 'editorias') {
-            // Filtra itens que têm editoria selecionada
-            const itemsWithEditoria = items.filter(item => {
-                if (!item.editoria) return false;
-                if (!data.selectedEditorias?.length) return true;
-                return data.selectedEditorias.some(selected => 
-                    selected.editoria['@id'] === item.editoria['@id']
-                );
-            });
-            setFilteredItems(itemsWithEditoria);
-        } else if (filter === 'tags') {
-            // Filtra itens que têm tags selecionadas
-            const itemsWithTags = items.filter(item => {
-                if (!item.subjects?.length) return false;
-                if (!data.selectedTags?.length) return true;
-                return item.subjects.some(tag => data.selectedTags?.includes(tag));
-            });
-            setFilteredItems(itemsWithTags);
-        }
     };
 
     return (
@@ -80,26 +58,6 @@ const View: React.FC<ViewProps> = (props) => {
             <Container>
                 <div className="flex justify-between align-items-center flex-mb flex-column-mb gap-24">
                     <h2 className="title-back mb-0">Todas as notícias</h2>
-                    <ButtonGroup variant="contained" aria-label="filtro de notícias">
-                        <Button 
-                            onClick={() => handleFilterChange('all')}
-                            className={activeFilter === 'all' ? 'active' : ''}
-                        >
-                            Todas
-                        </Button>
-                        <Button 
-                            onClick={() => handleFilterChange('editorias')}
-                            className={activeFilter === 'editorias' ? 'active' : ''}
-                        >
-                            Editorias
-                        </Button>
-                        <Button 
-                            onClick={() => handleFilterChange('tags')}
-                            className={activeFilter === 'tags' ? 'active' : ''}
-                        >
-                            Tags
-                        </Button>
-                    </ButtonGroup>
                 </div>
                 <div className="itens mt-30 stack gap-30">
                     {filteredItems.length > 0 ? (
