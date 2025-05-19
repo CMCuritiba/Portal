@@ -1,61 +1,87 @@
-import {defineMessages} from 'react-intl';
-import {v4 as uuid} from "uuid";
-import {addStyling} from '@plone/volto/helpers/Extensions/withBlockSchemaEnhancer';
+import { defineMessages } from 'react-intl';
 
 const messages = defineMessages({
-  todasnoticiasBlock: {
-    id: 'todasnoticiasBlock',
-    defaultMessage: 'Todas as notícias',
+  defaultFilter: {
+    id: 'Default filter',
+    defaultMessage: 'Filtro padrão',
   },
-  links: {
-    id: 'links',
-    defaultMessage: 'Links',
+  all: {
+    id: 'All',
+    defaultMessage: 'Todas',
+  },
+  editorias: {
+    id: 'Editorias',
+    defaultMessage: 'Editorias',
+  },
+  tags: {
+    id: 'Tags',
+    defaultMessage: 'Tags',
+  },
+  selectedEditorias: {
+    id: 'Selected Editorias',
+    defaultMessage: 'Editorias selecionadas',
+  },
+  selectedTags: {
+    id: 'Selected Tags',
+    defaultMessage: 'Tags selecionadas',
   },
 });
 
-
 export const Schema = (props) => {
   return {
-    title: props.intl.formatMessage(messages.todasnoticiasBlock),
+    title: 'Todas as Notícias',
     fieldsets: [
       {
         id: 'default',
         title: 'Default',
-        fields: ['links'],
+        fields: ['defaultFilter', 'selectedEditorias', 'selectedTags'],
       },
     ],
     properties: {
-      links: {
-        title: "Banners",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
+      defaultFilter: {
+        title: 'Filtro padrão',
+        choices: [
+          ['all', 'Todas'],
+          ['editorias', 'Editorias'],
+          ['tags', 'Tags'],
+        ],
+        default: 'all',
+      },
+      selectedEditorias: {
+        title: 'Editorias selecionadas',
+        widget: 'object_list',
         schema: {
-          title: "Link",
+          title: 'Editoria',
           fieldsets: [
             {
               id: 'default',
               title: 'Default',
-              fields: ['link', 'image'],
+              fields: ['editoria'],
             },
           ],
           properties: {
-           image: {
-              title: "Imagem",
+            editoria: {
+              title: 'Editoria',
               widget: 'object_browser',
-              mode: 'image',
-              allowExternals: true,
-            },
-            link: {
-              title: "Link",
-              widget: "object_browser", // Usa o widget object_browser
-              mode: "link", // Vincula ao objeto no Plone
-              allowExternals:true,
+              mode: 'link',
+              allowExternals: false,
+              selectedCovers: ['Editoria'],
             },
           },
-          required: ['link', 'image'],
+          required: ['editoria'],
         },
+        description: 'Selecione as editorias que deseja exibir',
+        visible: (props) => props.data.defaultFilter === 'editorias',
+      },
+      selectedTags: {
+        title: 'Tags selecionadas',
+        widget: 'tags',
+        description: 'Selecione as tags que deseja exibir',
+        visible: (props) => props.data.defaultFilter === 'tags',
       },
     },
-    required: ['links'],
+    required: [],
   };
 };
+
+export default Schema;

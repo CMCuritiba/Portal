@@ -2,6 +2,7 @@ import {CategoriaView} from "./components";
 import VereadoresListView from "./components/VereadoresView/VereadoresListView";
 import VereadorItemView from "./components/VereadoresView/VereadorItemView";
 import MyMenuConfigurationForm from "./components/MyMenuConfigurationForm";
+import EditoriaItemView from "./components/EditoriaView/EditoriaItemView";
 const applyConfig = (config) => {
   config.settings = {
     ...config.settings,
@@ -13,6 +14,7 @@ const applyConfig = (config) => {
   config.views.contentTypesViews = {
     ...config.views.contentTypesViews,
     vereador: VereadorItemView, // Associa a visualização ao novo tipo de conteúdo
+    Editoria: EditoriaItemView, // Associa a visualização ao novo tipo de conteúdo
   };
 
   config.addonRoutes = [
