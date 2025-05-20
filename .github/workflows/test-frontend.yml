@@ -91,10 +91,10 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}/frontend
           tags: |
-            type=raw,value=homolog
+            type=raw,value=test
             type=raw,value=${{ needs.version.outputs.version }}
           labels: |
-            org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:homolog
+            org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:test
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
