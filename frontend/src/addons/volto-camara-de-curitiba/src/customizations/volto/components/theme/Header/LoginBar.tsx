@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import AccessLoginIcon from './Icons/AccessLoginIcon';
+import PropTypes from 'prop-types';
 
 const LoginBar = () => {
   const token = useSelector((state) => state.userSession.token);
