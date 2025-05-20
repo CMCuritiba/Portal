@@ -5,7 +5,7 @@ on:
     branches: [ "test"]
     paths:
       - "frontend/**"
-      - ".github/workflows/frontend.yml"
+      - ".github/workflows/test-frontend.yml"
   workflow_dispatch:
 
 env:
