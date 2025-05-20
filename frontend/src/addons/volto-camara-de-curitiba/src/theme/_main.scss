@@ -489,7 +489,7 @@ body {
 }
 
 .d-none, .menu-mobile {
-  display: none;
+  display: none !important;
 }
 
 .lh-normal {
@@ -558,7 +558,7 @@ body {
 
 @media (max-width: 768px) {
   .d-sm-block, .menu-mobile {
-    display: block;
+    display: block !important;
   }
   .pesquisa h2 {
     text-align: center;

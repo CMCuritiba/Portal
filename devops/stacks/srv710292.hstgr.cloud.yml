@@ -130,8 +130,6 @@ services:
       - backend
     networks:
       - nw-internal
-    volumes:
-      - frontend-data:/app  # Volume nomeado
     deploy:
       replicas: 1
       update_config:
