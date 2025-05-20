@@ -3,7 +3,7 @@
  */
 
 const querystring = {
-  parse: function(str) {
+  parse: function (str) {
     if (!str) return {};
     return str.split('&').reduce((params, param) => {
       const [key, value] = param.split('=');
@@ -11,11 +11,11 @@ const querystring = {
       return params;
     }, {});
   },
-  stringify: function(obj) {
+  stringify: function (obj) {
     return Object.keys(obj)
-      .map(key => `${key}=${encodeURIComponent(obj[key])}`)
+      .map((key) => `${key}=${encodeURIComponent(obj[key])}`)
       .join('&');
-  }
+  },
 };
 
-export default querystring; 
+export default querystring;

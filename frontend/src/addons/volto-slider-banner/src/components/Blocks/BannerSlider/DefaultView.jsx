@@ -20,7 +20,7 @@ const bannerSliderView = (props) => {
   return bannerSliderOembed ? (
     <div className={`block bannerSlider ${className} align-${align}`}>
       {isEditMode && <div className={'overlay'}> </div>}
-      <BannerSliderWrapper size={size} {...bannerSliderOembed} />
+      <bannerSliderWrapper size={size} {...bannerSliderOembed} />
     </div>
   ) : (
     <div className={`block bannerSlider ${className} align-full`}>

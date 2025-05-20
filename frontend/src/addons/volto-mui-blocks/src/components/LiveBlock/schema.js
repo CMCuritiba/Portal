@@ -1,5 +1,5 @@
-import {defineMessages} from 'react-intl';
-import {v4 as uuid} from "uuid";
+import { defineMessages } from 'react-intl';
+import { v4 as uuid } from 'uuid';
 
 const messages = defineMessages({
   liveBlock: {
@@ -11,7 +11,6 @@ const messages = defineMessages({
     defaultMessage: 'Youtube Live',
   },
 });
-
 
 export const liveBlockSchema = (props) => {
   return {
@@ -26,7 +25,7 @@ export const liveBlockSchema = (props) => {
     properties: {
       youtube: {
         title: props.intl.formatMessage(messages.youtube),
-        type: "string"
+        type: 'string',
       },
     },
     required: ['youtube'],

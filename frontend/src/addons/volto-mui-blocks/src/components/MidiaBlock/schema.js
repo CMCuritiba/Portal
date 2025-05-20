@@ -1,6 +1,6 @@
-import {defineMessages} from 'react-intl';
-import {v4 as uuid} from "uuid";
-import {addStyling} from '@plone/volto/helpers/Extensions/withBlockSchemaEnhancer';
+import { defineMessages } from 'react-intl';
+import { v4 as uuid } from 'uuid';
+import { addStyling } from '@plone/volto/helpers/Extensions/withBlockSchemaEnhancer';
 
 const messages = defineMessages({
   midiaBlock: {
@@ -12,7 +12,6 @@ const messages = defineMessages({
     defaultMessage: 'Links',
   },
 });
-
 
 export const Schema = (props) => {
   return {
@@ -26,11 +25,11 @@ export const Schema = (props) => {
     ],
     properties: {
       podcasts: {
-        title: "Podcasts",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
+        title: 'Podcasts',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
         schema: {
-          title: "Video",
+          title: 'Video',
           fieldsets: [
             {
               id: 'default',
@@ -40,19 +39,19 @@ export const Schema = (props) => {
           ],
           properties: {
             title: {
-              title: "Título",
+              title: 'Título',
               mode: 'string',
             },
             description: {
-              title: "Descrição",
+              title: 'Descrição',
               mode: 'string',
             },
             image: {
-              title: "Imagem",
+              title: 'Imagem',
               widget: 'image',
             },
             link: {
-              title: "Link Youtube",
+              title: 'Link Youtube',
               mode: 'string',
             },
           },
@@ -60,11 +59,11 @@ export const Schema = (props) => {
         },
       },
       lives: {
-        title: "Lives",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
-       schema: {
-          title: "Video",
+        title: 'Lives',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
+        schema: {
+          title: 'Video',
           fieldsets: [
             {
               id: 'default',
@@ -74,19 +73,19 @@ export const Schema = (props) => {
           ],
           properties: {
             title: {
-              title: "Título",
+              title: 'Título',
               mode: 'string',
             },
             description: {
-              title: "Descrição",
+              title: 'Descrição',
               mode: 'string',
             },
             image: {
-              title: "Imagem",
+              title: 'Imagem',
               widget: 'image',
             },
             link: {
-              title: "Link Youtube",
+              title: 'Link Youtube',
               mode: 'string',
             },
           },
@@ -94,11 +93,11 @@ export const Schema = (props) => {
         },
       },
       institucional: {
-        title: "Institucionais",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
-          schema: {
-          title: "Video",
+        title: 'Institucionais',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
+        schema: {
+          title: 'Video',
           fieldsets: [
             {
               id: 'default',
@@ -108,19 +107,19 @@ export const Schema = (props) => {
           ],
           properties: {
             title: {
-              title: "Título",
+              title: 'Título',
               mode: 'string',
             },
             description: {
-              title: "Descrição",
+              title: 'Descrição',
               mode: 'string',
             },
             image: {
-              title: "Imagem",
+              title: 'Imagem',
               widget: 'image',
             },
             link: {
-              title: "Link Youtube",
+              title: 'Link Youtube',
               mode: 'string',
             },
           },

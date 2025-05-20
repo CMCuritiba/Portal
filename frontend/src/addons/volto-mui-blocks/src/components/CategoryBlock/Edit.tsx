@@ -11,16 +11,10 @@ const GridBlockEdit = (props) => {
     <>
       <View {...props} isEditMode />
       <SidebarPortal selected={selected}>
-        <Data
-          data={data}
-          block={block}
-          onChangeBlock={onChangeBlock}
-        />
+        <Data data={data} block={block} onChangeBlock={onChangeBlock} />
       </SidebarPortal>
     </>
   );
 };
-
-
 
 export default withBlockExtensions(GridBlockEdit);

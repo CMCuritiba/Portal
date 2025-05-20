@@ -8,7 +8,7 @@ module.exports = function (api) {
         messagesDir: './build/messages/',
       },
     ],
-    ["@motion"]
+    ['@motion'],
   ];
 
   return {

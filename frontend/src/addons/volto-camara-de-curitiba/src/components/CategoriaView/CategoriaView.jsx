@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { Container, Image } from 'semantic-ui-react';
 import { FormattedMessage } from 'react-intl';
 
-/** 
+/**
  * Full view component class.
  * @function FullView
  * @param {Object} content Content object.
@@ -27,7 +27,7 @@ const CategoriaView = ({ content }) => (
         )}
       </header>
       <section id="content-core">
-        {content.items.map(item => (
+        {content.items.map((item) => (
           <article key={item.url}>
             <h2>
               <Link to={item.url} title={item['@type']}>
@@ -43,10 +43,9 @@ const CategoriaView = ({ content }) => (
               />
             )}
             {item.description && <p>{item.description}</p>}
-            {item.text &&
-              item.text.data && (
-                <p dangerouslySetInnerHTML={{ __html: item.text.data }} />
-              )}
+            {item.text && item.text.data && (
+              <p dangerouslySetInnerHTML={{ __html: item.text.data }} />
+            )}
           </article>
         ))}
       </section>

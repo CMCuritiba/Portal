@@ -15,7 +15,44 @@
     }
   }
 
-  #page-document .blocks-group-wrapper > h1.documentFirstHeading, #page-document .blocks-group-wrapper > .block.image.align.left, #page-document .blocks-group-wrapper > .block.image.align.right, #page-document .blocks-group-wrapper > .block.image.align.center, #page-document .blocks-group-wrapper > .block.image.align.wide figure, #page-document .blocks-group-wrapper > .block.video.align.left, #page-document .blocks-group-wrapper > .block.video.align.right, #page-document .blocks-group-wrapper > .block.maps.align.left, #page-document .blocks-group-wrapper > .block.maps.align.right, #page-document .blocks-group-wrapper > .block.video.align.wide .video-inner, #page-document .blocks-group-wrapper > .block.maps.align.wide .maps-inner, #page-document .blocks-group-wrapper > .block.__button, #page-document .blocks-group-wrapper > .block.eventMetadata .details-container, #page-document .blocks-group-wrapper > .block.listing .listing-item, #page-document .blocks-group-wrapper > .block.listing .emptyListing, #page-document .blocks-group-wrapper > .block.listing .image-gallery, #page-document .blocks-group-wrapper > .block.listing.grid, #page-document .blocks-group-wrapper > .block.search.grid, #page-document .blocks-group-wrapper > .block.search .searchBlock-container, #page-document .blocks-group-wrapper > .block h2.headline, #page-document .blocks-group-wrapper > .block.heading .heading-wrapper, #page-document .blocks-group-wrapper > .block.separator.has--align--full .line, #page-document .blocks-group-wrapper > .block.introduction .block-container, #page-document .blocks-group-wrapper > .block.teaser .teaser-item.default, #page-document .blocks-group-wrapper > .block.highlight .teaser-description-title, #page-document .blocks-group-wrapper > table, #page-document .blocks-group-wrapper > .table-of-contents, #page-document .blocks-group-wrapper > .accordion-block, #page-document .blocks-group-wrapper > .slate blockquote {
+  #page-document .blocks-group-wrapper > h1.documentFirstHeading,
+  #page-document .blocks-group-wrapper > .block.image.align.left,
+  #page-document .blocks-group-wrapper > .block.image.align.right,
+  #page-document .blocks-group-wrapper > .block.image.align.center,
+  #page-document .blocks-group-wrapper > .block.image.align.wide figure,
+  #page-document .blocks-group-wrapper > .block.video.align.left,
+  #page-document .blocks-group-wrapper > .block.video.align.right,
+  #page-document .blocks-group-wrapper > .block.maps.align.left,
+  #page-document .blocks-group-wrapper > .block.maps.align.right,
+  #page-document .blocks-group-wrapper > .block.video.align.wide .video-inner,
+  #page-document .blocks-group-wrapper > .block.maps.align.wide .maps-inner,
+  #page-document .blocks-group-wrapper > .block.__button,
+  #page-document
+    .blocks-group-wrapper
+    > .block.eventMetadata
+    .details-container,
+  #page-document .blocks-group-wrapper > .block.listing .listing-item,
+  #page-document .blocks-group-wrapper > .block.listing .emptyListing,
+  #page-document .blocks-group-wrapper > .block.listing .image-gallery,
+  #page-document .blocks-group-wrapper > .block.listing.grid,
+  #page-document .blocks-group-wrapper > .block.search.grid,
+  #page-document .blocks-group-wrapper > .block.search .searchBlock-container,
+  #page-document .blocks-group-wrapper > .block h2.headline,
+  #page-document .blocks-group-wrapper > .block.heading .heading-wrapper,
+  #page-document
+    .blocks-group-wrapper
+    > .block.separator.has--align--full
+    .line,
+  #page-document .blocks-group-wrapper > .block.introduction .block-container,
+  #page-document .blocks-group-wrapper > .block.teaser .teaser-item.default,
+  #page-document
+    .blocks-group-wrapper
+    > .block.highlight
+    .teaser-description-title,
+  #page-document .blocks-group-wrapper > table,
+  #page-document .blocks-group-wrapper > .table-of-contents,
+  #page-document .blocks-group-wrapper > .accordion-block,
+  #page-document .blocks-group-wrapper > .slate blockquote {
     margin-left: 0px !important;
     margin-right: 0px !important;
   }
@@ -42,7 +79,6 @@
     grid-template-columns: 1fr !important;
   }
 
-
   .title-back {
     font-size: 18px !important;
   }
@@ -64,10 +100,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: clamp(14px, 2vw, 20px); /* Ajusta o tamanho do texto responsivamente */
+    font-size: clamp(
+      14px,
+      2vw,
+      20px
+    ); /* Ajusta o tamanho do texto responsivamente */
     white-space: nowrap;
   }
-
 
   .grid-vereador {
     .sidebar {
@@ -82,7 +121,6 @@
       max-width: 100vw;
     }
   }
-
 
   iframe {
     max-width: 100%;
@@ -154,7 +192,6 @@
     margin-right: 0px !important;
     font-size: 20px !important;
     line-height: normal;
-
   }
 
   .documentFirstHeading + * {
@@ -193,7 +230,6 @@
     > *:first-child {
       width: 100%;
     }
-
   }
 
   .max-w-mobile-100vw {

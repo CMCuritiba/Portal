@@ -1,0 +1,13 @@
+name-template: "Release ${{ nextReleaseVersion }}"
+tag-template: "v${{ nextReleaseVersion }}"
+categories:
+  - title: 🚀 New Features
+    labels:
+      - feature
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+  - title: 🛠 Maintenance
+    labels:
+      - chore
+change-template: "- ${{ change.title }} (#${{ change.number }}) by @${{ change.author }}"

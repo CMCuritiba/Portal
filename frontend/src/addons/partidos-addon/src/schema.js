@@ -32,11 +32,11 @@ export const partidoSchema = ({ intl }) => ({
   properties: {
     sigla: {
       title: 'Sigla',
-      required: true
+      required: true,
     },
     nome: {
       title: 'Nome completo',
-      required: true
+      required: true,
     },
     logo: {
       title: 'Logo do partido',

@@ -4,7 +4,7 @@
   span {
     cursor: pointer;
     padding: 14px 32px;
-    color: var(--Primary, #3E8A8E);
+    color: var(--Primary, #3e8a8e);
     text-align: center;
 
     /* Button & Link/Text Medium */
@@ -15,12 +15,13 @@
     line-height: 20px; /* 125% */
     text-decoration: none;
     border-radius: 0px;
-    border: 1px solid var(--Primary, #3E8A8E);
-    background: var(--Neutral-White, #FFF);
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
     transition: all ease-in-out 300ms;
 
-    &:hover, &.active {
-      background: var(--Primary, #3E8A8E);
+    &:hover,
+    &.active {
+      background: var(--Primary, #3e8a8e);
       color: white;
     }
   }
@@ -44,9 +45,9 @@
 
   button {
     border-radius: 8px;
-    border: 1px solid var(--Primary, #3E8A8E);
-    background: var(--Neutral-White, #FFF);
-    color: var(--Primary, #3E8A8E);
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
+    color: var(--Primary, #3e8a8e);
     text-align: center;
 
     /* Button & Link/Text Small */
@@ -58,8 +59,8 @@
     padding: 8px 24px;
 
     &.act {
-      background-color: var(--Primary, #3E8A8E);
-      color:white;
+      background-color: var(--Primary, #3e8a8e);
+      color: white;
     }
   }
 }
@@ -95,7 +96,8 @@
       font-style: normal;
       font-weight: 400;
       line-height: 135.938%; /* 16.313px */
-      svg, img {
+      svg,
+      img {
         min-width: 16px;
       }
     }
@@ -109,7 +111,7 @@
 }
 
 .button-vereador {
-  color: var(--Primary, #3E8A8E) !important;
+  color: var(--Primary, #3e8a8e) !important;
   text-align: center !important;
 
   /* Button & Link/Text Small */
@@ -120,8 +122,8 @@
   line-height: 1rem !important; /* 133.333% */
   padding: 8px 24px !important;
   border-radius: 8px !important;
-  border: 1px solid var(--Primary, #3E8A8E) !important;
-  background: var(--Neutral-White, #FFF) !important;
+  border: 1px solid var(--Primary, #3e8a8e) !important;
+  background: var(--Neutral-White, #fff) !important;
 }
 
 .max-w-161 {
@@ -140,11 +142,9 @@
   grid-template-columns: 2.2fr 1fr;
 }
 
-
 //single
 
 .contenttype-vereadores {
-
   .card-default:hover {
     cursor: default;
   }
@@ -162,7 +162,7 @@
 
   a {
     padding: 14px 32px;
-    color: var(--Primary, #3E8A8E);
+    color: var(--Primary, #3e8a8e);
     text-align: center;
 
     /* Button & Link/Text Medium */
@@ -173,12 +173,13 @@
     line-height: 20px; /* 125% */
     text-decoration: none;
     border-radius: 0px;
-    border: 1px solid var(--Primary, #3E8A8E);
-    background: var(--Neutral-White, #FFF);
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
     transition: all ease-in-out 300ms;
 
-    &:hover, &.active {
-      background: var(--Primary, #3E8A8E);
+    &:hover,
+    &.active {
+      background: var(--Primary, #3e8a8e);
       color: white;
     }
   }
@@ -204,6 +205,5 @@
   margin-top: 16px !important;
 }
 .fs-public-sans {
-  font-family: "Public Sans", sans-serif !important;
+  font-family: 'Public Sans', sans-serif !important;
 }
-

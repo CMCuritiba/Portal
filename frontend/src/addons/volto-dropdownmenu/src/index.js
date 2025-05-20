@@ -1,9 +1,6 @@
 import menuSVG from '@plone/volto/icons/menu.svg';
 import { dropdownMenuNavItemsReducer } from './reducers';
-import {
-  MenuConfigurationWidget,
-  MenuConfigurationForm,
-} from './widget';
+import { MenuConfigurationWidget, MenuConfigurationForm } from './widget';
 
 import { getDropdownMenuNavitems } from './actions';
 import { getItemsByPath } from './utils';
