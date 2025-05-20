@@ -2,7 +2,7 @@ name: Frontend CI
 
 on:
   push:
-    branches: [ "develop", "homolog"]
+    branches: [ "test"]
     paths:
       - "frontend/**"
       - ".github/workflows/frontend.yml"
@@ -10,7 +10,7 @@ on:
 
 env:
   IMAGE_NAME_PREFIX: ${{ github.repository }}/frontend
-  IMAGE_NAME_SUFFIX: homolog
+  IMAGE_NAME_SUFFIX: test
   NODE_VERSION: 20.x
 
 defaults:

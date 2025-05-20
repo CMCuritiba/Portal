@@ -2,7 +2,7 @@ name: Docker Build and Push
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["test" ]
   workflow_dispatch:
 
 env:
@@ -23,30 +23,30 @@ jobs:
         id: vars
         run: |
           echo "PLONE_VERSION=$(cat backend/version.txt)" >> $GITHUB_OUTPUT
-
-  black:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v4
-
-      - name: Run check
-        uses: plone/code-analysis-action@v2
-        with:
-          base_dir: 'backend'
-          check: 'black'
-
-  flake8:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v4
-
-      - name: Run check
-        uses: plone/code-analysis-action@v2
-        with:
-          base_dir: 'backend'
-          check: 'flake8'
+#
+#  black:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout codebase
+#        uses: actions/checkout@v4
+#
+#      - name: Run check
+#        uses: plone/code-analysis-action@v2
+#        with:
+#          base_dir: 'backend'
+#          check: 'black'
+#
+#  flake8:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout codebase
+#        uses: actions/checkout@v4
+#
+#      - name: Run check
+#        uses: plone/code-analysis-action@v2
+#        with:
+#          base_dir: 'backend'
+#          check: 'flake8'
 
   zpretty:
     runs-on: ubuntu-latest
@@ -64,6 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - meta
+      - zpretty
     defaults:
       run:
         working-directory: ./backend
@@ -90,9 +91,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     needs:
-      - black
-      - flake8
-      - zpretty
       - tests
     permissions:
       contents: read

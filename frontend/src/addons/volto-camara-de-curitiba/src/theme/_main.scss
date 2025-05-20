@@ -335,7 +335,7 @@ body {
   width: 100%;
   padding: 12px;
   background-color: #3E8A8E;
-  z-index: 9999;
+  z-index: 98;
   gap: 8px;
 
   a {
@@ -1376,13 +1376,12 @@ figure {
 .news-featured + .bannerCarousel + .home-news-block {
   padding-top: 32px;
 }
-
 .legislacoes h2 {
   font-weight: 600;
   font-size: 20px;
   line-height: 100%;
   letter-spacing: 0%;
-  color: #3E8A8E;
+  color:#3E8A8E;
 }
 
 .legislacoes .sd {
@@ -1511,4 +1510,8 @@ figure {
   display: block;
 }
 
+
+#toolbar .toolbar {
+  z-index: 97;
+}
 @import "mobile";
