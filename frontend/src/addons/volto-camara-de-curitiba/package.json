@@ -71,6 +71,6 @@
     "@mui/icons-material": "^6.4.1",
     "@mui/material": "^6.4.1",
     "@mui/system": "next",
-    "framer-motion": "12.7.3"
+    "framer-motion": "12.12.1"
   }
 }
