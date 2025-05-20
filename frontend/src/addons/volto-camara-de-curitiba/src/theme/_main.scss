@@ -335,7 +335,7 @@ body {
   width: 100%;
   padding: 12px;
   background-color: #3E8A8E;
-  z-index: 99;
+  z-index: 9999;
   gap: 8px;
 
   a {
@@ -1215,7 +1215,7 @@ figure {
 }
 
 .z-999 {
-  z-index: 999;
+  z-index: 99;
 }
 
 .position-relative {
@@ -1376,12 +1376,13 @@ figure {
 .news-featured + .bannerCarousel + .home-news-block {
   padding-top: 32px;
 }
+
 .legislacoes h2 {
   font-weight: 600;
   font-size: 20px;
   line-height: 100%;
   letter-spacing: 0%;
-  color:#3E8A8E;
+  color: #3E8A8E;
 }
 
 .legislacoes .sd {
@@ -1490,4 +1491,24 @@ figure {
 .menu-open .menu-ul li .sub-menu {
   display: none;
 }
+
+.sidebar-event-single {
+  max-width: 352px;
+  min-width: 352px;
+}
+
+.contenttype-event .blocks-group-wrapper {
+  padding-bottom: 32px;
+}
+
+.contenttype-event h1 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.block {
+  display: block;
+}
+
 @import "mobile";

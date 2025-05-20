@@ -1,6 +1,8 @@
 import {CategoriaView} from "./components";
 import VereadoresListView from "./components/VereadoresView/VereadoresListView";
 import VereadorItemView from "./components/VereadoresView/VereadorItemView";
+import AgendaListView from "./components/AgendaView/AgendaListView";
+import AgendaItemView from "./components/AgendaView/AgendaItemView";
 import MyMenuConfigurationForm from "./components/MyMenuConfigurationForm";
 const applyConfig = (config) => {
   config.settings = {
@@ -10,17 +12,20 @@ const applyConfig = (config) => {
     defaultLanguage: 'pt-br',
   };
 
-  config.views.contentTypesViews = {
-    ...config.views.contentTypesViews,
-    vereador: VereadorItemView, // Associa a visualização ao novo tipo de conteúdo
-  };
 
   config.addonRoutes = [
     {
-      path: '/vereadores/conheca-os-vereadores', // URL onde a página será acessível
+      path: '/vereadores/conheca-os-vereadores/', // URL onde a página será acessível
       component: VereadoresListView,
     },
   ];
+
+  config.views.contentTypesViews = {
+    ...config.views.contentTypesViews,
+    vereador: VereadorItemView, // Associa a visualização ao novo tipo de conteúdo
+    Event: AgendaItemView
+  };
+
 
   config.blocks.initialBlocks = {
     'News Item': [
@@ -50,6 +55,28 @@ const applyConfig = (config) => {
           }
         ]
       },
+    ],
+    'Event': [
+      { '@type': 'title', 'plaintext': 'Título do evento'},
+      { '@type': 'image' },
+      {
+        '@type': 'slate',
+        'plaintext': 'Descrição do Evento',
+        'cssClass': 'Class',
+        'styles': {},
+        'value': [
+          {
+            'type': 'p',
+            'cssClass': 'Class',
+            'children': [
+              {
+                'text': 'Descrição do evento aqui...',
+                'cssClass': 'Class',
+              }
+            ]
+          }
+        ]
+      }
     ],
   };
   return config;
