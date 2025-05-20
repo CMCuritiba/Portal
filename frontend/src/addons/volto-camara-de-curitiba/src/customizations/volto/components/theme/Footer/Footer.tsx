@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import {Button, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 
-const Footer = () => {
+const Footer = (Props) => {
     return <Stack className="footer-ind">
         <Stack className="pesquisa">
             <div className="container">
@@ -29,6 +29,7 @@ const Footer = () => {
                 </Stack>
             </div>
         </Stack>
+
         <Stack className={"footer-stack"}>
             <div className="container">
                 <div className="stack row flex-between gap-24 stack-footer flex-column-mb">

@@ -212,4 +212,99 @@
     height: auto;
     object-fit: fill;
   }
+  .menu-open .col-1:first-child {
+    max-width: 100%;
+  }
+  .menu-open {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+    .content-menu {
+      padding: 70px 16px;
+    }
+    .col-2 {
+      display: none;
+    }
+
+    .col-1.border-1 {
+      display: none;
+    }
+  }
+  .logo-mobile {
+    stroke-width: 1px;
+    stroke: var(--White, #FFF);
+    padding-bottom: 24px;
+    border-bottom: 1px dashed white;
+  }
+
+  .menu-open .menu-ul li a.active, .menu-open .menu-ul li button.active, .menu-open .menu-ul li a {
+    background-color: transparent;
+    padding: 17px 0px 9px 0px;
+    border: none;
+    border-radius: 0px !important;
+    border-bottom: 1px solid var(--Secondary-Green, #7BC2C5);
+    color: var(--White, #FFF);
+    /* components/nav-item-default */
+    font-family: "Public Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 157.143% */
+  }
+
+  .menu-open .menu-ul li a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .menu-open .menu-ul li + li {
+    margin-top: 0px;
+  }
+
+  .menu-open .col-2 {
+    position: absolute;
+  }
+
+  .menu-open .menu-ul li:last-child > a {
+    border-bottom: 0px !important;
+  }
+
+  .acessar-mobile {
+    padding-top: 24px !important;
+    border-top: 1px dashed white;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--White, #FFF) !important;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 157.143% */
+  }
+
+  .menu-open .menu-ul li .sub-menu {
+    position: absolute;
+    top: 192px;
+    left: 100vw;
+    width: 100vw;
+    height: calc(100vh - 192px);
+    z-index: 99999;
+    display: block;
+    background: #3e8a8e;
+    padding: 0px 16px;
+    transition: all ease-in-out 300ms;
+    overflow: auto;
+  }
+
+  .menu-open .menu-ul li.active .sub-menu {
+    left: 0px;
+  }
+
+  .footer-stack .container {
+    width: 100%;
+  }
 }

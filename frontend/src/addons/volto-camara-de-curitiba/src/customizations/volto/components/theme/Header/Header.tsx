@@ -117,15 +117,14 @@ const menuData = [
 ];
 
 const Header = (props) => {
-    console.log("props", props)
     const [act, setAct] = useState(false);
     const [activeMenu, setActiveMenu] = useState(menuData[0]);
+    const [activeMenuMobile, setActiveMenuMobile] = useState(null);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
-
+    const pathname = props.pathname;
     const menuHeader = Destaques("/destaques", "");
 
-    console.log(menuHeader);
 
     // Fecha o menu se clicar fora
     useEffect(() => {
@@ -203,9 +202,10 @@ const Header = (props) => {
                                 <img src="/camara-curitiba.png" alt="" className="logo-camara"/>
                             </Link>
                         </div>
-                        <a href="#" className="menu-mobile">
+                        <Button ref={buttonRef} className={act ? "link-flex menu-mobile act min-unset" : "link-flex menu-mobile min-unset"} href="#"
+                                onClick={() => {setAct(!act)}}>
                             <img src="/icons/menu-mobile.svg" alt="Menu mobile"/>
-                        </a>
+                        </Button>
                         <div className="links-menu row align-items-center gap-8 d-mb-none stack">
                             <p className="fs-16 fw-600 text-white mb-0">Destaques:</p>
                             {
@@ -232,27 +232,69 @@ const Header = (props) => {
                 <motion.div
                     ref={menuRef}
                     initial={false}
-                    animate={{ height: act ? "auto" : 0 }}
+                    animate={{ height: act ? (window?.innerWidth > 768 ? "auto" : '100vh') : 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className={"menu-open background-primary"}
                 >
                     <div className="container">
                         <div className="content-menu">
-                            <div className="flex gap-10">
+                            <div className="d-none d-mb-block">
+                                <div className="logo-mobile flex flex-center">
+                                    <img src="/icons/logo-mobile.svg" alt="Logo mobile" />
+                                </div>
+                                <div className="mt-24">
+                                    <div className="flex flex-between align-items-center">
+                                        <div className="flex gap-16 align-items-center">
+                                            {
+                                                activeMenuMobile && (
+                                                    <Button className="button-reset" onClick={() => {setActiveMenuMobile(null)}}>
+                                                        <img src="/icons/menu/return.svg" alt="Retornar" />
+                                                    </Button>
+                                                )
+                                            }
+                                            <span className="fs-20 fw-700 text-white">
+                                                Menu
+                                            </span>
+                                        </div>
+                                        <Button className="button-reset" onClick={() => setAct(false)}>
+                                            <img src="/icons/menu/close.svg" alt="Fechar menu" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-10 mt-10">
                                 <div className="col-1">
                                     <ul className="menu-ul">
                                         {menuData.map((menu, index) => (
-                                            <li key={index}>
+                                            <li key={index} className={menu.title === activeMenuMobile?.title ? "active" : ""}>
                                                 <a
                                                     href="#"
                                                     className={menu.title === activeMenu.title ? "active" : ""}
-                                                    onMouseEnter={() => setActiveMenu(menu)}
+                                                    onMouseEnter={() => {setActiveMenu(menu);setActiveMenuMobile(menu)}}
                                                 >
                                                     {menu.title}
+
+                                                    <span className="d-none d-mb-block">
+                                                        <img src="/icons/menu/chevron.svg" alt="Chevron" />
+                                                    </span>
                                                 </a>
+                                                <ul className="sub-menu">
+                                                    {menu.items.map((menu, index) => (
+                                                        <li key={index}>
+                                                            <a href="">
+                                                                {menu}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
                                             </li>
                                         ))}
                                     </ul>
+                                    <Link className="mt-24 acessar-mobile" to="/login?return_url=">
+                                        <img src="/icons/menu/acessar-mobile.svg" alt="Acessar mobile"/>
+                                        Acessar
+                                    </Link>
                                 </div>
                                 <div className="col-2">
                                     <h2 className="fs-18 color-black fw-600 mb-2">
@@ -307,15 +349,36 @@ const Header = (props) => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="flex flex-end">
-                                <Button className="menu-close" onClick={() => setAct(false)}>
-                                    Fechar
-                                    <img src="/icons/close.svg" alt="" />
-                                </Button>
+                            <div className="d-mb-none">
+                                <div className="flex flex-end">
+                                    <Button className="menu-close" onClick={() => setAct(false)}>
+                                        Fechar
+                                        <img src="/icons/close.svg" alt="" />
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </motion.div>
+            </div>
+            {/* Menu Bottom Mobile */}
+            <div className="fadeIn menu-bottom-mobile stack row">
+                <Link to="/" className={pathname === "" ? "flex-1 act" : "flex-1"}>
+                    <img src="/icons/menu/home.svg" alt="Home"/>
+                    Home
+                </Link>
+                <Link to="/noticias" className={pathname === "/noticias" ? "flex-1 act" : "flex-1"}>
+                    <img src="/icons/menu/news.svg" alt="Home"/>
+                    Notícias
+                </Link>
+                <Link to="/vereadores" className={pathname === "/vereadores" ? "flex-1 act" : "flex-1"}>
+                    <img src="/icons/menu/vereadores.svg" alt="Home"/>
+                    Vereadores
+                </Link>
+                <a href="#" className="flex-1">
+                    <img src="/icons/menu/projetos-de-lei.svg" alt="Home"/>
+                    Projeto de Lei
+                </a>
             </div>
         </>
     );

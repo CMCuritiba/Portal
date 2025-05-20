@@ -335,7 +335,7 @@ body {
   width: 100%;
   padding: 12px;
   background-color: #3E8A8E;
-  z-index: 9999;
+  z-index: 99;
   gap: 8px;
 
   a {
@@ -1215,7 +1215,7 @@ figure {
 }
 
 .z-999 {
-  z-index: 99;
+  z-index: 999;
 }
 
 .position-relative {
@@ -1426,6 +1426,10 @@ figure {
   max-width: 358px;
 }
 
+.acessar-mobile {
+  display: none;
+}
+
 .other-blocks-sd h2 {
   font-weight: 600;
   letter-spacing: 0%;
@@ -1472,5 +1476,18 @@ figure {
 .disabled-events {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.min-unset {
+  min-width: unset !important;
+}
+
+.button-reset {
+  padding: 0px !important;
+  min-width: unset !important;
+}
+
+.menu-open .menu-ul li .sub-menu {
+  display: none;
 }
 @import "mobile";
