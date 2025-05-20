@@ -56,6 +56,28 @@ const applyConfig = (config) => {
         ]
       },
     ],
+    'Event': [
+      { '@type': 'title', 'plaintext': 'Título do evento'},
+      { '@type': 'image' },
+      {
+        '@type': 'slate',
+        'plaintext': 'Descrição do Evento',
+        'cssClass': 'Class',
+        'styles': {},
+        'value': [
+          {
+            'type': 'p',
+            'cssClass': 'Class',
+            'children': [
+              {
+                'text': 'Descrição do evento aqui...',
+                'cssClass': 'Class',
+              }
+            ]
+          }
+        ]
+      }
+    ],
   };
   return config;
 };

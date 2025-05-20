@@ -126,7 +126,7 @@ const View = (props: ViewProps) => {
                                             className="tag-color inline-block"
                                             style={{backgroundColor: bgColor, color: bgColor === '#E6B941' ? 'black' : 'white'}}
                                         >
-                                            {event.event_type_title || 'Evento'}
+                                            {event?.subjects?.[0] || 'Evento'}
                                         </span>
                                         <h3 className="fs-18 fw-600 mt-0 mb-0">
                                             {event.title}
@@ -145,7 +145,7 @@ const View = (props: ViewProps) => {
                                             {event.location || 'Câmara Municipal de Curitiba'}
                                         </span>
                                     </div>
-                                    <Link to={event['@id']} className="button button-third w-100">
+                                    <Link to={event['@id']} className="button button-third w-100" alt="Saiba mais">
                                         Saiba mais
                                     </Link>
                                 </div>
