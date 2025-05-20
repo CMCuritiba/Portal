@@ -27,6 +27,13 @@
       handler=".events.vereador_added"
       />
 
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.event_added"
+      />
+
   <subscriber
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.interfaces.IObjectAddedEvent"

@@ -4,6 +4,7 @@ import { Menu } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import AccessLoginIcon from './Icons/AccessLoginIcon';
 import PropTypes from 'prop-types';
+import { flattenToAppURL } from '@plone/volto/helpers';
 
 const LoginBar = () => {
   const token = useSelector((state) => state.userSession.token);
