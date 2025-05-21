@@ -1,12 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
 
-    <adapter
-        factory=".parent.ParentSerializer"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        provides="plone.restapi.interfaces.ISerializeToJson"
-        name="parent"
-        />
+  <adapter
+      factory=".parent.ParentSerializer"
+      provides="plone.restapi.interfaces.ISerializeToJson"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      name="parent"
+      />
 
 </configure>

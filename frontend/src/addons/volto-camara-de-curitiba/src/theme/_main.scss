@@ -577,6 +577,26 @@ h1.documentFirstHeading {
 .cursor-default {
   cursor:default !important;
 }
+#main .breadcrumbs {
+  background-color: transparent;
+  border-bottom: none !important;
+}
+
+#main .breadcrumbs .breadcrumb .section {
+  min-width: fit-content;
+  font-family: Inter, sans-serif !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  color:#475467 !important;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  &.active {
+    font-weight: 600 !important;
+    font-size: 14px;
+    color:#6941C6 !important;
+  }
+}
 
 h1.documentFirstHeading, h1, h2, h3, h4 {
   hyphens: none !important;

@@ -441,6 +441,27 @@
     }
   }
 
+  #main .breadcrumbs {
+    background-color: transparent;
+    border-bottom: none !important;
+    overflow: auto;
+
+    .ui.container  {
+      padding: 0px !important;
+      margin: 0px !important;
+      min-width: fit-content;
+    }
+
+    .ui.breadcrumbs {
+      min-width: fit-content;
+    }
+
+    svg {
+      min-width: fit-content;
+    }
+  }
+
+
   .aspect-ratio-1116-200 {
     aspect-ratio: inherit;
     width: 100%;
