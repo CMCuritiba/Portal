@@ -4,7 +4,7 @@
     >
 
   <adapter
-      factory=".parent.ParentSerializer"
+      factory="camara_de_curitiba.serializers.parent.ParentSerializer"
       provides="plone.restapi.interfaces.ISerializeToJson"
       for="plone.dexterity.interfaces.IDexterityContent"
       name="parent"
