@@ -1,4 +1,203 @@
 @media (max-width: 768px) {
+  .d-sm-block, .menu-mobile {
+    display: block !important;
+  }
+  .pesquisa h2 {
+    text-align: center;
+    font-size: 24px;
+    line-height: normal;
+  }
+  .pesquisa {
+    padding: 32px 0px;
+    background-color: white;
+  }
+  .mobile-flex-direction-col-reverse {
+    flex-direction: column-reverse;
+    gap: 32px;
+  }
+  .pesquisa p {
+    text-align: center;
+    font-size: 24px;
+    line-height: normal;
+  }
+  .header-top {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+  }
+  .ui.basic.segment.content-area {
+    padding-top: 86px !important;
+  }
+  .container-base.header {
+    padding: 8px 12px !important;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #3e8a8e;
+
+    .logo-camara {
+      max-height: 40px;
+    }
+  }
+
+  .menu-bottom-mobile {
+    display: flex;
+
+  }
+  .fs-mb-24 {
+    font-size: 24px !important;
+  }
+
+  .flex-midia {
+    flex-direction: column !important;
+  }
+  .destaques-home, .news {
+    flex-direction: column;
+  }
+
+  .ui.basic.segment.content-area #page-document .blocks-group-wrapper > .category-block:first-child {
+    padding-bottom: 40px !important;
+  }
+
+  .icones-, .midiaBlock {
+    position: relative;
+    left: -20px;
+    width: calc(100% + 40px) !important;
+    max-width: calc(100% + 40px) !important;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .options-midia {
+    overflow: auto;
+    justify-content: flex-start;
+    width: calc(100% + 40px);
+    position: relative;
+    padding-right: 20px;
+    padding-left: 20px;
+
+    > * {
+      min-width: 60vw !important;
+    }
+  }
+  .flex-buttons button {
+    min-width: auto;
+  }
+
+
+  .midiaBlock .container-block {
+    padding: 0px !important;
+  }
+
+  .mobile-flex-direction-col {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  .destaques-home h2, .destaque.small h2 {
+    font-size: 20px;
+  }
+
+  .m-w-218 {
+    max-width: 100% !important;
+    height: auto;
+  }
+
+  .cards-flex {
+    flex-direction: row;
+    overflow: auto;
+    width: calc(100% + 40px);
+    position: relative;
+    left: -20px;
+    gap: 24px;
+
+    > * {
+      min-width: 75vw;
+    }
+
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+
+  .icones- .grid-col-4 {
+    overflow: auto;
+    display: flex;
+    gap: 32px;
+    width: calc(100% + 40px);
+    position: relative;
+    left: -20px;
+    padding-right: 20px;
+
+    > * {
+      min-width: 45vw;
+    }
+  }
+
+  .small .video-item .thumbnail, .small .video-item .thumbnail > img {
+  }
+
+  .video-item {
+  }
+
+  .small .video-item .thumbnail {
+    min-width: 200px;
+  }
+  .news-2-columns .new .context {
+    flex-direction: column;
+    align-items: flex-start;
+    .thumbnail {
+      display: none;
+    }
+  }
+
+  .contenttype-event .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .external.banner-top {
+    display: none;
+  }
+
+  .news-2-columns .new .context .info {
+    gap: 16px;
+  }
+
+  .pt-mb-0 {
+    padding-top: 0px !important;
+  }
+
+  .news-2-columns .new .context .thumbnail {
+    max-width: 100%;
+  }
+
+  .grid-col-2 {
+    grid-template-columns: 1fr;
+  }
+  .tags {
+    font-size: 14px;
+  }
+  .category-block {
+    overflow: auto;
+    width: calc(100% + 40px);
+    position: relative;
+    left: -20px;
+    padding-right: 20px;
+    padding-left: 20px;
+
+    > * {
+      min-width: fit-content;
+    }
+  }
+  .content-area .q.container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .newsitem-view h1 {
     font-size: 32px !important;
     line-height: 1.4 !important;
@@ -134,7 +333,7 @@
     padding-right: 0px !important;
   }
   .d-mb-block {
-    display: block;
+    display: block !important;
   }
   .text-mb-center {
     text-align: center;
@@ -252,6 +451,8 @@
     max-width: 100%;
   }
   .menu-open {
+    max-height: 100vh;
+    overflow: auto;
     position: fixed;
     top: 0px;
     left: 0;
@@ -342,5 +543,34 @@
 
   .footer-stack .container {
     width: 100%;
+  }
+
+  .news-2-columns .new .context {
+    padding: 24px 16px;
+  }
+
+  .news-2-columns .new .context h2 {
+    font-size: 16px !important;
+  }
+  .home-news-block {
+    .news .new h2 {
+      font-size: 16px !important;
+    }
+    .tag-color {
+      padding: 6px 10px;
+      text-align: center;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    .news .new .context {
+      padding: 24px 16px;
+      flex-direction: row;
+      gap: 16px !important;
+      .thumbnail {
+        max-width: 80px;
+      }
+    }
   }
 }

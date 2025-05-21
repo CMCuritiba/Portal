@@ -253,7 +253,7 @@ const Header = (props) => {
                                                 )
                                             }
                                             <span className="fs-20 fw-700 text-white">
-                                                Menu
+                                                {activeMenuMobile ? activeMenuMobile.title : "Menu"}
                                             </span>
                                         </div>
                                         <Button className="button-reset" onClick={() => setAct(false)}>

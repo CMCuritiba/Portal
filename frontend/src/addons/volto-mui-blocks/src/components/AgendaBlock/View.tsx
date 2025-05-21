@@ -89,7 +89,7 @@ const View = (props) => {
                             const bgColor = getEventTypeColor(eventType);
                             const {dia, mes} = formatarDataParaAgenda(event.start);
                             return (
-                                <div key={index} className="card-default card">
+                                <div key={index} className="card-default card cursor-default">
                                     <div className="position-relative">
                                         <img
                                             src={event.preview_image?.download
