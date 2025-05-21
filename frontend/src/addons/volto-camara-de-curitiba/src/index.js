@@ -1,9 +1,8 @@
 import {CategoriaView} from "./components";
 import VereadoresListView from "./components/VereadoresView/VereadoresListView";
 import VereadorItemView from "./components/VereadoresView/VereadorItemView";
-import AgendaListView from "./components/AgendaView/AgendaListView";
 import AgendaItemView from "./components/AgendaView/AgendaItemView";
-import MyMenuConfigurationForm from "./components/MyMenuConfigurationForm";
+import EditoriaItemView from "./components/EditoriaView/EditoriaItemView";
 const applyConfig = (config) => {
   config.settings = {
     ...config.settings,
@@ -12,20 +11,19 @@ const applyConfig = (config) => {
     defaultLanguage: 'pt-br',
   };
 
-
-  config.addonRoutes = [
-    {
-      path: '/vereadores/conheca-os-vereadores/', // URL onde a página será acessível
-      component: VereadoresListView,
-    },
-  ];
-
   config.views.contentTypesViews = {
     ...config.views.contentTypesViews,
     vereador: VereadorItemView, // Associa a visualização ao novo tipo de conteúdo
+    Editoria: EditoriaItemView, // Associa a visualização ao novo tipo de conteúdo
     Event: AgendaItemView
   };
 
+  config.addonRoutes = [
+    {
+      path: '/vereadores/conheca-os-vereadores', // URL onde a página será acessível
+      component: VereadoresListView,
+    },
+  ];
 
   config.blocks.initialBlocks = {
     'News Item': [
