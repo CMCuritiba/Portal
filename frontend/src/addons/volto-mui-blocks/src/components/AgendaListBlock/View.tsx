@@ -98,7 +98,7 @@ const View = (props: ViewProps) => {
     return (
         <section className="stack gap-24 max-w-100 py-32">
             <div className="container w-100-w">
-                <div className="grid-col-3 gap-32 overflow-auto-mobile child-75vw">
+                <div className="grid-col-3 gap-32 flex-column-mb grid-cols-mb-1">
                     {events?.map((event, index) => {
                         const date = formatDate(event.start);
                         const eventType = event.event_type || 'default';
@@ -145,9 +145,15 @@ const View = (props: ViewProps) => {
                                             {event.location || 'Câmara Municipal de Curitiba'}
                                         </span>
                                     </div>
-                                    <Link to={event['@id']} className="button button-third w-100" alt="Saiba mais">
-                                        Saiba mais
-                                    </Link>
+                                    <div className="flex flex-direction-column w-100 gap-16">
+                                        <a href="#" className="button button-third w-100" title="Cadastrar na agenda">
+                                            Cadastrar na agenda
+                                        </a>
+
+                                        <Link to={event['@id']} className="link-green w-100" title="Saiba mais">
+                                            Saiba mais
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         );

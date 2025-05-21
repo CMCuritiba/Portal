@@ -41,7 +41,6 @@
   <include file="profiles.zcml" />
 
   <include package=".indexers" />
-  <include package=".vocabularies" />
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".serializers" />
@@ -60,5 +59,17 @@
       name="camara_de_curitiba.legislaturas"
       component="camara_de_curitiba.content.vocabularies.legislaturas_vocabulary"
       />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.cargos_mesa_diretora"
+      component="camara_de_curitiba.content.vocabularies.cargos_mesa_diretora_vocabulary"
+  />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.cargos_corregedoria"
+      component="camara_de_curitiba.content.vocabularies.cargos_corregedoria_vocabulary"
+  />
 
 </configure>

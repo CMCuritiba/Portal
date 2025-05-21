@@ -461,7 +461,6 @@
     }
   }
 
-
   .aspect-ratio-1116-200 {
     aspect-ratio: inherit;
     width: 100%;
@@ -471,9 +470,12 @@
   .menu-open .col-1:first-child {
     max-width: 100%;
   }
+  .flex-column-reverse-mb {
+    flex-direction: column-reverse;
+  }
   .menu-open {
     max-height: 100vh;
-    overflow: auto;
+    overflow-y: auto;
     position: fixed;
     top: 0px;
     left: 0;

@@ -50,8 +50,8 @@ export function formatarDataParaAgenda(dataUTC) {
   });
 
   const dia = formatadorDia.format(data);
-  const mes = formatadorMes.format(data);
-  const mesCapitalizado = mes.charAt(0).toUpperCase() + mes.slice(1);
+  const mesFormatado = formatadorMes.format(data).replace('.', '');
+  const mesCapitalizado = mesFormatado.charAt(0).toUpperCase() + mesFormatado.slice(1);
 
   return { dia, mes: mesCapitalizado };
 }

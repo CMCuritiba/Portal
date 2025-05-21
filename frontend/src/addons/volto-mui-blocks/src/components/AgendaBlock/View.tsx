@@ -129,9 +129,15 @@ const View = (props) => {
                                                 {event.location || 'Câmara Municipal de Curitiba'}
                                         </span>
                                         </div>
-                                        <Link to={event['@id']} className="button button-third w-100" title="Saiba mais">
-                                            Saiba mais
-                                        </Link>
+                                        <div className="flex flex-direction-column w-100 gap-16">
+                                            <a href="#" className="button button-third w-100" title="Cadastrar na agenda">
+                                                Cadastrar na agenda
+                                            </a>
+
+                                            <Link to={event['@id']} className="link-green w-100" title="Saiba mais">
+                                                Saiba mais
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             );

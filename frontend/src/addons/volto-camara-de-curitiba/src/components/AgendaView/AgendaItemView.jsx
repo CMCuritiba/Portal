@@ -108,7 +108,7 @@ const AgendaItemView = (Props) => {
                                           className="tag-color inline-block"
                                           style={{backgroundColor: bgColor, color: bgColor === '#E6B941' ? 'black' : 'white'}}
                                         >
-                                            {event.event_type_title || 'Evento'}
+                                            {event?.subjects?.[0] || 'Evento'}
                                         </span>
                             <h3 className="fs-18 fw-600 mt-0 mb-0">
                               {event.title}
@@ -127,9 +127,15 @@ const AgendaItemView = (Props) => {
                               {event.location || 'Câmara Municipal de Curitiba'}
                                         </span>
                           </div>
-                          <Link to={event['@id']} className="button button-third w-100">
-                            Saiba mais
-                          </Link>
+                          <div className="flex flex-direction-column w-100 gap-16">
+                            <a href="#" className="button button-third w-100" title="Cadastrar na agenda">
+                              Cadastrar na agenda
+                            </a>
+
+                            <Link to={event['@id']} className="link-green w-100" title="Saiba mais">
+                              Saiba mais
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     );
