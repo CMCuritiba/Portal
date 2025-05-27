@@ -1288,6 +1288,10 @@ figure {
   border-radius: 18px;
   max-width: 813px;
   margin: 0px auto 24px auto;
+
+  &.select-internal {
+    margin: 0px 24px 0px 0px;
+  }
 }
 
 .other-blocks-sd {

@@ -6,6 +6,7 @@ import "./style.less";
 import config from '@plone/volto/registry';
 import { formatarDataParaAgenda, formatarIntervaloHorario } from '../../Util';
 import { Link } from 'react-router-dom';
+import {Button} from "@mui/material";
 
 interface Event {
     '@id': string;
@@ -98,6 +99,24 @@ const View = (props: ViewProps) => {
     return (
         <section className="stack gap-24 max-w-100 py-32">
             <div className="container w-100-w">
+                <div className="background-color-cinza-soft py-32" style={{paddingTop:0}}>
+                    <div className="container pl-mb pr-mb">
+                        <div className="legislacoes select-internal">
+                            <form action="" className="flex gap-24">
+                                <select style={{maxWidth: "290px"}}>
+                                    <option value="">Data</option>
+                                </select>
+                                <select style={{maxWidth: "290px"}}>
+                                    <option value="">Tipo do evento</option>
+                                </select>\
+                                <Button
+                                    className="button button-primary">
+                                    Aplicar
+                                </Button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div className="grid-col-3 gap-32 flex-column-mb grid-cols-mb-1">
                     {events?.map((event, index) => {
                         const date = formatDate(event.start);
