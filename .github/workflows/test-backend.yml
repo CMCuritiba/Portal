@@ -145,9 +145,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          #password: ${{ secrets.SSH_PASSWORD }}
-          key: ${{ secrets.SSH_KEY }}       # conteúdo da sua chave privada (ex: id_rsa)
-          passphrase: ""
+          password: "Kb6utkJ?xy(PbD1U2+p#"
+          #key: ${{ secrets.SSH_KEY }}       # conteúdo da sua chave privada (ex: id_rsa)
+          #passphrase: ""
           port: 22
           script: |
             echo "Fazendo pull da imagem atualizada..."
