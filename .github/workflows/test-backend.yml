@@ -7,6 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+
   IMAGE_NAME: ${{ github.repository }}/backend
   PYTHON_VERSION: "3.11"
 
@@ -113,6 +114,7 @@ jobs:
   deploy:
     name: Deploy to Remote Server
     runs-on: ubuntu-latest
+    environment: test  # 👈 Isso seta o ambiente "test"
     needs: build-and-push
     steps:
       - name: Connect via SSH and deploy
