@@ -50,6 +50,8 @@ COPY --from=builder /build/ /app/
 # Set working directory to /app
 WORKDIR /app
 
+# Define o sinal que será usado para parar o container
+
 # Expose default Express port
 EXPOSE 3000
 
