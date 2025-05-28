@@ -50,10 +50,6 @@ COPY --from=builder /build/ /app/
 # Set working directory to /app
 WORKDIR /app
 
-# Define o sinal que será usado para parar o container
-# SIGTERM (15) é o sinal padrão e geralmente é a melhor escolha para aplicações Node.js
-STOPSIGNAL SIGTERM
-
 # Expose default Express port
 EXPOSE 3000
 

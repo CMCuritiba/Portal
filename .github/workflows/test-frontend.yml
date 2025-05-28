@@ -121,6 +121,7 @@ jobs:
   deploy:
     name: Deploy to Remote Server
     runs-on: ubuntu-latest
+    environment: test  # 👈 Isso seta o ambiente "test"
     needs: release
     steps:
       - name: Connect via SSH and deploy
