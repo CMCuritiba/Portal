@@ -56,7 +56,7 @@ WORKDIR /app
 EXPOSE 3000
 
 # Set healthcheck to port 3000
-HEALTHCHECK --interval=10s --timeout=5s --start-period=60s CMD [ -n "$LISTEN_PORT" ] || LISTEN_PORT=3000 ; wget -q http://127.0.0.1:"$LISTEN_PORT" -O - || exit 1
+HEALTHCHECK --interval=10s --timeout=30s --start-period=90s CMD [ -n "$LISTEN_PORT" ] || LISTEN_PORT=3000 ; wget -q http://127.0.0.1:"$LISTEN_PORT" -O - || exit 1
 
 # Entrypoint would be yarn
 ENTRYPOINT [ "yarn" ]
