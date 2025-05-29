@@ -1,4 +1,1 @@
 -c https://dist.plone.org/release/6.0.14/constraints.txt
-collective.volto.dropdownmenu
-pas.plugins.oidc
-pas.plugins.keycloakgroups
