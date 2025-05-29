@@ -51,12 +51,14 @@ COPY --from=builder /build/ /app/
 WORKDIR /app
 
 # Define o sinal que será usado para parar o container
+# SIGTERM (15) é o sinal padrão e geralmente é a melhor escolha para aplicações Node.js
+STOPSIGNAL SIGTERM
 
 # Expose default Express port
 EXPOSE 3000
 
 # Set healthcheck to port 3000
-HEALTHCHECK --interval=10s --timeout=30s --start-period=90s CMD [ -n "$LISTEN_PORT" ] || LISTEN_PORT=3000 ; wget -q http://127.0.0.1:"$LISTEN_PORT" -O - || exit 1
+HEALTHCHECK --interval=20s --timeout=60s --start-period=30s CMD [ -n "$LISTEN_PORT" ] || LISTEN_PORT=3000 ; wget -q http://127.0.0.1:"$LISTEN_PORT" -O - || exit 1
 
 # Entrypoint would be yarn
 ENTRYPOINT [ "yarn" ]
