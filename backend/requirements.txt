@@ -1,9 +1,6 @@
 -c constraints.txt
 
-pas.plugins.oidc
-pas.plugins.keycloakgroups
 zope.testrunner
 flake8-pyproject
-collective.volto.dropdownmenu
 plone.restapi[jwt]
 
