@@ -1,3 +1,5 @@
 -c constraints.txt
 
 collective.volto.dropdownmenu
+pas.plugins.oidc
+pas.plugins.keycloakgroups
