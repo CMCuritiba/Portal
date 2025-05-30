@@ -51,6 +51,7 @@ setup(
         "prettyconf",
         "plone.api",
         "plone.caching",
+        "pas.plugins.keycloakgroups",
     ],
     extras_require={
         "test": [
