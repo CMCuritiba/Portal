@@ -52,6 +52,7 @@ setup(
         "plone.api",
         "plone.caching",
         "pas.plugins.keycloakgroups",
+        "pas.plugins.oidc",
     ],
     extras_require={
         "test": [
