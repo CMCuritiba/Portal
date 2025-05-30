@@ -13,7 +13,7 @@ on:
           - patch
   push:
     branches:
-      - master # or main
+      - main # or main
       - develop # or main
 
 permissions:
