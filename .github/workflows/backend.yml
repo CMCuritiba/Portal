@@ -116,17 +116,17 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set image tag based on branch
-          id: image-tag
-          run: |
-            if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-              echo "tag=latest" >> $GITHUB_OUTPUT
-            elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
-              echo "tag=dev" >> $GITHUB_OUTPUT
-            elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
-              echo "tag=homolog" >> $GITHUB_OUTPUT
-            else
-              echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
-            fi
+        id: image-tag
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+            echo "tag=dev" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
+            echo "tag=homolog" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
