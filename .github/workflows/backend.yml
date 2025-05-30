@@ -2,7 +2,7 @@ name: Docker Build and Push
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
   workflow_dispatch:
 
 env:
@@ -115,16 +115,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image tag based on branch
+        id: image-tag
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+            echo "tag=dev" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=homolog
+            type=raw,value=${{ steps.image-tag.outputs.tag }}
             type=raw,value=${{ needs.version.outputs.version }}
           labels: |
-            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
