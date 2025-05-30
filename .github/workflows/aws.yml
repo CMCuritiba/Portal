@@ -23,6 +23,19 @@
 # - https://github.com/marketplace/actions/amazon-ecs-deploy-task-definition-action-for-github-actions
 # - https://github.com/aws-actions/amazon-ecs-deploy-task-definition
 #
+# Uso ou não da action 'aws-actions/amazon-ecs-deploy-task-definition':
+#
+# Para fazer funcionar com o aws-actions/amazon-ecs-deploy-task-definition@v1 a
+# gente vai precisar realmente alterar alguma coisa na task definition, que não
+# é o caminho que estamos tomando. Estamos mantendo a task intacta, com as tags
+# latest/homolog/etc, e somente pedindo a atualização da imagem.
+#
+# Pra usar essa action a gente precisaria passar, por exemplo, a deployzar uma 
+# versão específica (versão X.Y.Z).
+# 
+# Estou assumindo que não vamos nesse caminho e vou abandonar, por hora, a 
+# action aws-actions/amazon-ecs-deploy-task-definition.
+#
 
 name: Deploy to Amazon ECS
 
@@ -35,9 +48,6 @@ on:
 
 permissions:
   contents: read
-
-env:
-  ECS_TASK_DEFINITION: "task.yml"
 
 jobs:
   deploy:
@@ -56,22 +66,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
         aws-region: ${{ secrets.DEV_AWS_REGION }}
 
-    - name: Create task definition
-      run: |
-        echo '{"forceNewDeployment": true}' >${{ env.ECS_TASK_DEFINITION }}
-
     - name: Deploy Backend on Amazon ECS
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        service: ${{ secrets.DEV_ECS_SERVICE_BACKEND }}
-        cluster: ${{ secrets.DEV_ECS_CLUSTER }}
-        wait-for-service-stability: true
-
-#    - name: Deploy Frontend on Amazon ECS
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: '{"forceNewDeployment": true}'
-#        service: ${{ secrets.DEV_ECS_SERVICE_FRONTEND }}
-#        cluster: ${{ secrets.DEV_ECS_CLUSTER }}
-#        wait-for-service-stability: true
+      run: |
+        aws ecs update-service \
+          --cluster "${{ secrets.DEV_ECS_CLUSTER }}" \
+          --service "${{ secrets.DEV_ECS_SERVICE_BACKEND }}" \
+          --cli-input-json '{"forceNewDeployment": true}' >/dev/null
