@@ -123,7 +123,7 @@ jobs:
           elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
             echo "tag=dev" >> $GITHUB_OUTPUT
           elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
-            echo "tag=homolog" >> $GITHUB_OUTPUT
+            echo "tag=latest" >> $GITHUB_OUTPUT
           else
             echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
           fi
