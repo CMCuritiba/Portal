@@ -1,11 +1,7 @@
 name: Bump Version and Update Changelog for Frontend
 
 on:
-  push:
-    branches:
-      - develop
-      - homolog
-      - main
+  workflow_dispatch:
 
 jobs:
   bump-version:

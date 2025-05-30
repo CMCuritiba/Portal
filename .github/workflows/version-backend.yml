@@ -1,11 +1,7 @@
 name: Bump Version and Update Changelog for Backend
 
 on:
-  push:
-    branches:
-      - develop
-      - homolog
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
