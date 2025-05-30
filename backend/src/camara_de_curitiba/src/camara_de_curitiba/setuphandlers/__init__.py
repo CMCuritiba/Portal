@@ -19,11 +19,6 @@ class HiddenProfiles(object):
 def populate_portal(context):
     """Post install script"""
     portal = api.portal.get()
-    # Ativa os complementos OIDC e Keycloak antes de popular as credenciais
-    qi = api.portal.get_tool('portal_quickinstaller')
-    for product in ["pas.plugins.oidc", "collective.keycloak"]:
-        if not qi.isProductInstalled(product):
-            qi.installProduct(product)
     # Delete content
     content.delete_content(portal)
     logger.info("Deleted default portal content")
