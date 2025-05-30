@@ -28,8 +28,8 @@ USER_INFO=$$(id -u ${CURRENT_USER})
 LINT=docker run --rm -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION} check
 FORMAT=docker run --rm --user="${USER_INFO}" -e LOG_LEVEL="${LOG_LEVEL}" -v "${BACKEND_FOLDER}":/github/workspace plone/code-quality:${CODE_QUALITY_VERSION} format
 
-IMAGE_NAME=ghcr.io/viniciusdotend/backend-cmc
-IMAGE_TAG=2025-04-13-1
+IMAGE_NAME=ghcr.io/cmcuritiba/portal/backend
+IMAGE_TAG=0.1
 
 # Python checks
 PYTHON?=python3
@@ -164,4 +164,4 @@ debug: instance/etc/zope.ini ## Run debug console
 
 .PHONY: build-image
 build-image:  ## Build Docker Image
-	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
+	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -t $(IMAGE_NAME):latest -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
   <record name="plone.caching.interfaces.ICacheSettings.enabled">
+    <field type="plone.registry.field.Bool">
+      <title>Enable caching</title>
+      <description>Enable caching functionality</description>
+      <required>False</required>
+    </field>
     <value>True</value>
   </record>
 </registry>

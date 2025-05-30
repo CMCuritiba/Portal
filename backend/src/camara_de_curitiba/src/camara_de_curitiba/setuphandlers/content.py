@@ -82,7 +82,6 @@ def _create_content(portal, item: dict, creators: list):
 
 
 def populate_portal(portal, creators):
-    register_registry_entries()
     """Create content structure."""
     with open(os.path.join(__location__, "contents.json"), "r") as f_in:
         contents = json.load(f_in)
@@ -95,6 +94,7 @@ def populate_portal(portal, creators):
     # Update workflow security
     wf_tool = api.portal.get_tool("portal_workflow")
     wf_tool.updateRoleMappings()
+    register_registry_entries()
 
 
 def _update_home(portal, item: dict):
@@ -114,7 +114,7 @@ def update_home(portal, creators):
         _update_home(portal, content)
 
 
-def register_registry_entries(context):
+def register_registry_entries():
     """Registra as entradas do registry quando o pacote é instalado"""
     registry = queryUtility(IRegistry)
     if registry:

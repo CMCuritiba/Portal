@@ -30,7 +30,6 @@ const Destaques = (pathname, type) => {
     (state) => state.dropdownMenuNavItems?.result,
   );
 
-
   useEffect(() => {
     setMobileMenuOpen(false);
     setOpenDropodownIndex(-1);

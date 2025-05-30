@@ -1,4 +1,6 @@
-<?xml version="1.0"?>
-<object name="Folder" meta_type="Dexterity FTI">
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Dexterity FTI"
+        name="Folder"
+>
   <property name="global_allow">True</property>
 </object>

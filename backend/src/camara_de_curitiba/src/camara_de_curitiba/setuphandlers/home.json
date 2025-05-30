@@ -1,8 +1,9 @@
 {
+  "@type": "Document",
   "blocks": {
-    "94b9fb26-041d-438c-981a-671a89854cbe": {
+    "banner-principal": {
       "@type": "slate",
-      "plaintext": "Welcome to Câmara de Curitiba",
+      "plaintext": "Câmara de Curitiba - Portal de Desenvolvimento",
       "value": [
         {
           "children": [
@@ -12,19 +13,33 @@
             {
               "children": [
                 {
-                  "text": "Welcome to Câmara de Curitiba"
+                  "text": "Câmara de Curitiba - Portal de Desenvolvimento"
                 }
               ],
-              "type": "b"
+              "type": "h1"
             }
           ],
           "type": "p"
         }
       ]
     },
-    "1006adfe-d9b1-4e70-9b32-a9158310723d": {
+    "sobre-projeto": {
       "@type": "slate",
-      "plaintext": "Plone is an enterprise CMS built with Python.",
+      "plaintext": "Este é o portal de desenvolvimento da Câmara Municipal de Curitiba, construído com Plone 6 e Volto.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Este é o portal de desenvolvimento da Câmara Municipal de Curitiba, construído com Plone 6 e Volto."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "tecnologias": {
+      "@type": "slate",
+      "plaintext": "Tecnologias Utilizadas",
       "value": [
         {
           "children": [
@@ -34,27 +49,147 @@
             {
               "children": [
                 {
-                  "text": "Plone"
+                  "text": "Tecnologias Utilizadas"
                 }
               ],
-              "type": "b"
-            },
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
             {
-              "text": " is an enterprise CMS built with "
+              "text": "• Backend: Plone 6 (Python)\n• Frontend: Volto (React)\n• Banco de Dados: PostgreSQL\n• Cache: Varnish\n• Container: Docker"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "documentacao": {
+      "@type": "slate",
+      "plaintext": "Documentação",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
             },
             {
               "children": [
                 {
-                  "text": "Python"
+                  "text": "Documentação"
+                }
+              ],
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Documentação do Plone"
                 }
               ],
               "data": {
-                "url": "https://python.org"
+                "url": "https://6.docs.plone.org"
               },
               "type": "link"
             },
             {
-              "text": "."
+              "text": "\n• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Documentação do Volto"
+                }
+              ],
+              "data": {
+                "url": "https://6.docs.plone.org/volto"
+              },
+              "type": "link"
+            },
+            {
+              "text": "\n• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Repositório no GitHub"
+                }
+              ],
+              "data": {
+                "url": "https://github.com/collective/camara-de-curitiba"
+              },
+              "type": "link"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "desenvolvimento": {
+      "@type": "slate",
+      "plaintext": "Como Desenvolver",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "children": [
+                {
+                  "text": "Como Desenvolver"
+                }
+              ],
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "1. Clone o repositório\n2. Instale as dependências\n3. Execute o ambiente de desenvolvimento\n4. Acesse o portal em http://localhost:3000"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "contato": {
+      "@type": "slate",
+      "plaintext": "Contato",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "children": [
+                {
+                  "text": "Contato"
+                }
+              ],
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "Para mais informações sobre o desenvolvimento, entre em contato com a equipe técnica."
             }
           ],
           "type": "p"
@@ -64,9 +199,17 @@
   },
   "blocks_layout": {
     "items": [
-      "94b9fb26-041d-438c-981a-671a89854cbe",
-      "1006adfe-d9b1-4e70-9b32-a9158310723d"
+      "banner-principal",
+      "sobre-projeto",
+      "tecnologias",
+      "documentacao",
+      "desenvolvimento",
+      "contato"
     ]
   },
-  "title": "Câmara de Curitiba"
+  "title": "Câmara de Curitiba - Portal de Desenvolvimento",
+  "description": "Portal de desenvolvimento da Câmara Municipal de Curitiba",
+  "rights": "© 2024 Câmara Municipal de Curitiba - Desenvolvimento",
+  "subjects": ["Plone", "Volto", "Desenvolvimento", "Documentação", "Câmara de Curitiba"],
+  "language": "pt-br"
 }

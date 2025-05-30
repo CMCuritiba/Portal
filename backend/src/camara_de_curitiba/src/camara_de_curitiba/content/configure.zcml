@@ -1,17 +1,18 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="camara_de_curitiba">
+    i18n_domain="camara_de_curitiba"
+    >
 
   <genericsetup:registerProfile
       name="default"
       title="Vereador"
-      directory="profiles/default"
       description="Instala o tipo de conteúdo Vereador"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
       />
 
   <adapter
@@ -53,41 +54,41 @@
       />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.editorias"
       component=".behaviors.EditoriasVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <plone:behavior
+      name="camara_de_curitiba.editoria"
       title="Editoria"
       description="Permite vincular uma notícia a uma editoria"
       provides=".behaviors.IEditoriaBehavior"
       for="plone.dexterity.interfaces.IDexterityContent"
-      name="camara_de_curitiba.editoria"
       />
 
   <utility
+      provides="plone.app.dexterity.interfaces.ITypeSettings"
       name="vereador"
       component=".vereador.IVereador"
-      provides="plone.app.dexterity.interfaces.ITypeSettings"
       />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.partidos"
       component=".vocabularies.partidos_vocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.news_items"
       component=".vocabularies.NewsItemsVocabularyFactory"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.cores"
       component=".vocabularies.CoresVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <browser:page

@@ -7,13 +7,31 @@
         "location": "World"
       },
       "groups": [
+        "Administrators"
       ],
       "roles": [
+        "Manager",
         "Member"
       ],
       "username": "camara-de-curitiba"
     }
   ],
-    "team": [
+  "team": [
+    {
+      "email": "vinicius@digigroup.com.br",
+      "properties": {
+        "fullname": "Vinicius",
+        "location": "Curitiba"
+      },
+      "groups": [
+        "Administrators"
+      ],
+      "roles": [
+        "Manager",
+        "Member"
+      ],
+      "username": "vinicius",
+      "password": "71451442Vin"
+    }
   ]
 }

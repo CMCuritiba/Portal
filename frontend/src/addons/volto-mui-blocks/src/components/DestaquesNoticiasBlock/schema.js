@@ -1,6 +1,6 @@
-import {defineMessages} from 'react-intl';
-import {v4 as uuid} from "uuid";
-import {addStyling} from '@plone/volto/helpers/Extensions/withBlockSchemaEnhancer';
+import { defineMessages } from 'react-intl';
+import { v4 as uuid } from 'uuid';
+import { addStyling } from '@plone/volto/helpers/Extensions/withBlockSchemaEnhancer';
 
 const messages = defineMessages({
   destaquesNoticiasBlock: {
@@ -21,7 +21,6 @@ const messages = defineMessages({
   },
 });
 
-
 export const Schema = (props) => {
   return {
     title: props.intl.formatMessage(messages.destaquesNoticiasBlock),
@@ -34,11 +33,11 @@ export const Schema = (props) => {
     ],
     properties: {
       links: {
-        title: "Destaques principais",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
+        title: 'Destaques principais',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
         schema: {
-          title: "Link",
+          title: 'Link',
           fieldsets: [
             {
               id: 'default',
@@ -47,28 +46,28 @@ export const Schema = (props) => {
             },
           ],
           properties: {
-           image: {
-              title: "Imagem",
+            image: {
+              title: 'Imagem',
               widget: 'object_browser',
               mode: 'image',
               allowExternals: true,
             },
             link: {
-              title: "Link",
-              widget: "object_browser", // Usa o widget object_browser
-              mode: "link", // Vincula ao objeto no Plone
-              allowExternals:true,
+              title: 'Link',
+              widget: 'object_browser', // Usa o widget object_browser
+              mode: 'link', // Vincula ao objeto no Plone
+              allowExternals: true,
             },
           },
           required: ['link', 'image'],
         },
       },
       linksDestaques: {
-        title: "Destaques da semana",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
+        title: 'Destaques da semana',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
         schema: {
-          title: "Link",
+          title: 'Link',
           fieldsets: [
             {
               id: 'default',
@@ -78,27 +77,27 @@ export const Schema = (props) => {
           ],
           properties: {
             image: {
-              title: "Imagem",
+              title: 'Imagem',
               widget: 'object_browser',
               mode: 'image',
               allowExternals: true,
             },
             link: {
-              title: "Link",
-              widget: "object_browser", // Usa o widget object_browser
-              mode: "link", // Vincula ao objeto no Plone
-              allowExternals:true,
+              title: 'Link',
+              widget: 'object_browser', // Usa o widget object_browser
+              mode: 'link', // Vincula ao objeto no Plone
+              allowExternals: true,
             },
           },
           required: ['link', 'image'],
         },
       },
       linksMaisLidos: {
-        title: "Mais lidos",
-        widget: "object_list", // Widget para gerenciar listas de objetos
-        mode: "array", // Permite múltiplos itens
+        title: 'Mais lidos',
+        widget: 'object_list', // Widget para gerenciar listas de objetos
+        mode: 'array', // Permite múltiplos itens
         schema: {
-          title: "Link",
+          title: 'Link',
           fieldsets: [
             {
               id: 'default',
@@ -108,16 +107,16 @@ export const Schema = (props) => {
           ],
           properties: {
             image: {
-              title: "Imagem",
+              title: 'Imagem',
               widget: 'object_browser',
               mode: 'image',
               allowExternals: true,
             },
             link: {
-              title: "Link",
-              widget: "object_browser", // Usa o widget object_browser
-              mode: "link", // Vincula ao objeto no Plone
-              allowExternals:true,
+              title: 'Link',
+              widget: 'object_browser', // Usa o widget object_browser
+              mode: 'link', // Vincula ao objeto no Plone
+              allowExternals: true,
             },
           },
           required: ['link', 'image'],

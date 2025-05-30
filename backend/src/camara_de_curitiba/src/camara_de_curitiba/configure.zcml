@@ -1,22 +1,28 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:dx="http://namespaces.plone.org/dexterity"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="camara_de_curitiba"
     >
 
   <i18n:registerTranslations directory="locales" />
   <!-- Primeiro inclui o meta.zcml que registra os namespaces -->
-  <include package="plone.dexterity" file="meta.zcml" />
+  <include
+      package="plone.dexterity"
+      file="meta.zcml"
+      />
 
   <!-- Agora sim pode incluir o resto do Dexterity -->
   <include package="plone.dexterity" />
 
   <!-- Registra o content type Vereador -->
-  <include package=".content" file="configure.zcml" />
+  <include
+      package=".content"
+      file="configure.zcml"
+      />
 
   <include
       package="Products.CMFCore"
@@ -44,15 +50,15 @@
   <include package=".controlpanels" />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.partidos"
       component="camara_de_curitiba.content.vocabularies.partidos_vocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.legislaturas"
       component="camara_de_curitiba.content.vocabularies.legislaturas_vocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
 </configure>

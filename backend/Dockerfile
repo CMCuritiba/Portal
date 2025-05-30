@@ -11,7 +11,6 @@ COPY . .
 RUN <<EOT
     set -e
     bin/pip install mxdev
-    mv requirements-docker.txt requirements.txt
     sed -i 's/-e src\/camara_de_curitiba\[test\]/src\/camara_de_curitiba/g' mx.ini
     bin/mxdev -c mx.ini
     bin/pip install -r requirements-mxdev.txt
@@ -24,7 +23,8 @@ FROM plone/server-prod-config:${PLONE_VERSION:-6.0.14}
 LABEL maintainer="Plone Foundation <collective@plone.org>" \
       org.label-schema.name="camara-de-curitiba-backend" \
       org.label-schema.description="Câmara de Curitiba backend image." \
-      org.label-schema.vendor="Plone Foundation"
+      org.label-schema.vendor="Plone Foundation" \
+      org.opencontainers.image.source="https://github.com/cmcuritiba/portal"
 
 # Copy /app from builder
 COPY --from=builder /app /app

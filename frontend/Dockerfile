@@ -27,7 +27,8 @@ FROM base
 LABEL maintainer="Plone Foundation <collective@plone.org>" \
       org.label-schema.name="camara-de-curitiba-frontend" \
       org.label-schema.description="Câmara de Curitiba frontend image." \
-      org.label-schema.vendor="Plone Foundation"
+      org.label-schema.vendor="Plone Foundation" \
+      org.opencontainers.image.source="https://github.com/cmcuritiba/portal"
 
 # Install busybox and wget
 RUN <<EOT

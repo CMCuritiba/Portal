@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
 
-    <plone:service
-        method="GET"
-        name="@partidos"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".partidos.PartidosGet"
-        permission="zope.Public"
-        />
+  <plone:service
+      method="GET"
+      factory=".partidos.PartidosGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      name="@partidos"
+      />
 
-    <plone:service
-        method="PUT"
-        name="@partidos"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".partidos.PartidosPut"
-        permission="zope.Public"
-        />
+  <plone:service
+      method="PUT"
+      factory=".partidos.PartidosPut"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      name="@partidos"
+      />
 
-    <plone:service
-        method="GET"
-        name="@legislaturas"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".legislaturas.LegislaturasGet"
-        permission="zope.Public"
-        />
+  <plone:service
+      method="GET"
+      factory=".legislaturas.LegislaturasGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      name="@legislaturas"
+      />
 
-    <plone:service
-        method="PUT"
-        name="@legislaturas"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".legislaturas.LegislaturasPut"
-        permission="zope.Public"
-        />
+  <plone:service
+      method="PUT"
+      factory=".legislaturas.LegislaturasPut"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      name="@legislaturas"
+      />
 
-    <plone:service
-        method="GET"
-        name="@legislaturas-e-partidos"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".legislaturas_e_partidos.LegislaturasEVereadoresGet"
-        permission="zope.Public"
-        />
+  <plone:service
+      method="GET"
+      factory=".legislaturas_e_partidos.LegislaturasEVereadoresGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      name="@legislaturas-e-partidos"
+      />
 
 </configure>

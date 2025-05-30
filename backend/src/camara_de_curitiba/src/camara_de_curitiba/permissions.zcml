@@ -10,13 +10,13 @@
     <permission
         id="camara_de_curitiba.AddEditoria"
         title="camara_de_curitiba: Add Editoria"
-    />
+        />
 
 
     <permission
         id="camara_de_curitiba.AddVereador"
         title="camara_de_curitiba: Add Vereador"
-    />
+        />
 
 
   </configure>

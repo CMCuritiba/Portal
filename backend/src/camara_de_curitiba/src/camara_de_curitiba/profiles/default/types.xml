@@ -1,12 +1,22 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<object name="portal_types" meta_type="Plone Types Tool">
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Types Tool"
+        name="portal_types"
+>
   <!--
   <object meta_type="Dexterity FTI"
           name="MyType"
   />
 -->
-  <object name="vereador" meta_type="Dexterity FTI"/>
-  <object name="Plone Site" meta_type="Dexterity FTI"/>
-  <object name="Folder" meta_type="Dexterity FTI"/>
-  <object name="Editoria" meta_type="Dexterity FTI"/>
+  <object meta_type="Dexterity FTI"
+          name="vereador"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Plone Site"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Folder"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Editoria"
+  />
 </object>

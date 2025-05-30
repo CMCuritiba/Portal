@@ -1,7 +1,7 @@
 [
   {
     "_parent": "",
-    "type": "Document",
+    "type": "Folder",
     "id": "images",
     "title": "Images",
     "description": "Image bank.",
@@ -21,6 +21,39 @@
     "description": "",
     "_image": "images/plone-foundation.png",
     "_transitions": [],
+    "exclude_from_nav": false
+  },
+  {
+    "_parent": "",
+    "type": "Document",
+    "id": "vereadores",
+    "title": "Vereadores",
+    "description": "Lista de vereadores da Câmara de Curitiba",
+    "_transitions": [
+      "publish"
+    ],
+    "exclude_from_nav": false
+  },
+  {
+    "_parent": "",
+    "type": "Document",
+    "id": "noticias",
+    "title": "Notícias",
+    "description": "Notícias da Câmara de Curitiba",
+    "_transitions": [
+      "publish"
+    ],
+    "exclude_from_nav": false
+  },
+  {
+    "_parent": "",
+    "type": "Document",
+    "id": "transparencia",
+    "title": "Transparência",
+    "description": "Informações sobre transparência da Câmara de Curitiba",
+    "_transitions": [
+      "publish"
+    ],
     "exclude_from_nav": false
   }
 ]

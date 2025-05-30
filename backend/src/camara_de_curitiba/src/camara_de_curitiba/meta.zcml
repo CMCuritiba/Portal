@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:meta="http://namespaces.zope.org/meta"
-    i18n_domain="camara_de_curitiba">
+    i18n_domain="camara_de_curitiba"
+    >
 </configure>

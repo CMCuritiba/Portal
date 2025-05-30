@@ -176,7 +176,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
           },
           {
             value: 'linkExternal',
-            label: "Link externo",
+            label: 'Link externo',
           },
           {
             value: 'dropdown',
@@ -188,7 +188,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
       {menuItem.mode === 'linkExternal' && (
         <TextWidget
           id={`${id}-link-external`}
-          title={"Link"}
+          title={'Link'}
           description=""
           required={true}
           value={menuItem.link_external}

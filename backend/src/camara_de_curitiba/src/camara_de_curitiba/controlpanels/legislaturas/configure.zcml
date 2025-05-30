@@ -3,27 +3,29 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="camara_de_curitiba">
+    i18n_domain="camara_de_curitiba"
+    >
 
   <include package="plone.app.registry" />
 
   <browser:page
-    name="legislaturas-controlpanel"
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    class=".controlpanel.LegislaturasControlPanelView"
-    layer="camara_de_curitiba.interfaces.ICamaraDeCuritibaLayer"
-    permission="cmf.ManagePortal"
-    />
+      name="legislaturas-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.LegislaturasControlPanelView"
+      permission="cmf.ManagePortal"
+      layer="camara_de_curitiba.interfaces.ICamaraDeCuritibaLayer"
+      />
 
-  <include package="plone.restapi"  />
+  <include package="plone.restapi" />
   <adapter
-    factory=".controlpanel.LegislaturasConfigletPanel"
-    name="legislaturas" />
+      factory=".controlpanel.LegislaturasConfigletPanel"
+      name="legislaturas"
+      />
 
   <utility
-    component=".controlpanel.ILegislaturasSettings"
-    name="camara_de_curitiba.controlpanels.legislaturas.ILegislaturasSettings.legislaturas"
-    provides="zope.interface.Interface"
-    />
+      provides="zope.interface.Interface"
+      name="camara_de_curitiba.controlpanels.legislaturas.ILegislaturasSettings.legislaturas"
+      component=".controlpanel.ILegislaturasSettings"
+      />
 
 </configure>

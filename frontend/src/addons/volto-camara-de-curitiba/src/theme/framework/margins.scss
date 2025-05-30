@@ -1,5 +1,18 @@
 // Flexbox Utilities
 
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li {
+  font-size: 1rem;
+}
+
 .pr-136 {
   padding-right: 136px;
 }
@@ -12,7 +25,6 @@
   .bottom-#{$size} {
     bottom: #{$size / 16}rem;
   }
-
 
   .space-#{$size} {
     > * + * {
@@ -34,7 +46,6 @@
     width: #{$size / 16}rem;
   }
 
-
   .fs-#{$size} {
     font-size: #{$size / 16}rem;
 
@@ -49,12 +60,12 @@
 
   .px-#{$size} {
     padding-left: #{$size / 16}rem;
-    padding-right: #{$size / 16}rem;;
+    padding-right: #{$size / 16}rem;
   }
 
   .py-#{$size} {
     padding-top: #{$size / 16}rem;
-    padding-bottom: #{$size / 16}rem;;
+    padding-bottom: #{$size / 16}rem;
   }
 
   .pb-#{$size} {
@@ -84,7 +95,6 @@
   }
 }
 
-
 @media (max-width: 768px) {
   @each $size in $sizes {
     .mt-mb-#{$size} {
@@ -94,7 +104,6 @@
     .bottom-mb-#{$size} {
       bottom: #{$size / 16}rem;
     }
-
 
     .space-mb-#{$size} {
       > * + * {

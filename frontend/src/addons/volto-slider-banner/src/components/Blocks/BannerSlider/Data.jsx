@@ -28,7 +28,7 @@ const BannerSliderBlockData = (props) => {
   const schema = bannerSliderSchema({ ...props, intl });
   const onChangeField = (id, value) => {
     if (id === 'href' && value !== '') {
-       setHref(value);
+      setHref(value);
     } else {
       onChangeBlock(block, {
         ...data,

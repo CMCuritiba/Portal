@@ -1,7 +1,7 @@
-import {CategoriaView} from "./components";
-import VereadoresListView from "./components/VereadoresView/VereadoresListView";
-import VereadorItemView from "./components/VereadoresView/VereadorItemView";
-import MyMenuConfigurationForm from "./components/MyMenuConfigurationForm";
+import { CategoriaView } from './components';
+import VereadoresListView from './components/VereadoresView/VereadoresListView';
+import VereadorItemView from './components/VereadoresView/VereadorItemView';
+import MyMenuConfigurationForm from './components/MyMenuConfigurationForm';
 const applyConfig = (config) => {
   config.settings = {
     ...config.settings,
@@ -26,29 +26,28 @@ const applyConfig = (config) => {
     'News Item': [
       { '@type': 'title' },
       {
-        "@type": "slate",
-        "plaintext": "Author",
-        "cssClass" : "Class",
-        "styles": {
-        },
-        "value": [
+        '@type': 'slate',
+        plaintext: 'Author',
+        cssClass: 'Class',
+        styles: {},
+        value: [
           {
-            "children": [
+            children: [
               {
-                "children": [
+                children: [
                   {
-                    "text": "Author",
-                    "cssClass" : "Class",
-                  }
+                    text: 'Author',
+                    cssClass: 'Class',
+                  },
                 ],
-                "type": "em",
-                "cssClass" : "Class",
+                type: 'em',
+                cssClass: 'Class',
               },
             ],
-            "cssClass" : "Class",
-            "type": "p"
-          }
-        ]
+            cssClass: 'Class',
+            type: 'p',
+          },
+        ],
       },
     ],
   };

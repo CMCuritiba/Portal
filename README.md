@@ -103,6 +103,14 @@ Gere arquivos de tradução para Plone e Volto facilmente:
 make i18n
 ```
 
+## Como contribuir
+
+Toda contribuição é bem vinda!
+
+Para ajudar-nos a manter o bom trabalho, por favor leia nossas
+[diretrizes](.github/CONTRIBUTING.md) e
+[código de conduta](.github/CODE_OF_CONDUCT.md).
+
 ## Créditos e Agradecimentos 🙏
 
 Criado com carinho por **Este projeto foi gerado pelo [cookiecutter-plone-starter](https://github.com/collective/cookiecutter-plone-starter) em 21/01/2025 às 23:10:45**. Um agradecimento especial a todos os contribuidores e apoiadores!

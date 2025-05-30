@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.content.interfaces import INameFromTitle
 from plone.app.textfield import RichText
-from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
@@ -40,6 +39,8 @@ class IVereador(model.Schema):
             "mandato",
             "foto",
             "video_principal",
+            "telefone_principal",
+            "email",
             "noticias_relacionadas",
             "perfil_do_vereador",
             "trabalho_parlamentar",
@@ -94,6 +95,24 @@ class IVereador(model.Schema):
     video_principal = schema.TextLine(
         title="Vídeo principal",
         description="URL do vídeo principal do vereador",
+        required=False,
+    )
+
+    telefone_principal = schema.TextLine(
+        title="Telefone principal",
+        description="",
+        required=False,
+    )
+
+    email = schema.TextLine(
+        title="E-mail",
+        description="",
+        required=False,
+    )
+
+    link_projeto_de_lei = schema.TextLine(
+        title="Link projetos de lei",
+        description="Caso este link não seja preenchido, o valor padrão é: ",
         required=False,
     )
 

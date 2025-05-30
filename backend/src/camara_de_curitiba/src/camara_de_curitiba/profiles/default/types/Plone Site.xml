@@ -1,5 +1,7 @@
-<?xml version="1.0"?>
-<object name="Plone Site" meta_type="Dexterity FTI">
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Dexterity FTI"
+        name="Plone Site"
+>
   <allowed_content_types>
     <allowed_type>Folder</allowed_type>
   </allowed_content_types>

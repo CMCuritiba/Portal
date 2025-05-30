@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
   <record name="plone.cachepurging.interfaces.ICachePurgingSettings.enabled">
+    <field type="plone.registry.field.Bool">
+      <title>Enable cache purging</title>
+      <description>Enable cache purging functionality</description>
+      <required>False</required>
+    </field>
     <value>True</value>
   </record>
   <record name="plone.cachepurging.interfaces.ICachePurgingSettings.cachingProxies">
+    <field type="plone.registry.field.List">
+      <title>Caching proxies</title>
+      <description>List of caching proxy servers to purge</description>
+      <value_type type="plone.registry.field.TextLine">
+        <title>Proxy URL</title>
+      </value_type>
+    </field>
     <value>
       <element>http://purger</element>
     </value>
   </record>
   <record name="plone.cachepurging.interfaces.ICachePurgingSettings.virtualHosting">
+    <field type="plone.registry.field.Bool">
+      <title>Virtual hosting</title>
+      <description>Enable virtual hosting support</description>
+      <required>False</required>
+    </field>
     <value>False</value>
   </record>
 </registry>

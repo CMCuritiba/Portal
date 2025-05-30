@@ -4,13 +4,22 @@ import { partidoSchema } from '../schema';
 import { BlockDataForm } from '@plone/volto/components/manage/Form';
 import { Button, Message } from 'semantic-ui-react';
 import config from '@plone/volto/registry';
-import { useDispatch, useSelector } from "react-redux";
-import { GET_CONTROLPANEL, UPDATE_CONTROLPANEL } from "@plone/volto/constants/ActionTypes";
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  GET_CONTROLPANEL,
+  UPDATE_CONTROLPANEL,
+} from '@plone/volto/constants/ActionTypes';
 import { createContent } from '@plone/volto/actions';
-import {BlockSettingsSidebar, Icon, SidebarPortal, Toast, Toolbar} from '@plone/volto/components';
+import {
+  BlockSettingsSidebar,
+  Icon,
+  SidebarPortal,
+  Toast,
+  Toolbar,
+} from '@plone/volto/components';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
-import {createPortal} from "react-dom";
+import { createPortal } from 'react-dom';
 import saveSVG from '@plone/volto/icons/save.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
 
@@ -49,7 +58,7 @@ const get = (url) => {
       path: url,
     },
   };
-}
+};
 
 const put = (url, data) => {
   return {
@@ -57,10 +66,10 @@ const put = (url, data) => {
     request: {
       op: 'put',
       path: url,
-      data
+      data,
     },
   };
-}
+};
 
 const PartidosControlPanel = (props) => {
   const { intl } = props;
@@ -70,8 +79,6 @@ const PartidosControlPanel = (props) => {
   const [uploading, setUploading] = useState(false);
   const partidos = state.controlpanels?.controlpanel?.items || [];
   const isClient = typeof document !== 'undefined';
-
-
 
   const schema = {
     title: intl.formatMessage(messages.title),
@@ -121,7 +128,7 @@ const PartidosControlPanel = (props) => {
   };
 
   const onChangeField = async (id, value) => {
-    console.log("Valor alterado:", value);
+    console.log('Valor alterado:', value);
 
     // Se o valor for um arquivo, fazer upload
     if (id === 'partidos' && Array.isArray(value)) {
@@ -132,7 +139,7 @@ const PartidosControlPanel = (props) => {
             return { ...partido, logo: logoUrl };
           }
           return partido;
-        })
+        }),
       );
 
       setFormData({ ...formData, [id]: updatedPartidos });
@@ -147,25 +154,14 @@ const PartidosControlPanel = (props) => {
       const response = await dispatch(
         put('++api++/@partidos', {
           items: formData.partidos || [],
-        })
+        }),
       );
       if (response?.error) {
         throw new Error(response.error);
       }
-      toast.success(
-        <Toast
-          success
-          title={"Salvo"}
-        />,
-      )
+      toast.success(<Toast success title={'Salvo'} />);
     } catch (error) {
-      toast.error(
-        <Toast
-          error
-          title="Ops..."
-          content={error.message}
-        />,
-      )
+      toast.error(<Toast error title="Ops..." content={error.message} />);
     } finally {
       setUploading(false);
     }
@@ -192,7 +188,8 @@ const PartidosControlPanel = (props) => {
           formData={formData}
         />
       </div>
-      {isClient && createPortal(
+      {isClient &&
+        createPortal(
           <Toolbar
             pathname={props.pathname}
             hideDefaultViewButtons
@@ -216,14 +213,14 @@ const PartidosControlPanel = (props) => {
 
                 <Button
                   className="cancel"
-                  aria-label={"Cancelar"}
+                  aria-label={'Cancelar'}
                   onClick={() => props.history.goBack()}
                 >
                   <Icon
                     name={clearSVG}
                     className="circled"
                     size="30px"
-                    title={"Cancelar"}
+                    title={'Cancelar'}
                   />
                 </Button>
               </>
@@ -232,8 +229,6 @@ const PartidosControlPanel = (props) => {
           document.getElementById('toolbar'),
         )}
     </>
-
-
   );
 };
 

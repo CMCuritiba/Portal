@@ -7,7 +7,7 @@ SHELL:=bash
 .DELETE_ON_ERROR:
 MAKEFLAGS+=--warn-undefined-variables
 MAKEFLAGS+=--no-builtin-rules
-IMAGE_NAME=ghcr.io/collective/camara-de-curitiba-frontend
+IMAGE_NAME=ghcr.io/cmcuritiba/portal/frontend
 IMAGE_TAG=latest
 
 NODEBIN = ./node_modules/.bin
@@ -89,7 +89,7 @@ storybook: ## Generate Storybook
 
 .PHONY: build-image
 build-image:  ## Build Docker Image
-	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -f Dockerfile
+	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME):$(IMAGE_TAG) -t $(IMAGE_NAME):latest -f Dockerfile
 
 # Acceptance tests
 

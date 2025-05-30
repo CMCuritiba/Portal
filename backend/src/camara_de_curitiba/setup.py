@@ -1,4 +1,5 @@
 """Installer for the camara_de_curitiba package."""
+
 from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
@@ -13,7 +14,7 @@ long_description = f"""
 
 setup(
     name="camara_de_curitiba",
-    version="1.0.0a1",
+    version="1.0.0",
     description="Câmara de Curitiba configuration package.",
     long_description=long_description,
     classifiers=[
@@ -49,6 +50,7 @@ setup(
         "Plone",
         "prettyconf",
         "plone.api",
+        "plone.caching",
     ],
     extras_require={
         "test": [

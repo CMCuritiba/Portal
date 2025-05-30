@@ -1,9 +1,12 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
-  <records prefix="camara_de_curitiba.legislaturas"
-           interface="camara_de_curitiba.controlpanels.legislaturas.controlpanel.ILegislaturasSettings">
-    <value key="legislaturas" purge="false">
+  <records interface="camara_de_curitiba.controlpanels.legislaturas.controlpanel.ILegislaturasSettings"
+           prefix="camara_de_curitiba.legislaturas"
+  >
+    <value key="legislaturas"
+           purge="false"
+    >
       <element>{"@id": "1", "nome": "2021-2024"}</element>
     </value>
   </records>
-</registry> 
+</registry>
