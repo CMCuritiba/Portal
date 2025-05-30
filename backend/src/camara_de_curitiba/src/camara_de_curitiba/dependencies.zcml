@@ -4,5 +4,6 @@
   <include package="plone.volto" />
   <include package="plone.restapi" />
   <include package="pas.plugins.oidc" />
+  <include package="pas.plugins.keycloakgroups" />
 
 </configure>
