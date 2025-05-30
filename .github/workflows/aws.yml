@@ -57,7 +57,7 @@ jobs:
         aws-region: ${{ secrets.DEV_AWS_REGION }}
 
     - name: Create task definition
-      run: >
+      run: |
         echo '{"forceNewDeployment": true}' >${{ env.ECS_TASK_DEFINITION }}
 
     - name: Deploy Backend on Amazon ECS
