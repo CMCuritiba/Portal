@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
   <records interface="pas.plugins.keycloakgroups.interfaces.IKeycloakSettings"
-           prefix="keycloak_groups">
+           prefix="keycloak_groups"
+  >
     <value key="client_id">plone-admin</value>
     <value key="client_secret">12345678</value>
     <value key="realm_name">plone</value>
