@@ -1,7 +1,6 @@
 from ..controlpanels.legislaturas.controlpanel import ILegislaturasSettings
 from ..controlpanels.partidos import IPartidosSettings
 from plone.api.portal import get
-from plone.api.portal import get_tool
 from plone.registry.interfaces import IRegistry
 from plone.restapi.services import Service
 from zope.component import getUtility
@@ -31,7 +30,7 @@ class LegislaturasEVereadoresGet(Service):
         # Obtém partidos
         settings_partidos = registry.forInterface(IPartidosSettings)
         portal = get()
-        portal_url = portal.absolute_url()
+        portal.absolute_url()
 
         partidos = []
         for item in settings_partidos.partidos:

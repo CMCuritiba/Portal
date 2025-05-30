@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from 'uuid';
 
 const messages = defineMessages({
   gridMuiBlock: {
@@ -22,27 +22,25 @@ const messages = defineMessages({
 
 export const itemSchema = (props) => {
   return {
-      title: props.intl.formatMessage(messages.item),
-      addMessage: props.intl.formatMessage(messages.addItem),
-      fieldsets: [
-        {
-          id: 'default',
-          title: 'Default',
-          fields: [
-            'offset',
-          ],
-        },
-      ],
-      properties: {
-        offset: {
-          title: "Offset",
-          default: "1",
-          type: 'integer',
-        },
+    title: props.intl.formatMessage(messages.item),
+    addMessage: props.intl.formatMessage(messages.addItem),
+    fieldsets: [
+      {
+        id: 'default',
+        title: 'Default',
+        fields: ['offset'],
       },
-      required: [],
-    }
-}
+    ],
+    properties: {
+      offset: {
+        title: 'Offset',
+        default: '1',
+        type: 'integer',
+      },
+    },
+    required: [],
+  };
+};
 export const gridBlockSchema = (props) => {
   return {
     title: props.intl.formatMessage(messages.gridMuiBlock),
@@ -54,13 +52,13 @@ export const gridBlockSchema = (props) => {
       },
     ],
     properties: {
-       columns: {
+      columns: {
         title: props.intl.formatMessage(messages.columns),
         widget: 'object_list',
         schema: itemSchema(props),
         activeObject: props.activeObject,
         setActiveObject: props.setActiveObject,
-        default: [{ '@id': uuid(), 'offset':1 }],
+        default: [{ '@id': uuid(), offset: 1 }],
       },
     },
     required: ['columns'],

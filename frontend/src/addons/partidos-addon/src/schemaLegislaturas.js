@@ -32,15 +32,15 @@ export const schemaLegislaturas = ({ intl }) => ({
   properties: {
     nome: {
       title: 'Nome',
-      required: true
+      required: true,
     },
     ano_inicio: {
       title: 'Ano inicial',
-      required: true
+      required: true,
     },
     ano_final: {
       title: 'Ano final',
-      required: true
+      required: true,
     },
   },
   required: ['nome'],

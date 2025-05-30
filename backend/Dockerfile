@@ -11,7 +11,6 @@ COPY . .
 RUN <<EOT
     set -e
     bin/pip install mxdev
-    mv requirements-docker.txt requirements.txt
     sed -i 's/-e src\/camara_de_curitiba\[test\]/src\/camara_de_curitiba/g' mx.ini
     bin/mxdev -c mx.ini
     bin/pip install -r requirements-mxdev.txt

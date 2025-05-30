@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser">
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
 
   <include package="plone.app.registry" />
   <include package=".legislaturas" />
@@ -15,8 +16,8 @@
 
   <!-- Registro usando a abordagem tradicional -->
   <utility
-      component="camara_de_curitiba.controlpanels.partidos.IPartidosSettings"
-      name="camara_de_curitiba.controlpanels.partidos.IPartidosSettings.partidos"
       provides="zope.interface.Interface"
+      name="camara_de_curitiba.controlpanels.partidos.IPartidosSettings.partidos"
+      component="camara_de_curitiba.controlpanels.partidos.IPartidosSettings"
       />
 </configure>

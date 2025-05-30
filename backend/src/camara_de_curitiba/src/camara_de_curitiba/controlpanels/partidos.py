@@ -1,8 +1,6 @@
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
-from plone.registry.interfaces import IRegistry
 from zope import schema
-from zope.component import queryUtility
 from zope.interface import Interface
 
 

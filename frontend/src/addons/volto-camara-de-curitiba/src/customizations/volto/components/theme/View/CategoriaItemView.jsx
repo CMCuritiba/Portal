@@ -5,11 +5,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Container as SemanticContainer, Sidebar} from 'semantic-ui-react';
-import {hasBlocksData, flattenHTMLToAppURL} from '@plone/volto/helpers';
+import { Container as SemanticContainer, Sidebar } from 'semantic-ui-react';
+import { hasBlocksData, flattenHTMLToAppURL } from '@plone/volto/helpers';
 import RenderBlocks from '@plone/volto/components/theme/View/RenderBlocks';
 import config from '@plone/volto/registry';
-import SidebarNews from "./SidebarNews";
+import SidebarNews from './SidebarNews';
 
 /**
  * NewsItemView view component class.
@@ -17,21 +17,24 @@ import SidebarNews from "./SidebarNews";
  * @params {object} content Content object.
  * @returns {string} Markup of the component.
  */
-const CategoriaItemView = ({content}) => {
-  const Image = config.getComponent({name: 'Image'}).component;
+const CategoriaItemView = ({ content }) => {
+  const Image = config.getComponent({ name: 'Image' }).component;
   const Container =
-    config.getComponent({name: 'Container'}).component || SemanticContainer;
+    config.getComponent({ name: 'Container' }).component || SemanticContainer;
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const elements = document.querySelectorAll("del");
+  document.addEventListener('DOMContentLoaded', function () {
+    const elements = document.querySelectorAll('del');
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-        }
-      });
-    }, {threshold: 0.5}); // Ativa quando 50% do elemento estiver visível
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.5 },
+    ); // Ativa quando 50% do elemento estiver visível
 
     elements.forEach((el) => observer.observe(el));
   });
@@ -41,21 +44,23 @@ const CategoriaItemView = ({content}) => {
       <div className="container">
         <div className="flex gap-32 mobile-flex-direction-col">
           <div className="sd">
-            <RenderBlocks content={content}/>
+            <RenderBlocks content={content} />
           </div>
-          <SidebarNews/>
+          <SidebarNews />
         </div>
       </div>
       <div className="background-gray py-48">
         <div className="container">
-          <h2 className="title-back">
-            Últimas Notícias
-          </h2>
+          <h2 className="title-back">Últimas Notícias</h2>
           <div className="mt-40">
             <div className="grid-col-3 gap-30">
               <div className="item card-default py-24 px-24 destaque stack gap-24">
                 <div className="thubmnail">
-                  <img src="/images/news/item-4.png" alt="" className="aspect-ratio-16-9"/>
+                  <img
+                    src="/images/news/item-4.png"
+                    alt=""
+                    className="aspect-ratio-16-9"
+                  />
                 </div>
                 <div>
                   <span className="tag-color inline-block">
@@ -64,18 +69,26 @@ const CategoriaItemView = ({content}) => {
                 </div>
                 <div>
                   <h3 className="title-32">
-                    Vereadores Discutem Propostas para Melhorar o Atendimento em Postos de Saúde
+                    Vereadores Discutem Propostas para Melhorar o Atendimento em
+                    Postos de Saúde
                   </h3>
                 </div>
                 <div>
-                  <a className="button-secondary px-62 button-small" href="#">
+                  <a
+                    className="button-secondary px-62 button-small"
+                    href="/es-lint-test"
+                  >
                     Leia mais
                   </a>
                 </div>
               </div>
               <div className="item card-default py-24 px-24 destaque stack gap-24">
                 <div className="thubmnail">
-                  <img src="/images/news/item-4.png" alt="" className="aspect-ratio-16-9"/>
+                  <img
+                    src="/images/news/item-4.png"
+                    alt=""
+                    className="aspect-ratio-16-9"
+                  />
                 </div>
                 <div>
                   <span className="tag-color inline-block">
@@ -84,18 +97,26 @@ const CategoriaItemView = ({content}) => {
                 </div>
                 <div>
                   <h3 className="title-32">
-                    Vereadores Discutem Propostas para Melhorar o Atendimento em Postos de Saúde
+                    Vereadores Discutem Propostas para Melhorar o Atendimento em
+                    Postos de Saúde
                   </h3>
                 </div>
                 <div>
-                  <a className="button-secondary px-62 button-small" href="#">
+                  <a
+                    className="button-secondary px-62 button-small"
+                    href="/es-lint-test"
+                  >
                     Leia mais
                   </a>
                 </div>
               </div>
               <div className="item card-default py-24 px-24 destaque stack gap-24">
                 <div className="thubmnail">
-                  <img src="/images/news/item-4.png" alt="" className="aspect-ratio-16-9"/>
+                  <img
+                    src="/images/news/item-4.png"
+                    alt=""
+                    className="aspect-ratio-16-9"
+                  />
                 </div>
                 <div>
                   <span className="tag-color inline-block">
@@ -104,11 +125,15 @@ const CategoriaItemView = ({content}) => {
                 </div>
                 <div>
                   <h3 className="title-32">
-                    Vereadores Discutem Propostas para Melhorar o Atendimento em Postos de Saúde
+                    Vereadores Discutem Propostas para Melhorar o Atendimento em
+                    Postos de Saúde
                   </h3>
                 </div>
                 <div>
-                  <a className="button-secondary px-62 button-small" href="#">
+                  <a
+                    className="button-secondary px-62 button-small"
+                    href="/es-lint-test"
+                  >
                     Leia mais
                   </a>
                 </div>

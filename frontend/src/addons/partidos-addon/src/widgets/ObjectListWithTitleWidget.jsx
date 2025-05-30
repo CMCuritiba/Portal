@@ -173,7 +173,8 @@ const ObjectListWithTitleWidget = (props) => {
                   </button>
 
                   <div className="accordion-title-wrapper">
-                    {child[objectSchema.titleField] || `${objectSchema.title} #${index + 1}`}
+                    {child[objectSchema.titleField] ||
+                      `${objectSchema.title} #${index + 1}`}
                   </div>
                   <div className="accordion-tools">
                     <button

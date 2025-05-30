@@ -1,7 +1,6 @@
 from ..controlpanels.legislaturas.controlpanel import ILegislaturasSettings
 from ..controlpanels.partidos import IPartidosSettings
-from plone import api
-from plone.app.vocabularies.catalog import CatalogSource
+from camara_de_curitiba import _
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
@@ -10,7 +9,6 @@ from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-from camara_de_curitiba import _
 
 
 @provider(IVocabularyFactory)
@@ -67,25 +65,27 @@ class CoresVocabularyFactory(object):
 
     def __call__(self, context):
         items = [
-            ('#FFFFFF', _(u'Branco')),
-            ('#F5F5F5', _(u'Cinza Claro')),
-            ('#E0E0E0', _(u'Cinza Médio')),
-            ('#9E9E9E', _(u'Cinza Escuro')),
-            ('#FFEBEE', _(u'Vermelho Claro')),
-            ('#FFCDD2', _(u'Vermelho Médio')),
-            ('#EF5350', _(u'Vermelho')),
-            ('#E3F2FD', _(u'Azul Claro')),
-            ('#90CAF9', _(u'Azul Médio')),
-            ('#2196F3', _(u'Azul')),
-            ('#E8F5E9', _(u'Verde Claro')),
-            ('#A5D6A7', _(u'Verde Médio')),
-            ('#4CAF50', _(u'Verde')),
-            ('#FFF3E0', _(u'Laranja Claro')),
-            ('#FFCC80', _(u'Laranja Médio')),
-            ('#FF9800', _(u'Laranja')),
+            ("#FFFFFF", _("Branco")),
+            ("#F5F5F5", _("Cinza Claro")),
+            ("#E0E0E0", _("Cinza Médio")),
+            ("#9E9E9E", _("Cinza Escuro")),
+            ("#FFEBEE", _("Vermelho Claro")),
+            ("#FFCDD2", _("Vermelho Médio")),
+            ("#EF5350", _("Vermelho")),
+            ("#E3F2FD", _("Azul Claro")),
+            ("#90CAF9", _("Azul Médio")),
+            ("#2196F3", _("Azul")),
+            ("#E8F5E9", _("Verde Claro")),
+            ("#A5D6A7", _("Verde Médio")),
+            ("#4CAF50", _("Verde")),
+            ("#FFF3E0", _("Laranja Claro")),
+            ("#FFCC80", _("Laranja Médio")),
+            ("#FF9800", _("Laranja")),
         ]
-        terms = [SimpleTerm(value=value, token=value, title=title)
-                for value, title in items]
+        terms = [
+            SimpleTerm(value=value, token=value, title=title) for value, title in items
+        ]
         return SimpleVocabulary(terms)
+
 
 CoresVocabulary = CoresVocabularyFactory()

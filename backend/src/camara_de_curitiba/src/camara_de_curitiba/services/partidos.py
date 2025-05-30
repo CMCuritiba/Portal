@@ -1,6 +1,5 @@
 from ..controlpanels.partidos import IPartidosSettings
 from plone.api.portal import get
-from plone.api.portal import get_tool
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobImage
 from plone.registry.interfaces import IRegistry
@@ -24,10 +23,8 @@ class PartidosGet(Service):
         settings = registry.forInterface(IPartidosSettings)
 
         portal = get()
-        portal_url = portal.absolute_url()
-        site_id = portal.getId()
-        site = get()
-        site_path = "/".join(site.getPhysicalPath())  # ex: 'Plone'
+        portal.absolute_url()
+        portal.getId()
 
         items = []
         for item in settings.partidos:
@@ -106,9 +103,9 @@ class PartidosPut(Service):
                         relative_path = image_obj.absolute_url().replace(portal_url, "")
                         item["logo_url"] = relative_path
 
-                    except Exception as e:
+                    except ValueError as e:
                         self.request.response.setStatus(400)
-                        return {"error": f"Erro ao processar imagem: {str(e)}"}
+                        return {"error": f"Erro ao processar imagem: {e}"}
             item.pop("logo", None)  # remove o base64 do dict final
             processed_items.append(item)
 

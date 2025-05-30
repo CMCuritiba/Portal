@@ -1,51 +1,55 @@
-<?xml version="1.0"?>
-<object name="portal_workflow" meta_type="Plone Workflow Tool">
- <object name="vereador_workflow" meta_type="Workflow">
-  <property name="title">Workflow para Vereador</property>
-  <property name="description">Workflow para o tipo de conteúdo Vereador</property>
-  <property name="initial_state">published</property>
-  <property name="states">
-   <element value="published">Publicado</element>
-  </property>
-  <property name="transitions">
-   <element value="publish">Publicar</element>
-  </property>
-  <property name="state_variable">review_state</property>
-  <property name="state_map">
-   <element value="published">
-    <property name="permissions">
-     <element value="View">
-      <property name="acquired">True</property>
-      <property name="roles">
-       <element value="Anonymous"/>
-       <element value="Authenticated"/>
-       <element value="Manager"/>
-       <element value="Owner"/>
-      </property>
-     </element>
-     <element value="Modify portal content">
-      <property name="acquired">True</property>
-      <property name="roles">
-       <element value="Manager"/>
-       <element value="Owner"/>
-      </property>
-     </element>
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Workflow Tool"
+        name="portal_workflow"
+>
+  <object meta_type="Workflow"
+          name="vereador_workflow"
+  >
+    <property name="title">Workflow para Vereador</property>
+    <property name="description">Workflow para o tipo de conteúdo Vereador</property>
+    <property name="initial_state">published</property>
+    <property name="states">
+      <element value="published">Publicado</element>
     </property>
-   </element>
-  </property>
-  <property name="transition_map">
-   <element value="publish">
-    <property name="new_state">published</property>
-    <property name="permissions">
-     <element value="Modify portal content">
-      <property name="acquired">True</property>
-      <property name="roles">
-       <element value="Manager"/>
-       <element value="Owner"/>
-      </property>
-     </element>
+    <property name="transitions">
+      <element value="publish">Publicar</element>
     </property>
-   </element>
-  </property>
- </object>
-</object> 
+    <property name="state_variable">review_state</property>
+    <property name="state_map">
+      <element value="published">
+        <property name="permissions">
+          <element value="View">
+            <property name="acquired">True</property>
+            <property name="roles">
+              <element value="Anonymous" />
+              <element value="Authenticated" />
+              <element value="Manager" />
+              <element value="Owner" />
+            </property>
+          </element>
+          <element value="Modify portal content">
+            <property name="acquired">True</property>
+            <property name="roles">
+              <element value="Manager" />
+              <element value="Owner" />
+            </property>
+          </element>
+        </property>
+      </element>
+    </property>
+    <property name="transition_map">
+      <element value="publish">
+        <property name="new_state">published</property>
+        <property name="permissions">
+          <element value="Modify portal content">
+            <property name="acquired">True</property>
+            <property name="roles">
+              <element value="Manager" />
+              <element value="Owner" />
+            </property>
+          </element>
+        </property>
+      </element>
+    </property>
+  </object>
+</object>

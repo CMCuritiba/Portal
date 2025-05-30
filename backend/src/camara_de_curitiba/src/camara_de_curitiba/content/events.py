@@ -1,15 +1,15 @@
 from plone import api
 from plone.dexterity.interfaces import IDexterityContent
+from plone.locking.interfaces import ILockable
 from zope.component import adapter
 from zope.interface import implementer
-from zope.lifecycleevent.interfaces import IObjectAddedEvent, IObjectModifiedEvent
-import logging
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-from zope.component import queryUtility
-import time
-from plone.locking.interfaces import ILockable
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
-logger = logging.getLogger('camara_de_curitiba')
+import logging
+
+
+logger = logging.getLogger("camara_de_curitiba")
 
 
 @implementer(IObjectAddedEvent)
@@ -37,7 +37,7 @@ def vereador_added(obj, event):
 def editoria_added(obj, event):
     """Evento disparado quando uma editoria é criada"""
     logger.info(f"Evento editoria_added disparado para {obj.portal_type}")
-    
+
     if obj.portal_type != "Editoria":
         logger.info(f"Objeto não é uma Editoria: {obj.portal_type}")
         return
@@ -61,8 +61,8 @@ def editoria_added(obj, event):
         else:
             logger.info("Editoria já está no local correto")
 
-    except Exception as e:
-        logger.error(f"Erro ao processar evento editoria_added: {str(e)}")
+    except ValueError as e:
+        logger.error(f"Erro ao processar evento editoria_added: {e}")
         raise
 
 
@@ -83,8 +83,8 @@ def noticia_added_modified(obj, event):
             )
 
         # Verifica se tem editoria vinculada
-        editoria_uid = getattr(obj, 'editoria', None)
-        
+        editoria_uid = getattr(obj, "editoria", None)
+
         if editoria_uid:
             # Busca a editoria pelo UID
             editoria = api.content.get(UID=editoria_uid)
@@ -92,25 +92,30 @@ def noticia_added_modified(obj, event):
                 # Move para a pasta da editoria
                 if obj.aq_parent != editoria:
                     # Usa uma abordagem que não depende do sistema de locking
-                    with api.env.adopt_roles(['Manager']):
+                    with api.env.adopt_roles(["Manager"]):
                         try:
                             # Primeiro desbloqueia o objeto
-                            if hasattr(obj, '_p_jar') and obj._p_jar is not None:
+                            if hasattr(obj, "_p_jar") and obj._p_jar is not None:
                                 obj._p_jar.sync()
-                            
+
                             # Verifica se o objeto está bloqueado e desbloqueia
                             lockable = ILockable(obj, None)
                             if lockable and lockable.locked():
                                 lockable.clear_locks()
-                            
+
                             # Move o objeto
-                            editoria.manage_pasteObjects(obj.aq_parent.manage_cutObjects([obj.getId()]))
+                            editoria.manage_pasteObjects(
+                                obj.aq_parent.manage_cutObjects([obj.getId()])
+                            )
                             # Atualiza o campo editoria
                             obj.editoria = editoria_uid
                             obj.reindexObject()
-                            logger.info(f"Notícia movida para editoria: {editoria.absolute_url()}")
-                        except Exception as e:
-                            logger.error(f"Erro ao mover notícia: {str(e)}")
+                            logger.info(
+                                f"Notícia movida para editoria: "
+                                f"{editoria.absolute_url()}"
+                            )
+                        except ValueError as e:
+                            logger.error(f"Erro ao mover notícia: {e}")
                             raise
             else:
                 logger.warning(f"Editoria com UID {editoria_uid} não encontrada")
@@ -118,27 +123,31 @@ def noticia_added_modified(obj, event):
             # Move para a pasta noticias
             if obj.aq_parent != portal["noticias"]:
                 # Usa uma abordagem que não depende do sistema de locking
-                with api.env.adopt_roles(['Manager']):
+                with api.env.adopt_roles(["Manager"]):
                     try:
                         # Primeiro desbloqueia o objeto
-                        if hasattr(obj, '_p_jar') and obj._p_jar is not None:
+                        if hasattr(obj, "_p_jar") and obj._p_jar is not None:
                             obj._p_jar.sync()
-                        
+
                         # Verifica se o objeto está bloqueado e desbloqueia
                         lockable = ILockable(obj, None)
                         if lockable and lockable.locked():
                             lockable.clear_locks()
-                        
+
                         # Move o objeto
-                        portal["noticias"].manage_pasteObjects(obj.aq_parent.manage_cutObjects([obj.getId()]))
+                        portal["noticias"].manage_pasteObjects(
+                            obj.aq_parent.manage_cutObjects([obj.getId()])
+                        )
                         # Limpa o campo editoria
                         obj.editoria = None
                         obj.reindexObject()
-                        logger.info("Notícia movida para pasta noticias e campo editoria limpo")
-                    except Exception as e:
-                        logger.error(f"Erro ao mover notícia: {str(e)}")
+                        logger.info(
+                            "Notícia movida para pasta noticias e campo editoria limpo"
+                        )
+                    except ValueError as e:
+                        logger.error(f"Erro ao mover notícia: {e}")
                         raise
 
-    except Exception as e:
-        logger.error(f"Erro ao processar evento noticia_added_modified: {str(e)}")
+    except ValueError as e:
+        logger.error(f"Erro ao processar evento noticia_added_modified: {e}")
         raise

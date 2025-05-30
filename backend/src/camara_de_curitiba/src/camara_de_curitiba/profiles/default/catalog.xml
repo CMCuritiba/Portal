@@ -1,16 +1,24 @@
-<?xml version="1.0"?>
-<object name="portal_catalog" meta_type="Plone Catalog Tool">
-  <index name="portal_type" meta_type="FieldIndex">
-    <indexed_attr value="portal_type"/>
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Catalog Tool"
+        name="portal_catalog"
+>
+  <index meta_type="FieldIndex"
+         name="portal_type"
+  >
+    <indexed_attr value="portal_type" />
   </index>
-  <index name="review_state" meta_type="FieldIndex">
-    <indexed_attr value="review_state"/>
+  <index meta_type="FieldIndex"
+         name="review_state"
+  >
+    <indexed_attr value="review_state" />
   </index>
-  <index name="created" meta_type="DateIndex">
-    <indexed_attr value="created"/>
+  <index meta_type="DateIndex"
+         name="created"
+  >
+    <indexed_attr value="created" />
   </index>
-  <column value="portal_type"/>
-  <column value="review_state"/>
-  <column value="created"/>
-  <column value="path"/>
+  <column value="portal_type" />
+  <column value="review_state" />
+  <column value="created" />
+  <column value="path" />
 </object>

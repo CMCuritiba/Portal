@@ -1,14 +1,14 @@
-from plone.dexterity.interfaces import IDexterityFTI
-from zope.component import adapter
-from zope.interface import implementer, Interface
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zExceptions import Redirect
 from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
+from zExceptions import Redirect
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IBrowserRequest
 
 
 class IPartidoRedirect(Interface):
     """Interface para o adapter de redirecionamento de partido"""
-    pass
 
 
 @implementer(IPartidoRedirect)
@@ -21,7 +21,7 @@ class PartidoRedirect(object):
         self.request = request
 
     def __call__(self):
-        if self.context.getId() == 'partido':
+        if self.context.getId() == "partido":
             portal_url = api.portal.get().absolute_url()
-            raise Redirect(portal_url + '/controlpanel/partidos')
-        return None 
+            raise Redirect(portal_url + "/controlpanel/partidos")
+        return None

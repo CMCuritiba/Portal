@@ -13,7 +13,6 @@ li {
   font-size: 1rem;
 }
 
-
 .pr-136 {
   padding-right: 136px;
 }
@@ -26,7 +25,6 @@ li {
   .bottom-#{$size} {
     bottom: #{$size / 16}rem;
   }
-
 
   .space-#{$size} {
     > * + * {
@@ -48,7 +46,6 @@ li {
     width: #{$size / 16}rem;
   }
 
-
   .fs-#{$size} {
     font-size: #{$size / 16}rem;
 
@@ -63,12 +60,12 @@ li {
 
   .px-#{$size} {
     padding-left: #{$size / 16}rem;
-    padding-right: #{$size / 16}rem;;
+    padding-right: #{$size / 16}rem;
   }
 
   .py-#{$size} {
     padding-top: #{$size / 16}rem;
-    padding-bottom: #{$size / 16}rem;;
+    padding-bottom: #{$size / 16}rem;
   }
 
   .pb-#{$size} {
@@ -98,7 +95,6 @@ li {
   }
 }
 
-
 @media (max-width: 768px) {
   @each $size in $sizes {
     .mt-mb-#{$size} {
@@ -108,7 +104,6 @@ li {
     .bottom-mb-#{$size} {
       bottom: #{$size / 16}rem;
     }
-
 
     .space-mb-#{$size} {
       > * + * {

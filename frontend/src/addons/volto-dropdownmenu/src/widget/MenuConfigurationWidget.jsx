@@ -233,7 +233,7 @@ const MenuConfigurationWidget = ({
 
                         <TextWidget
                           id="title"
-                          title={"Título"}
+                          title={'Título'}
                           description=""
                           required={true}
                           value={menuConfiguration[activeMenu].title}

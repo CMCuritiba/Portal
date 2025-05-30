@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # from plone.app.textfield import RichText
 # from plone.autoform import directives
+from camara_de_curitiba import _
 from plone.dexterity.content import Container
 
 # from plone.namedfile import field as namedfile
@@ -10,8 +11,6 @@ from plone.supermodel import model
 # from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
 from zope.interface import implementer
-
-from camara_de_curitiba import _
 
 
 class IEditoria(model.Schema):
@@ -58,11 +57,11 @@ class IEditoria(model.Schema):
     # )
 
     cor_fundo = schema.Choice(
-        title=_(u'Cor de fundo'),
-        description=_(u'Selecione a cor de fundo da editoria'),
-        vocabulary='camara_de_curitiba.cores',
+        title=_("Cor de fundo"),
+        description=_("Selecione a cor de fundo da editoria"),
+        vocabulary="camara_de_curitiba.cores",
         required=True,
-        default='#FFFFFF'
+        default="#FFFFFF",
     )
 
 

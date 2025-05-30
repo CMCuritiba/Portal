@@ -4,13 +4,9 @@ from camara_de_curitiba.interfaces import ICamaraDeCuritibaLayer
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.restapi.controlpanels import RegistryConfigletPanel
-from plone.z3cform import layout
 from zope import schema
 from zope.component import adapter
-from zope.component import queryUtility
 from zope.interface import Interface
-
-import uuid
 
 
 class ILegislaturasSettings(Interface):

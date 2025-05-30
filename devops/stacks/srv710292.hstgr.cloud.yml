@@ -150,7 +150,7 @@ services:
         - traefik.http.routers.rt-frontend.service=svc-frontend
 
   backend:
-    image: ghcr.io/viniciusdotend/backend-cmc:2025-04-13-3
+    image: ghcr.io/cmcuritiba/portal/backend:homolog
     environment:
       RELSTORAGE_DSN: "dbname='${DB_NAME:-plone}' user='${DB_USER:-plone}' host='${DB_HOST:-db}' password='${DB_PASSWORD:-GvqroqFTzPNH}' port='${DB_PORT:-5432}'"
     depends_on:

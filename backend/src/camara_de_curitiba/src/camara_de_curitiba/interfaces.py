@@ -1,4 +1,3 @@
-from plone.autoform import directives as form
 from zope import schema
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer

@@ -1,11 +1,9 @@
 import PartidosControlPanel from './controlpanels/Partidos';
 import LegislaturasControlPanel from './controlpanels/Legislaturas';
-import ObjectListWithTitleWidget from "./widgets/ObjectListWithTitleWidget";
-import menuSVG from "./icons/logo-camara.svg";
+import ObjectListWithTitleWidget from './widgets/ObjectListWithTitleWidget';
+import menuSVG from './icons/logo-camara.svg';
 export default function applyConfig(config) {
-
   // Add manage view to controlpanels
-
 
   config.settings.controlpanels = [
     ...(config.settings.controlpanels || []),
@@ -13,14 +11,14 @@ export default function applyConfig(config) {
       '@id': 'legislaturas',
       group: 'Vereadores',
       title: 'Legislaturas',
-      icon: menuSVG
+      icon: menuSVG,
     },
     {
       '@id': 'partidos',
       group: 'Vereadores',
       title: 'Partidos políticos',
-      icon: menuSVG
-    }
+      icon: menuSVG,
+    },
   ];
 
   config.settings.controlPanelsIcons['partidos'] = menuSVG;
@@ -36,11 +34,9 @@ export default function applyConfig(config) {
       path: '/controlpanel/partidos',
       component: PartidosControlPanel,
     },
-
   ];
 
   config.widgets.widget.object_list_title = ObjectListWithTitleWidget;
 
   return config;
 }
-

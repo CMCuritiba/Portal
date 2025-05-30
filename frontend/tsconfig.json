@@ -26,6 +26,12 @@
             "@root/*": [
                 "."
             ],
+            "browser": [
+                "./browser"
+            ],
+            "querystring": [
+                "./browser/querystring"
+            ],
             "volto-camara-de-curitiba": [
                 "addons/volto-camara-de-curitiba/src"
             ],
@@ -41,8 +47,9 @@
             "volto-mui-banners": [
                 "addons/volto-mui-banners/src"
             ],
-            "browser": ["./browser"],
-            "querystring": ["./browser/querystring"]
+            "partidos-addon": [
+                "addons/partidos-addon/src"
+            ]
         },
         "baseUrl": "src"
     },

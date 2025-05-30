@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <metadata>
-  <version>1006</version>
+  <version>20250121001</version>
   <dependencies>
     <dependency>profile-plone.app.registry:default</dependency>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-plone.restapi:default</dependency>
     <dependency>profile-plone.volto:default</dependency>
+    <dependency>profile-pas.plugins.oidc:default</dependency>
+    <dependency>profile-pas.plugins.keycloakgroups:default</dependency>
   </dependencies>
 </metadata>

@@ -121,7 +121,7 @@ const Navigation = ({ pathname, type }) => {
 
   const menu = getItemsByPath(dropdownMenuNavItems, pathname);
 
-  console.log("menu", menu);
+  console.log('menu', menu);
   return (
     <nav
       className="navigation navigation-dropdownmenu"
