@@ -6,5 +6,7 @@
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-plone.restapi:default</dependency>
     <dependency>profile-plone.volto:default</dependency>
+    <dependency>profile-pas.plugins.oidc:default</dependency>
+    <dependency>profile-pas.plugins.keycloakgroups:default</dependency>
   </dependencies>
 </metadata>
