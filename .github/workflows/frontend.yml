@@ -2,7 +2,7 @@ name: Frontend CI
 
 on:
   push:
-    branches: [ "develop", "ajustes-workflow" ]
+    branches: [ "develop", "homolog", "main" ]
     paths:
       - "frontend/**"
       - ".github/workflows/frontend.yml"
@@ -84,6 +84,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set image tag based on branch
+        id: image-tag
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+            echo "tag=dev" >> $GITHUB_OUTPUT
+          elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          fi
+
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -91,10 +105,10 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}/frontend
           tags: |
-            type=raw,value=homolog
+            type=raw,value=${{ steps.image-tag.outputs.tag }}
             type=raw,value=${{ needs.version.outputs.version }}
           labels: |
-            org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:homolog
+            org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:${{ steps.image-tag.outputs.tag }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
