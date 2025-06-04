@@ -37,7 +37,7 @@
 # action aws-actions/amazon-ecs-deploy-task-definition.
 #
 
-name: Deploy Backend to Amazon ECS
+name: Deploy Frontend to Amazon ECS
 
 on:
   push:
