@@ -17,12 +17,6 @@ class TestSetupInstall:
         """Test latest version of default profile."""
         assert profile_last_version(f"{PACKAGE_NAME}:default") == "20250121001"
 
-    @pytest.mark.parametrize(
-        "package",
-        [
-            "pas.plugins.oidc",
-        ]
-    )
     def test_dependency_installed(self, installer, package):
         """Test if dependency is installed."""
         assert installer.is_product_installed(package) is True

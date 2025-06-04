@@ -33,7 +33,7 @@ def populate_portal(context):
     logger.info("Created initial content")
     # Update cover content
     content.update_home(portal, creators)
-    update_keycloak(portal)
+    #update_keycloak(portal)
 
 
 def update_keycloak(portal):
