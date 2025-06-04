@@ -3,6 +3,9 @@ name: Docker Build and Push
 on:
   push:
     branches: [ "develop", "main" ]
+    paths:
+      - "backend/src/**"
+      - ".github/workflows/backend.yml"
   workflow_dispatch:
 
 env:
@@ -10,8 +13,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}/backend
   PYTHON_VERSION: "3.11"
 
-jobs:
   meta:
+jobs:
     runs-on: ubuntu-latest
     outputs:
       PLONE_VERSION: ${{ steps.vars.outputs.PLONE_VERSION }}
