@@ -42,11 +42,6 @@ name: Deploy Backend to Amazon ECS
 on:
   push:
     branches: [ "develop", "main" ]
-  workflow_run:
-    workflows: ["Frontend CI"]
-    branches: [ "main" ]
-    types:
-      - completed
   workflow_dispatch:  # Permite executar manualmente
   
 permissions:
