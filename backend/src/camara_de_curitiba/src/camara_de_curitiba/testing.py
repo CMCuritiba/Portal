@@ -5,7 +5,6 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.testing.zope import WSGI_SERVER_FIXTURE
-from plone.app.testing import quickInstallProduct
 
 import camara_de_curitiba
 
@@ -19,12 +18,9 @@ class Layer(PloneSandboxLayer):
         # The z3c.autoinclude feature is disabled in the Plone fixture base
         # layer.
         import plone.restapi
-        import pas.plugins.oidc
 
         self.loadZCML(package=plone.restapi)
-        self.loadZCML(package=pas.plugins.oidc)
         self.loadZCML(package=camara_de_curitiba)
-        quickInstallProduct(app.plone, "pas.plugins.oidc")
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, "camara_de_curitiba:default")
