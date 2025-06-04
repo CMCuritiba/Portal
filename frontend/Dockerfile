@@ -11,6 +11,7 @@ RUN <<EOT
     rm -rf /var/lib/apt/lists/*
 EOT
 
+
 COPY --chown=node . /build/
 RUN corepack enable
 
