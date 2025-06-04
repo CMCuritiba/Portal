@@ -45,7 +45,8 @@ on:
     branches: [ "main" ]
     types:
       - completed
-
+  workflow_dispatch:  # Permite executar manualmente
+  
 permissions:
   contents: read
 
