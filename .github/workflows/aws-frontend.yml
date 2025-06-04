@@ -37,12 +37,12 @@
 # action aws-actions/amazon-ecs-deploy-task-definition.
 #
 
-name: Deploy to Amazon ECS
+name: Deploy Backend to Amazon ECS
 
 on:
   workflow_run:
-    workflows: ["backend.yml"]
-    branches: [ "main", "homolog" ]
+    workflows: ["Frontend CI"]
+    branches: [ "main" ]
     types:
       - completed
 
@@ -66,9 +66,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
         aws-region: ${{ secrets.DEV_AWS_REGION }}
 
-    - name: Deploy Backend on Amazon ECS
+    - name: Deploy Frontend on Amazon ECS
       run: |
         aws ecs update-service \
           --cluster "${{ secrets.DEV_ECS_CLUSTER }}" \
-          --service "${{ secrets.DEV_ECS_SERVICE_BACKEND }}" \
+          --service "${{ secrets.DEV_ECS_SERVICE_FRONTEND }}" \
           --cli-input-json '{"forceNewDeployment": true}' >/dev/null
