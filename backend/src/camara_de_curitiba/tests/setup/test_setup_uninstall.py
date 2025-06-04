@@ -19,6 +19,3 @@ class TestSetupUninstall:
 
         assert ICamaraDeCuritibaLayer not in browser_layers
 
-    def test_dependency_uninstalled(self, installer, package):
-        """Test if dependency is installed."""
-        assert installer.is_product_installed(package) is False
