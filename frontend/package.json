@@ -34,6 +34,7 @@
   ],
   "addons": [
     "volto-camara-de-curitiba",
+    "@plone-collective/volto-authomatic",
     "volto-mui-blocks",
     "volto-dropdownmenu",
     "partidos-addon"
@@ -94,6 +95,7 @@
     "@mui/icons-material": "^6.4.1",
     "@mui/material": "^6.4.1",
     "@mui/system": "next",
+    "@plone-collective/volto-authomatic": "*",
     "@plone/scripts": "^3.6.0",
     "@plone/volto": "18.6.0",
     "@redux-devtools/extension": "^3.3.0",
