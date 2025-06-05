@@ -14,6 +14,9 @@ from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @provider(IVocabularyFactory)
@@ -54,7 +57,7 @@ def NoticiasFilhasVocabulary(context):
                 )
             )
         except (AttributeError, TypeError) as e:
-            print("Error:", e)
+            logger.error("Error: %s", e)
             continue
 
     vocab = SimpleVocabulary(terms)
@@ -144,5 +147,5 @@ class Editoria(Container):
             valid_values = [term.value for term in vocab]
             result = all(v in valid_values for v in value)
             return result
-        except Exception as e:
+        except Exception:
             return True  # Em caso de erro, permite o valor para não bloquear a edição
