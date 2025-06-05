@@ -3,31 +3,22 @@
 # from plone.autoform import directives
 from camara_de_curitiba import _
 from plone.dexterity.content import Container
-from plone.app.vocabularies.catalog import CatalogSource
-from plone.app.contenttypes.behaviors.richtext import IRichText
-from plone.app.contenttypes.interfaces import INewsItem
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implementer
 from plone.supermodel import model
 from zope import schema
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import provider
-from plone.app.vocabularies.catalog import parse_query
 from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from Acquisition import aq_inner, aq_parent
-from zope.interface import Interface
-from zope.component import adapter
-from plone.restapi.interfaces import ISerializeToJson
-from plone.restapi.serializer.converters import json_compatible
 
 
 @provider(IVocabularyFactory)
 def NoticiasFilhasVocabulary(context):
     """Vocabulário para notícias filhas da editoria"""
-    catalog = getToolByName(context, 'portal_catalog')
-    
+    catalog = getToolByName(context, "portal_catalog")
+
     # Se o contexto for uma editoria, usa ele mesmo
     if IEditoria.providedBy(context):
         editoria = context
@@ -44,13 +35,13 @@ def NoticiasFilhasVocabulary(context):
     if not editoria:
         return SimpleVocabulary([])
 
-    path = '/'.join(editoria.getPhysicalPath())
+    path = "/".join(editoria.getPhysicalPath())
     print("Path da editoria:", path)
     results = catalog(
-        portal_type='News Item',
-        path={'query': path, 'depth': 1},
-        sort_on='sortable_title',
-        sort_order='ascending'
+        portal_type="News Item",
+        path={"query": path, "depth": 1},
+        sort_on="sortable_title",
+        sort_order="ascending",
     )
     print("Results:", results)
 
@@ -58,11 +49,11 @@ def NoticiasFilhasVocabulary(context):
     for brain in results:
         try:
             print("Brain:", brain.Title, brain.UID)
-            terms.append(SimpleTerm(
-                value=brain.UID,
-                token=brain.UID,
-                title=brain.Title or brain.getId
-            ))
+            terms.append(
+                SimpleTerm(
+                    value=brain.UID, token=brain.UID, title=brain.Title or brain.getId
+                )
+            )
         except (AttributeError, TypeError) as e:
             print("Error:", e)
             continue
@@ -151,7 +142,9 @@ class Editoria(Container):
             return True
 
         try:
-            vocab = getUtility(IVocabularyFactory, name="camara_de_curitiba.noticias_filhas")(self)
+            vocab = getUtility(
+                IVocabularyFactory, name="camara_de_curitiba.noticias_filhas"
+            )(self)
             valid_values = [term.value for term in vocab]
             print("Valores válidos:", valid_values)
             print("Valores a validar:", value)

@@ -14,10 +14,10 @@ from camara_de_curitiba.content.editoria import IEditoria
 class ParentSerializer(SerializeToJson):
     def __call__(self, *args, **kwargs):
         result = super(ParentSerializer, self).__call__(*args, **kwargs)
-        
+
         # Obtém o parent do contexto
         parent = self.context.__parent__
-        
+
         # Verifica se o parent é uma editoria usando a interface
         if parent and IEditoria.providedBy(parent):
             # Adiciona a cor de fundo ao resultado
@@ -26,7 +26,7 @@ class ParentSerializer(SerializeToJson):
                 "@id": parent.absolute_url(),
                 "title": parent.title,
                 "description": parent.description,
-                "cor_fundo": json_compatible(parent.cor_fundo)
+                "cor_fundo": json_compatible(parent.cor_fundo),
             }
         else:
             # Verifica se o conteúdo tem o behavior de editoria
@@ -40,7 +40,7 @@ class ParentSerializer(SerializeToJson):
                             "@id": editoria.absolute_url(),
                             "title": editoria.title,
                             "description": editoria.description,
-                            "cor_fundo": json_compatible(editoria.cor_fundo)
+                            "cor_fundo": json_compatible(editoria.cor_fundo),
                         }
-            
-        return result 
+
+        return result
