@@ -147,5 +147,5 @@ class Editoria(Container):
             valid_values = [term.value for term in vocab]
             result = all(v in valid_values for v in value)
             return result
-        except Exception:
+        except (LookupError, AttributeError, TypeError):
             return True  # Em caso de erro, permite o valor para não bloquear a edição
