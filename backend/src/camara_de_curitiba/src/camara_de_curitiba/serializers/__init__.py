@@ -1,3 +1,3 @@
 from .parent import ParentSerializer
 
-__all__ = ['ParentSerializer']
+__all__ = ["ParentSerializer"]

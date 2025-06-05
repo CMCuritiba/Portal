@@ -43,7 +43,11 @@ def event_added(obj, event):
 
     # Se o vereador não estiver na página correta, move
     if obj.aq_parent != portal["institucional"]["agenda-de-atividades"]:
-        api.content.move(source=obj, target=portal["institucional"]["agenda-de-atividades"], safe_id=True)
+        api.content.move(
+            source=obj,
+            target=portal["institucional"]["agenda-de-atividades"],
+            safe_id=True,
+        )
 
 
 @implementer(IObjectAddedEvent)
