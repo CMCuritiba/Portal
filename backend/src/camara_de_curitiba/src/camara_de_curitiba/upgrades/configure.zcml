@@ -3,17 +3,16 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     >
 
-  <!-- Example upgrade step
   <genericsetup:upgradeSteps
       profile="camara_de_curitiba:default"
-      source="20250121001"
-      destination="20230229001"
+      source="6108"
+      destination="1000"
       >
     <genericsetup:upgradeDepends
         title="Update registry value"
         import_steps="plone.app.registry"
         />
   </genericsetup:upgradeSteps>
-  -->
+
 
 </configure>

@@ -7,7 +7,7 @@ class TestSetupUninstall:
     @pytest.fixture(autouse=True)
     def uninstalled(self, installer):
         installer.uninstall_product(PACKAGE_NAME)
-        #installer.uninstall_product('pas.plugins.oidc')
+        # installer.uninstall_product('pas.plugins.oidc')
 
     def test_product_uninstalled(self, installer):
         """Test if camara_de_curitiba is cleanly uninstalled."""
@@ -18,4 +18,3 @@ class TestSetupUninstall:
         from camara_de_curitiba.interfaces import ICamaraDeCuritibaLayer
 
         assert ICamaraDeCuritibaLayer not in browser_layers
-

@@ -1,12 +1,12 @@
+from camara_de_curitiba.content.behaviors import IEditoriaBehavior
+from camara_de_curitiba.content.editoria import IEditoria
+from plone.api import content
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.serializer.dxcontent import SerializeToJson
-from plone.api import content
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-from camara_de_curitiba.content.behaviors import IEditoriaBehavior
-from camara_de_curitiba.content.editoria import IEditoria
 
 
 @implementer(ISerializeToJson)
@@ -14,10 +14,10 @@ from camara_de_curitiba.content.editoria import IEditoria
 class ParentSerializer(SerializeToJson):
     def __call__(self, *args, **kwargs):
         result = super(ParentSerializer, self).__call__(*args, **kwargs)
-        
+
         # Obtém o parent do contexto
         parent = self.context.__parent__
-        
+
         # Verifica se o parent é uma editoria usando a interface
         if parent and IEditoria.providedBy(parent):
             # Adiciona a cor de fundo ao resultado
@@ -42,5 +42,5 @@ class ParentSerializer(SerializeToJson):
                             "description": editoria.description,
                             "cor_fundo": json_compatible(editoria.cor_fundo)
                         }
-            
-        return result 
+
+        return result

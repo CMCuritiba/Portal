@@ -1,6 +1,7 @@
 from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 @provider(IVocabularyFactory)
@@ -36,4 +37,4 @@ def cargos_corregedoria_vocabulary(context):
         SimpleTerm('primeira-vice-corregedora', 'primeira-vice-corregedora', '1ª Vice-corregedora'),
         SimpleTerm('segunda-vice-corregedora', 'segunda-vice-corregedora', '2ª Vice-corregedora'),
     ]
-    return SimpleVocabulary(terms) 
+    return SimpleVocabulary(terms)
