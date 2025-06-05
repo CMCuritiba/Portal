@@ -1,7 +1,8 @@
-import { CategoriaView } from './components';
-import VereadoresListView from './components/VereadoresView/VereadoresListView';
-import VereadorItemView from './components/VereadoresView/VereadorItemView';
-import MyMenuConfigurationForm from './components/MyMenuConfigurationForm';
+import {CategoriaView} from "./components";
+import VereadoresListView from "./components/VereadoresView/VereadoresListView";
+import VereadorItemView from "./components/VereadoresView/VereadorItemView";
+import AgendaItemView from "./components/AgendaView/AgendaItemView";
+import EditoriaItemView from "./components/EditoriaView/EditoriaItemView";
 const applyConfig = (config) => {
   config.settings = {
     ...config.settings,
@@ -13,6 +14,8 @@ const applyConfig = (config) => {
   config.views.contentTypesViews = {
     ...config.views.contentTypesViews,
     vereador: VereadorItemView, // Associa a visualização ao novo tipo de conteúdo
+    Editoria: EditoriaItemView, // Associa a visualização ao novo tipo de conteúdo
+    Event: AgendaItemView
   };
 
   config.addonRoutes = [
@@ -26,29 +29,52 @@ const applyConfig = (config) => {
     'News Item': [
       { '@type': 'title' },
       {
-        '@type': 'slate',
-        plaintext: 'Author',
-        cssClass: 'Class',
-        styles: {},
-        value: [
+        "@type": "slate",
+        "plaintext": "Author",
+        "cssClass" : "Class",
+        "styles": {
+        },
+        "value": [
           {
-            children: [
+            "children": [
               {
-                children: [
+                "children": [
                   {
-                    text: 'Author',
-                    cssClass: 'Class',
-                  },
+                    "text": "Author",
+                    "cssClass" : "Class",
+                  }
                 ],
-                type: 'em',
-                cssClass: 'Class',
+                "type": "em",
+                "cssClass" : "Class",
               },
             ],
-            cssClass: 'Class',
-            type: 'p',
-          },
-        ],
+            "cssClass" : "Class",
+            "type": "p"
+          }
+        ]
       },
+    ],
+    'Event': [
+      { '@type': 'title', 'plaintext': 'Título do evento'},
+      { '@type': 'image' },
+      {
+        '@type': 'slate',
+        'plaintext': 'Descrição do Evento',
+        'cssClass': 'Class',
+        'styles': {},
+        'value': [
+          {
+            'type': 'p',
+            'cssClass': 'Class',
+            'children': [
+              {
+                'text': 'Descrição do evento aqui...',
+                'cssClass': 'Class',
+              }
+            ]
+          }
+        ]
+      }
     ],
   };
   return config;

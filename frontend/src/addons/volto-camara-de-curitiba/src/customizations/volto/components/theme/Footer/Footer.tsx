@@ -29,7 +29,7 @@ const Footer = () => {
       </Stack>
       <Stack className={'footer-stack'}>
         <div className="container">
-          <div className="stack row flex-between gap-24 stack-footer flex-column-mb">
+          <div className="stack row flex-between gap-24 stack-footer flex-column-reverse-mb">
             <Stack className="column min-w-224 pr-32" sx={{ gap: '17px' }}>
               <img
                 src="/logo-footer.svg"

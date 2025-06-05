@@ -13,7 +13,7 @@
       <paths name="srv710292.hstgr.cloud">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$/frontend/" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$/frontend/build/" web="/" />
           </mappings>
         </serverdata>
       </paths>

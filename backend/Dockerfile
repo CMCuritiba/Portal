@@ -33,3 +33,9 @@ RUN <<EOT
     set -e
     ln -s /data /app/var
 EOT
+
+# Adiciona variáveis de ambiente para Keycloak
+ENV KEYCLOAK_CLIENT_SECRET=""
+ENV KEYCLOAK_CLIENT_ID=""
+ENV KEYCLOAK_ISSUER=""
+ENV KEYCLOAK_OPEN_ID_SCOPES=""

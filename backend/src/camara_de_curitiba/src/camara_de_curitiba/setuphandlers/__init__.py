@@ -4,6 +4,7 @@ from camara_de_curitiba.setuphandlers import users
 from plone import api
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
+import os
 
 
 @implementer(INonInstallable)
@@ -32,3 +33,5 @@ def populate_portal(context):
     logger.info("Created initial content")
     # Update cover content
     content.update_home(portal, creators)
+    #update_keycloak(portal)
+
