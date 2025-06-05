@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 # from plone.app.textfield import RichText
 # from plone.autoform import directives
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from camara_de_curitiba import _
 from plone.dexterity.content import Container
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from zope.interface import implementer
 from plone.supermodel import model
-from zope import schema
-from zope.schema.interfaces import IVocabularyFactory
-from zope.interface import provider
-from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-from Acquisition import aq_inner, aq_parent
+from zope import schema
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 @provider(IVocabularyFactory)
@@ -36,19 +38,16 @@ def NoticiasFilhasVocabulary(context):
         return SimpleVocabulary([])
 
     path = "/".join(editoria.getPhysicalPath())
-    print("Path da editoria:", path)
     results = catalog(
         portal_type="News Item",
         path={"query": path, "depth": 1},
         sort_on="sortable_title",
         sort_order="ascending",
     )
-    print("Results:", results)
 
     terms = []
     for brain in results:
         try:
-            print("Brain:", brain.Title, brain.UID)
             terms.append(
                 SimpleTerm(
                     value=brain.UID, token=brain.UID, title=brain.Title or brain.getId
@@ -59,7 +58,6 @@ def NoticiasFilhasVocabulary(context):
             continue
 
     vocab = SimpleVocabulary(terms)
-    print("Vocabulary terms:", [term.token for term in vocab])
     return vocab
 
 
@@ -136,9 +134,7 @@ class Editoria(Container):
 
     def _validate_noticias_mais_lidas(self, value):
         """Validação personalizada para o campo noticias_mais_lidas"""
-        print("Validando noticias_mais_lidas:", value)
         if not value:
-            print("Valor vazio, retornando True")
             return True
 
         try:
@@ -146,11 +142,7 @@ class Editoria(Container):
                 IVocabularyFactory, name="camara_de_curitiba.noticias_filhas"
             )(self)
             valid_values = [term.value for term in vocab]
-            print("Valores válidos:", valid_values)
-            print("Valores a validar:", value)
             result = all(v in valid_values for v in value)
-            print("Resultado da validação:", result)
             return result
         except Exception as e:
-            print("Erro na validação:", str(e))
             return True  # Em caso de erro, permite o valor para não bloquear a edição
