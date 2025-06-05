@@ -1,11 +1,7 @@
 name: Bump Version and Update Changelog for Frontend
 
 on:
-  push:
-    branches:
-      - develop
-      - homolog
-      - main
+  workflow_dispatch:
 
 jobs:
   bump-version:
@@ -46,10 +42,11 @@ jobs:
             git add frontend/package.json frontend/CHANGELOG.md
             git commit -m "Bump frontend version and update changelog"
             git push origin "$branch_name"
+
       - name: Create and merge pull request
         uses: peter-evans/create-pull-request@v5
         with:
-            branch: bump-frontend-version-${{ github.ref_name }}
+          branch: bump-frontend-version-${{ github.ref_name }}
           base: ${{ branch_name }}
           title: "Bump Frontend Version and Update Changelog"
           body: "This PR updates the version in 'package.json' and regenerates the 'CHANGELOG.md'."
