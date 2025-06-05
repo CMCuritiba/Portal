@@ -1,4 +1,3 @@
-import pytest
 from camara_de_curitiba import PACKAGE_NAME
 
 

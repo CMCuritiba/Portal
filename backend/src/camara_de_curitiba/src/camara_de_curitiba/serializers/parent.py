@@ -26,7 +26,7 @@ class ParentSerializer(SerializeToJson):
                 "@id": parent.absolute_url(),
                 "title": parent.title,
                 "description": parent.description,
-                "cor_fundo": json_compatible(parent.cor_fundo)
+                "cor_fundo": json_compatible(parent.cor_fundo),
             }
         else:
             # Verifica se o conteúdo tem o behavior de editoria
@@ -40,7 +40,7 @@ class ParentSerializer(SerializeToJson):
                             "@id": editoria.absolute_url(),
                             "title": editoria.title,
                             "description": editoria.description,
-                            "cor_fundo": json_compatible(editoria.cor_fundo)
+                            "cor_fundo": json_compatible(editoria.cor_fundo),
                         }
 
         return result

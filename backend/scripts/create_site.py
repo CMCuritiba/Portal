@@ -66,13 +66,19 @@ if site_id not in app.objectIds():
 
     # Atualiza o registry do Keycloak diretamente no contexto do site criado
     registry = site.portal_registry
-    prefix = 'keycloak_groups.'
-    registry[f'{prefix}client_id'] = os.environ.get('KEYCLOAK_CLIENT_ID', 'plone-admin')
-    registry[f'{prefix}client_secret'] = os.environ.get('KEYCLOAK_CLIENT_SECRET', '12345678')
-    registry[f'{prefix}enabled'] = True
-    registry[f'{prefix}realm_name'] = os.environ.get('KEYCLOAK_REALM_NAME', 'plone-teste')
-    registry[f'{prefix}server_url'] = os.environ.get('KEYCLOAK_ISSUER', 'http://sso.localhost')
-    registry[f'{prefix}verify'] = False
+    prefix = "keycloak_groups."
+    registry[f"{prefix}client_id"] = os.environ.get("KEYCLOAK_CLIENT_ID", "plone-admin")
+    registry[f"{prefix}client_secret"] = os.environ.get(
+        "KEYCLOAK_CLIENT_SECRET", "12345678"
+    )
+    registry[f"{prefix}enabled"] = True
+    registry[f"{prefix}realm_name"] = os.environ.get(
+        "KEYCLOAK_REALM_NAME", "plone-teste"
+    )
+    registry[f"{prefix}server_url"] = os.environ.get(
+        "KEYCLOAK_ISSUER", "http://sso.localhost"
+    )
+    registry[f"{prefix}verify"] = False
 
     transaction.commit()
     app._p_jar.sync()
