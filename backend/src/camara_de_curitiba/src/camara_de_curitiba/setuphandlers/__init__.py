@@ -35,17 +35,3 @@ def populate_portal(context):
     content.update_home(portal, creators)
     #update_keycloak(portal)
 
-
-def update_keycloak(portal):
-    """Set keycloak information on acl_users."""
-    plugin = portal.acl_users.oidc
-    payload = {
-        "issuer": os.environ.get("KEYCLOAK_ISSUER", "http://sso.localhost/realms/plone"),
-        "client_id": os.environ.get("KEYCLOAK_CLIENT_ID", "plone"),
-        "client_secret": os.environ.get("KEYCLOAK_CLIENT_SECRET", "12345678"),  # nosec B105
-        "scope": os.environ.get("KEYCLOAK_OPEN_ID_SCOPES", "openid,profile,email").split(","),
-        "create_restapi_ticket": True,
-        "redirect_uris": [os.environ.get("KEYCLOAK_REDIRECT_URI", "http://localhost:3000/login-oidc/oidc")],
-    }
-    for key, value in payload.items():
-        setattr(plugin, key, value)
