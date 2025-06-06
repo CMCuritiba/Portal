@@ -875,6 +875,12 @@ del.active {
   padding-top: 0px !important;
 }
 
+.siteroot {
+  .breadcrumbs + .ui.basic.segment.content-area {
+    padding-top: 32px !important;
+  }
+}
+
 .block.image figure.center.large figcaption {
   box-shadow: none !important;
   margin-top: 0px;
