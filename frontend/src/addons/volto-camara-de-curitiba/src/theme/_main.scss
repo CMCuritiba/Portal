@@ -867,6 +867,10 @@ del.active {
   margin-top: 24px !important;
 }
 
+.bannerCarousel a.external:after {
+  display: none !important;
+}
+
 .breadcrumbs + .ui.basic.segment.content-area {
   padding-top: 0px !important;
 }
