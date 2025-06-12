@@ -1431,4 +1431,12 @@ figure {
     background-color: white;
   }
 }
+
+blockquote {
+  line-height: 1.4;
+  background: #caf7f9;
+  border-left: solid 12px #3e8a8e;
+  padding: 20px;
+}
+
 @import "mobile";
