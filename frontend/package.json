@@ -33,6 +33,7 @@
     "src/addons/partidos-addon"
   ],
   "addons": [
+    "@plone-collective/volto-authomatic",
     "volto-camara-de-curitiba",
     "volto-mui-blocks",
     "volto-dropdownmenu",
