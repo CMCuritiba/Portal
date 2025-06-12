@@ -75,7 +75,7 @@ const View: React.FC<ViewProps> = ({ data, isEditMode }) => {
                 >
                   {item?.image && (
                     <Image
-                      className="w-100 h-auto aspect-ratio-1116-200"
+                      className="w-100 h-auto"
                       loading="lazy"
                       src={`${item.image}/@@images/image`}
                     />

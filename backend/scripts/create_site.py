@@ -63,3 +63,8 @@ if site_id not in app.objectIds():
     site = addPloneSite(app, site_id, **payload)
     transaction.commit()
     app._p_jar.sync()
+
+    transaction.commit()
+    app._p_jar.sync()
+
+    # Atualiza o registry do Keycloak após criar o site

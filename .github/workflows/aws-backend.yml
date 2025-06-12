@@ -37,12 +37,12 @@
 # action aws-actions/amazon-ecs-deploy-task-definition.
 #
 
-name: Deploy to Amazon ECS
+name: Deploy Backend to Amazon ECS
 
 on:
   workflow_run:
-    workflows: ["Docker Build and Push"]
-    branches: [ "master", "homolog" ]
+    workflows: ["backend.yml"]
+    branches: [ "main", "homolog" ]
     types:
       - completed
 

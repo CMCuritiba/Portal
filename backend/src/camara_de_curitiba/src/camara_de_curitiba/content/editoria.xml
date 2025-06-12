@@ -6,5 +6,15 @@
        i18n:domain="camara_de_curitiba"
 >
   <schema>
-</schema>
+    <field i18n:description="Selecione as notícias que devem aparecer como mais lidas"
+           i18n:title="Notícias mais lidas"
+           name="noticias_mais_lidas"
+           type="zope.schema.List"
+    >
+      <description>Selecione as notícias que devem aparecer como mais lidas</description>
+      <value_type type="zope.schema.Choice">
+        <vocabulary>camara_de_curitiba.noticias_filhas</vocabulary>
+      </value_type>
+    </field>
+  </schema>
 </model>

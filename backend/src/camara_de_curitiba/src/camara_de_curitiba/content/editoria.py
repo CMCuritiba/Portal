@@ -1,16 +1,67 @@
 # -*- coding: utf-8 -*-
 # from plone.app.textfield import RichText
 # from plone.autoform import directives
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from camara_de_curitiba import _
 from plone.dexterity.content import Container
-
-# from plone.namedfile import field as namedfile
 from plone.supermodel import model
-
-# from plone.supermodel.directives import fieldset
-# from z3c.form.browser.radio import RadioFieldWidget
+from Products.CMFCore.utils import getToolByName
 from zope import schema
+from zope.component import getUtility
 from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+@provider(IVocabularyFactory)
+def NoticiasFilhasVocabulary(context):
+    """Vocabulário para notícias filhas da editoria"""
+    catalog = getToolByName(context, "portal_catalog")
+
+    # Se o contexto for uma editoria, usa ele mesmo
+    if IEditoria.providedBy(context):
+        editoria = context
+    else:
+        # Se não for, tenta pegar a editoria do contexto
+        try:
+            editoria = aq_parent(aq_inner(context))
+            while editoria and not IEditoria.providedBy(editoria):
+                editoria = aq_parent(aq_inner(editoria))
+        except (AttributeError, TypeError):
+            # Se não conseguir acessar o parent, retorna vocabulário vazio
+            return SimpleVocabulary([])
+
+    if not editoria:
+        return SimpleVocabulary([])
+
+    path = "/".join(editoria.getPhysicalPath())
+    results = catalog(
+        portal_type="News Item",
+        path={"query": path, "depth": 1},
+        sort_on="sortable_title",
+        sort_order="ascending",
+    )
+
+    terms = []
+    for brain in results:
+        try:
+            terms.append(
+                SimpleTerm(
+                    value=brain.UID, token=brain.UID, title=brain.Title or brain.getId
+                )
+            )
+        except (AttributeError, TypeError) as e:
+            logger.error("Error: %s", e)
+            continue
+
+    vocab = SimpleVocabulary(terms)
+    return vocab
 
 
 class IEditoria(model.Schema):
@@ -64,7 +115,37 @@ class IEditoria(model.Schema):
         default="#FFFFFF",
     )
 
+    noticias_mais_lidas = schema.List(
+        title=_("Notícias mais lidas"),
+        description=_("Selecione as notícias que devem aparecer como mais lidas"),
+        value_type=schema.Choice(
+            vocabulary="camara_de_curitiba.noticias_filhas",
+            required=False,
+        ),
+        required=False,
+        default=[],
+    )
+
 
 @implementer(IEditoria)
 class Editoria(Container):
     """Content-type class for IEditoria"""
+
+    def __init__(self, *args, **kwargs):
+        super(Editoria, self).__init__(*args, **kwargs)
+        self.noticias_mais_lidas = []
+
+    def _validate_noticias_mais_lidas(self, value):
+        """Validação personalizada para o campo noticias_mais_lidas"""
+        if not value:
+            return True
+
+        try:
+            vocab = getUtility(
+                IVocabularyFactory, name="camara_de_curitiba.noticias_filhas"
+            )(self)
+            valid_values = [term.value for term in vocab]
+            result = all(v in valid_values for v in value)
+            return result
+        except (LookupError, AttributeError, TypeError):
+            return True  # Em caso de erro, permite o valor para não bloquear a edição

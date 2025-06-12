@@ -34,6 +34,24 @@ def vereador_added(obj, event):
 
 @implementer(IObjectAddedEvent)
 @adapter(IDexterityContent)
+def event_added(obj, event):
+    """Evento disparado quando um event é criado"""
+    if obj.portal_type != "Event":
+        return
+
+    portal = api.portal.get()
+
+    # Se o vereador não estiver na página correta, move
+    if obj.aq_parent != portal["institucional"]["agenda-de-atividades"]:
+        api.content.move(
+            source=obj,
+            target=portal["institucional"]["agenda-de-atividades"],
+            safe_id=True,
+        )
+
+
+@implementer(IObjectAddedEvent)
+@adapter(IDexterityContent)
 def editoria_added(obj, event):
     """Evento disparado quando uma editoria é criada"""
     logger.info(f"Evento editoria_added disparado para {obj.portal_type}")
