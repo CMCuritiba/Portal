@@ -1439,4 +1439,20 @@ blockquote {
   padding: 20px;
 }
 
+.ui.styled.accordion, .ui.styled.accordion .accordion {
+  background-color: transparent !important;
+}
+
+.accordion-block .ui.styled.accordion .title.accordion-title>svg, .block-editor-accordion .ui.styled.accordion .title.accordion-title>svg {
+  height: 30px !important;
+}
+
+.accordion-block .ui.styled.accordion .title.accordion-title>span {
+  font-size: 20px !important;
+  line-height: normal !important;
+}
+.accordion-block .ui.styled.accordion, .block-editor-accordion .ui.styled.accordion, .accordion-block .ui.styled.accordion:last-child, .block-editor-accordion .ui.styled.accordion:last-child {
+  border-top: 1px solid #919EAB33 !important;
+}
+
 @import "mobile";
