@@ -1,12 +1,12 @@
+from camara_de_curitiba.content.behaviors import IEditoriaBehavior
+from camara_de_curitiba.content.editoria import IEditoria
+from plone.api import content
 from plone.restapi.interfaces import ISerializeToJson
 from plone.restapi.serializer.converters import json_compatible
 from plone.restapi.serializer.dxcontent import SerializeToJson
-from plone.api import content
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-from camara_de_curitiba.content.behaviors import IEditoriaBehavior
-from camara_de_curitiba.content.editoria import IEditoria
 
 
 @implementer(ISerializeToJson)

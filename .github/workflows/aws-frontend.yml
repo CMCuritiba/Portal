@@ -40,10 +40,12 @@
 name: Deploy Frontend to Amazon ECS
 
 on:
-  push:
-    branches: [ "develop", "main" ]
-  workflow_dispatch:  # Permite executar manualmente
-  
+  workflow_run:
+    workflows: ["frontend.yml"]
+    branches: [ "main", "homolog" ]
+    types:
+      - completed
+
 permissions:
   contents: read
 

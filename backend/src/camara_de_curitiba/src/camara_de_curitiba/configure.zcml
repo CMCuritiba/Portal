@@ -72,4 +72,6 @@
       component="camara_de_curitiba.content.vocabularies.cargos_corregedoria_vocabulary"
       />
 
+  <include package=".upgrades" />
+
 </configure>
