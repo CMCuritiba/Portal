@@ -702,7 +702,7 @@ del.active {
 }
 
 #page-document .blocks-group-wrapper > h3 {
-  line-height: 1 !important;
+
 }
 
 .contenttype-news-item .content-area {
@@ -830,7 +830,6 @@ del.active {
 }
 
 .contenttype-news-item #page-document .blocks-group-wrapper > h3 {
-  line-height: 1.4 !important;
 }
 
 @media (max-width: 768px) {
@@ -1453,6 +1452,28 @@ blockquote {
 }
 .accordion-block .ui.styled.accordion, .block-editor-accordion .ui.styled.accordion, .accordion-block .ui.styled.accordion:last-child, .block-editor-accordion .ui.styled.accordion:last-child {
   border-top: 1px solid #919EAB33 !important;
+}
+
+.ui.styled.accordion, .ui.styled.accordion .accordion {
+  background-color: transparent !important;
+}
+
+.accordion-block .ui.styled.accordion .title.accordion-title>svg, .block-editor-accordion .ui.styled.accordion .title.accordion-title>svg {
+  height: 30px !important;
+}
+
+.accordion-block .ui.styled.accordion .title.accordion-title>span {
+  font-size: 20px !important;
+  line-height: normal !important;
+  color: #212B36;
+}
+.accordion-block .ui.styled.accordion, .block-editor-accordion .ui.styled.accordion, .accordion-block .ui.styled.accordion:last-child, .block-editor-accordion .ui.styled.accordion:last-child {
+  border-bottom: 1px solid #919EAB33 !important;
+}
+
+.block.maps.center, .block.maps.full, .block.maps.wide {
+  margin-top: 24px !important;
+  margin-bottom: 24px !important;
 }
 
 @import "mobile";
