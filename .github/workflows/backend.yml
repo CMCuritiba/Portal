@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: Docker Build and Push Backend
 
 on:
   push:
@@ -152,8 +152,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            KEYCLOAK_CLIENT_SECRET=${{ secrets.OIDC_CLIENT_SECRET }}
-            KEYCLOAK_CLIENT_ID=${{ secrets.OIDC_CLIENT_ID }}
-            KEYCLOAK_ISSUER=${{ secrets.OIDC_ISSUER }}
-            KEYCLOAK_OPEN_ID_SCOPES=${{ secrets.OIDC_OPEN_ID_SCOPES }}
