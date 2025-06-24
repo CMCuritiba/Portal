@@ -104,7 +104,6 @@ gitGraph
     merge feat/auth
     checkout homolog
     merge develop
-    commit
     checkout main
     merge homolog
     commit
@@ -159,8 +158,11 @@ como indicado por sua versão normal associada.
   1. Merge de `develop` para `homolog` via PR.
   2. Pull Requests (PRs) são revisados e exigem aprovação.
   3. Tag da versão pré-lançamento seguindo SemVer (`1.1.0-homolog`, `1.1.0-homolog.1`).
-  4. Versão de build (`1.1.0-homolog+001`, `1.1.0-homolog+20250624174000`) pode ser usada.
-  5. Deploy em ambiente de homologação para validação.
+  4. Versão de build (`1.1.0-homolog+001`, `1.1.0-homolog+20250624174000`)
+     pode ser usada (para uma versão somente com alterações no processo de
+     build, não no código da aplicação).
+  5. Atualização da tag `homolog` para a nova versão.
+  6. Deploy em ambiente de homologação para validação.
 
 ### Produção
 
@@ -169,7 +171,8 @@ como indicado por sua versão normal associada.
   1. Merge de `develop` para `main` via PR.
   2. Pull Requests (PRs) são revisados e exigem aprovação.
   3. Tag da versão seguindo SemVer (`1.1.0`).
-  4. Deploy em produção.
+  4. Atualização da tag `latest` para a nova versão.
+  5. Deploy em produção.
 
 ### Tratamento de Hotfixes
 
