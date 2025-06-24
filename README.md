@@ -108,7 +108,8 @@ make i18n
 Toda contribuição é bem vinda!
 
 Para ajudar-nos a manter o bom trabalho, por favor leia nossas
-[diretrizes](.github/CONTRIBUTING.md) e
+[diretrizes](.github/CONTRIBUTING.md),
+[política de versionamento](./docs/versionamento.md) e
 [código de conduta](.github/CODE_OF_CONDUCT.md).
 
 ## Créditos e Agradecimentos 🙏
