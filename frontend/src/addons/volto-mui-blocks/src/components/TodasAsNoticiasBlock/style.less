@@ -133,3 +133,79 @@ h2, h3 {
 img {
   border-radius: 8px;
 }
+
+.todas-as-noticias-block {
+  .title-back {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 24px;
+  }
+
+  .itens {
+    .item {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .thumbnail {
+        img {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 4px;
+        }
+      }
+
+      .content {
+        .tag-color {
+          padding: 4px 12px;
+          border-radius: 16px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #fff;
+        }
+
+        .title-24 {
+          font-size: 24px;
+          font-weight: 600;
+          color: #333;
+          margin: 0;
+        }
+
+        .leia-mais {
+          display: inline-flex;
+          align-items: center;
+          color: #0066cc;
+          font-weight: 500;
+          text-decoration: none;
+
+          img {
+            margin-left: 8px;
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .MuiButtonGroup-root {
+    .MuiButton-root {
+      text-transform: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      
+      &.active {
+        background-color: #0066cc;
+        color: white;
+      }
+    }
+  }
+}

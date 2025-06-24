@@ -24,24 +24,32 @@ const messages = defineMessages({
     defaultMessage: 'Legislaturas',
   },
   description: {
-    id: 'Configurações dos Legislaturas',
-    defaultMessage: 'Configurações dos Legislaturas',
+    id: 'Configurações das Legislaturas',
+    defaultMessage: 'Configurações das Legislaturas',
   },
   add: {
-    id: 'Adicionar partido',
-    defaultMessage: 'Adicionar partido',
+    id: 'Adicionar legislatura',
+    defaultMessage: 'Adicionar legislatura',
   },
   save: {
     id: 'Salvar',
     defaultMessage: 'Salvar',
   },
   saveSuccess: {
-    id: 'Partidos salvos com sucesso',
-    defaultMessage: 'Partidos salvos com sucesso',
+    id: 'Legislaturas salvas com sucesso',
+    defaultMessage: 'Legislaturas salvas com sucesso',
   },
   saveError: {
-    id: 'Erro ao salvar partidos',
-    defaultMessage: 'Erro ao salvar partidos',
+    id: 'Erro ao salvar legislaturas',
+    defaultMessage: 'Erro ao salvar legislaturas',
+  },
+  adicionarLider: {
+    id: 'Adicionar líder',
+    defaultMessage: 'Adicionar líder',
+  },
+  removerLider: {
+    id: 'Remover líder',
+    defaultMessage: 'Remover líder',
   },
 });
 

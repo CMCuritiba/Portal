@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="camara_de_curitiba"
+    i18n:domain="camara_de_curitiba"
     >
 
   <genericsetup:registerProfile
@@ -25,6 +26,13 @@
       for="plone.dexterity.interfaces.IDexterityContent
            zope.lifecycleevent.interfaces.IObjectAddedEvent"
       handler=".events.vereador_added"
+      />
+
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.event_added"
       />
 
   <subscriber
@@ -89,6 +97,12 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       name="camara_de_curitiba.cores"
       component=".vocabularies.CoresVocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.noticias_filhas"
+      component=".editoria.NoticiasFilhasVocabulary"
       />
 
   <browser:page
