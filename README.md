@@ -20,16 +20,31 @@ Certifique-se de ter os seguintes itens instalados:
 
 1. Clone o repositório:
 
-```shell
-git clone --
-cd camara-de-curitiba
-```
+   ```shell
+   git clone --
+   cd camara-de-curitiba
+   ```
 
-2. Instale tanto o Backend quanto o Frontend:
+2. Ative o [commitlint](https://github.com/conventional-changelog/commitlint) e
+   o [commitzen](https://github.com/commitizen/cz-cli) no repositório:
 
-```shell
-make install
-```
+   ```shell
+   npm install
+   ```
+
+   Observações:
+
+   1. Esta configuração é obrigatória, veja nossa
+      [política de versionamento](./docs/versionamento.md)
+   2. [Certifique-se de ter o `npm` e o `nodejs` instalados na máquina](https://github.com/nvm-sh/nvm);
+   3. O commitzen não integra com o VS Code, para uso no editor considere
+      [instalar uma extensão](https://github.com/commitizen/cz-cli#adapters).
+
+3. Instale tanto o Backend quanto o Frontend:
+
+   ```shell
+   make install
+   ```
 
 ### Iniciando os Servidores 🔥
 
@@ -109,7 +124,7 @@ Toda contribuição é bem vinda!
 
 Para ajudar-nos a manter o bom trabalho, por favor leia nossas
 [diretrizes](.github/CONTRIBUTING.md),
-[política de versionamento](./docs/versionamento.md) e
+[fluxo de trabalho](./docs/versionamento.md) e
 [código de conduta](.github/CODE_OF_CONDUCT.md).
 
 ## Créditos e Agradecimentos 🙏
