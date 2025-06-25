@@ -64,7 +64,7 @@ Tipos de commit:
 
 - `feat`: Nova funcionalidade (MINOR).
 - `fix`: Correção de bug (PATCH).
-- `chore`: Tarefas de manutenção (PATCH).
+- `chore`: Tarefas de manutenção (não afeta versionamento).
 - `docs`: Alterações na documentação (não afeta versionamento).
 - `style`: Formatação de código (não afeta versionamento).
 - `refactor`: Refatoração sem mudança de comportamento (PATCH).
@@ -101,9 +101,9 @@ O formato é baseado em **Keep a Changelog**[^changelog].
 O repositório possui 3 branches principais, com as seguinte características:
 
 - `main`: contém código de produção
-  - Pode ter branches de _hotfixes_
+  - Pode ter branches de _hotfixes_.
 - `develop`: contém código em fase de desenvolvimento
-  - Pode ter branches de _features_ ou correções
+  - Pode ter branches de _features_, correções ou tarefas de manutenção.
 - `homolog`: contém código em fase de homologação (pré produção)
 
 ```
@@ -112,14 +112,23 @@ O repositório possui 3 branches principais, com as seguinte características:
 │   └── hotfix/login-security
 ├── develop
 │   ├── feat/auth
-│   └── fix/nasty-bug
+│   ├── fix/nasty-bug
+│   └── task/sanitize-repo
 └── homolog
 ```
 
-> [!IMPORTANT]
-> **Todos** os branches devem estar associados a uma issue devidamente
-> registrada. Idealmente, o número da issue deve ser referenciado no nome do
-> branch (por exemplo `feat/7-auth`).
+Considerações sobre como nomear branches:
+
+- **Importante**: **Todos** os branches devem estar associados a uma issue
+  devidamente registrada.
+- Evite usar acentuação no nome dos branches.
+- Idealmente, o número da issue deve ser referenciado no nome do branch (ex.:
+  `feat/7-auth`).
+- Procure utilizar o prefixo do tipo de issue no nome do branch:
+  - `feat/*`: Para branches de melhoria
+  - `fix/*`: Para branches de correção de bugs
+  - `task/*`: Para tarefas (_tasks_) de manutenção (normalmente são alterações
+    que não modificam arquivos fonte nem testes)
 
 Visualização do fluxo:
 
@@ -281,7 +290,6 @@ graph TD
 - Regra: PRs para o branch develop sempre incrementam o PATCH quando houver
   pelo menos um commit do tipo:
   - `fix`: Correção de bug.
-  - `chore`: Tarefas de manutenção.
   - `refactor`: Refatoração sem mudança de comportamento.
   - `perf`: Melhoria de performance.
 
@@ -312,6 +320,7 @@ graph TD
 #### Produção
 
 - Regra: PRs para o branch `main` não incrementam versões.
+- Versões homologadas são promovidas para produção, sem _bump_ de versão.
 - A tag `latest` deve ser atualizada para apontar para a nova versão.
 
 > [!IMPORTANT]
