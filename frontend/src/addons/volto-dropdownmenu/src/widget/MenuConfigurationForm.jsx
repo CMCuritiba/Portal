@@ -452,8 +452,8 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
                     description=""
                     required={true}
                     mode="link"
-                    value={subItem['@id'] ? [subItem] : []}
-                    onChange={(id, value) => updateSubmenuItem(index, '@id', value[0]?.['@id'] || '')}
+                    value={subItem['linkUrl'] ?? []}
+                    onChange={(id, value) => updateSubmenuItem(index, 'linkUrl', value)}
                   />
                 )}
               </div>
