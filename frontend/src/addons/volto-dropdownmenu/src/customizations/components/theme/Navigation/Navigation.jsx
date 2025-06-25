@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { Menu, Button, Icon } from 'semantic-ui-react';
+import { Menu, Button } from 'semantic-ui-react';
 import cx from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 import config from '@plone/volto/registry';
@@ -32,6 +32,19 @@ const messages = defineMessages({
     defaultMessage: 'Main navigation',
   },
 });
+
+// SVG para seta de dropdown
+const DropdownArrowSVG = ({ open }) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+  >
+    <path d="M5 7l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
 
 const Navigation = ({ pathname, type }) => {
   const { settings } = config;
@@ -216,13 +229,7 @@ const Navigation = ({ pathname, type }) => {
                         aria-haspopup={true}
                       >
                         <span>{item.title}</span>
-                        <Icon
-                          name="dropdown"
-                          size="large"
-                          flipped={
-                            openDropdownIndex === index ? 'vertically' : null
-                          }
-                        />
+                        <DropdownArrowSVG open={openDropdownIndex === index} />
                       </Button>
                       <DropdownMenu
                         menu={item}
