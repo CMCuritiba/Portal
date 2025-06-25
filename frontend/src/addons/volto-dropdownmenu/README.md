@@ -1,76 +1,184 @@
-# volto-dropdownmenu
+# Volto Dropdown Menu
 
-Volto addon for a customizable dropdown menu.
-Intended to be used with [collective.volto.dropdownmenu](https://github.com/collective/collective.volto.dropdownmenu)
+Um addon para Volto que fornece funcionalidade de menu dropdown com interface de administração similar ao WordPress.
 
-To be used with mrs-developer, see [Volto docs](https://docs.voltocms.com/customizing/add-ons/) for further usage informations.
+## Características
 
-Created with [voltocli](https://github.com/nzambello/voltocli).
+### 🎨 Interface WordPress-style
+- **Layout de duas colunas**: Estrutura do menu à esquerda, configurações à direita
+- **Design moderno**: Interface limpa e intuitiva similar ao WordPress
+- **Responsivo**: Adaptação automática para dispositivos móveis
+- **Navegação intuitiva**: Seleção visual de menus e itens
 
-## Installation
+### ✅ Funcionalidades
+- **Múltiplos menus**: Crie e gerencie vários menus independentes
+- **Itens de menu flexíveis**: Links simples, externos ou dropdowns
+- **Submenus**: Suporte completo para submenus de nível 2 com interface visual
+- **Drag & drop visual**: Reordenação intuitiva de itens
+- **Configurações avançadas**: Classes CSS, visibilidade, etc.
 
-Afer installation, please add following lines into package.json to enable it.
+## Instalação
+
+```bash
+npm install volto-dropdownmenu
+```
+
+## Configuração
+
+Adicione o addon ao seu `package.json`:
 
 ```json
-
- "addons": [
+{
+  "addons": [
     "volto-dropdownmenu"
-  ],
-
-```
-
-## Usage
-
-> If you are using Volto < 16, then use [v2.4.3](https://github.com/collective/volto-dropdownmenu/tree/v2.4.3)
->
-> If you are using Volto < 12, then use [v1.3.0](https://github.com/collective/volto-dropdownmenu/tree/v1.3.0)
-
-Simply load the addon in your project, then edit the configuration in `/controlpanel/dropdown-menu-settings`.
-Example configuration to be saved in Plone [here](./menuConfigurationExample.json).
-
-To use the default template for the dropdown menu, add `src/addons/volto-dropdownmenu/src/customizations` in your `package.json` in `customizationPaths`.
-
-```json
-  "customizationPaths": [
-    "src/customizations",
-    "src/addons/volto-dropdownmenu/src/customizations"
   ]
+}
 ```
 
-To customize the `MenuConfigurationForm` component, you can now create your own component in your site and replace it using the Volto component registry in your site config file:
+## Uso
 
-```javascript
-import MyMenuConfigurationForm from './src/MyMenuConfigurationForm';
+### 1. Acesse o Painel de Controle
 
-config.registerComponent({
-  name: 'MenuConfigurationForm',
-  component: MyMenuConfigurationForm,
-});
-```
+Navegue até `/controlpanel/dropdown-menu-settings` no seu site Volto.
 
-### Navigation roots
+### 2. Interface Principal
 
-By default, navigations roots are clickable, but there's the possibility to make them not clickable.
-Enabling the field 'clickableNavigationRoots' in volto-dropdownmenu config, a field appears in configuration form and let editor to decide if make navigation roots clickable or not.
+A interface está dividida em duas seções principais:
 
+#### Painel Esquerdo - Estrutura do Menu
+- **Lista de menus**: Visualize todos os menus criados
+- **Seleção visual**: Clique em um menu para selecioná-lo
+- **Gerenciamento de itens**: Adicione, remova e reordene itens
+- **Ações rápidas**: Botões para mover e excluir itens
+- **Submenus**: Visualização hierárquica com indentação
+
+#### Painel Direito - Configurações
+- **Configurações do menu**: Título e localização
+- **Configurações do item**: Título, visibilidade, modo, links, etc.
+
+### 3. Gerenciamento de Submenus
+
+#### Adicionando Submenus
+1. Clique no botão **+** (verde) ao lado de qualquer item de menu
+2. O submenu será adicionado automaticamente com indentação visual
+3. Configure o submenu no painel direito
+
+#### Visualização de Submenus
+- **Indentação**: Submenus são exibidos com uma linha azul de indentação
+- **Fundo diferenciado**: Submenus têm fundo cinza claro para distinção visual
+- **Ações**: Botão de exclusão disponível ao passar o mouse
+
+#### Estrutura de Dados
 ```json
-  config.settings["volto-dropdownmenu"] = {
-    "options": {
-      "clickableNavigationRoots": true, //if true, a checkbox option in dropdown menu appears
+{
+  "title": "Item Principal",
+  "visible": true,
+  "mode": "dropdown",
+  "submenu": [
+    {
+      "title": "Submenu 1",
+      "visible": true,
+      "mode": "simpleLink",
+      "linkUrl": ["/caminho/submenu1"]
     },
-  };
+    {
+      "title": "Submenu 2",
+      "visible": true,
+      "mode": "linkExternal",
+      "link_external": "https://exemplo.com"
+    }
+  ]
+}
 ```
 
-## Screenshots and demo
+### 4. Tipos de Itens
 
-### Controlpanel
+#### Link Simples
+- Navegação interna para páginas do site
+- Configuração de URL através do Object Browser
 
-![Addon controlpanel](./docs/controlpanel.png)
+#### Link Externo
+- Links para sites externos
+- Configuração de URL manual
 
-### Dropdown menu
+#### Dropdown
+- Menus expansíveis com conteúdo rico
+- Suporte a blocos de conteúdo
+- Navegação por raiz de conteúdo
 
-![Dropdown menu](./docs/dropdown-menu.png)
+### 5. Configurações Avançadas
 
-### Demo
+#### Classes CSS Adicionais
+- Aplique estilos específicos aos itens
+- Compatível com o layout do site
 
-You can watch a demonstration video on [YouTube](https://youtu.be/p2xBpTou26M)
+#### Visibilidade
+- Controle a exibição de itens
+- Útil para menus condicionais
+
+#### Blocos de Conteúdo
+- Adicione conteúdo rico aos dropdowns
+- Suporte a texto, listagens, imagens, etc.
+
+## Estrutura de Arquivos
+
+```
+src/
+├── components/
+│   ├── DropdownMenu.jsx          # Componente de renderização
+│   └── dropdownmenu.css          # Estilos do frontend
+├── widget/
+│   ├── MenuConfigurationWidget.jsx  # Widget principal
+│   ├── MenuConfigurationForm.jsx    # Formulário de configuração
+│   └── menu_configuration.css       # Estilos da administração
+├── customizations/
+│   └── components/theme/Navigation/  # Integração com navegação
+└── utils.js                      # Utilitários
+```
+
+## Personalização
+
+### Estilos CSS
+O plugin inclui estilos WordPress-style que podem ser personalizados:
+
+```css
+/* Personalizar cores do tema */
+.wordpress-menu-widget {
+  --primary-color: #0073aa;
+  --secondary-color: #f9f9f9;
+  --border-color: #ddd;
+}
+
+/* Personalizar submenus */
+.submenu-item {
+  background: #f8f9fa;
+  border-left: 3px solid #0073aa;
+}
+```
+
+### Integração com Tema
+O plugin se integra automaticamente com o sistema de navegação do Volto e pode ser estendido através do sistema de customizações.
+
+## Suporte
+
+Para dúvidas ou problemas, consulte:
+- [Documentação do Volto](https://docs.voltocms.com/)
+- [Issues do projeto](https://github.com/collective/volto-dropdownmenu/issues)
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+## Changelog
+
+### v2.0.0 - Interface WordPress-style
+- ✨ Nova interface de duas colunas
+- 🎨 Design moderno similar ao WordPress
+- 📱 Melhor responsividade
+- 🔧 Reorganização dos formulários
+- 🎯 Navegação mais intuitiva
+
+### v1.x.x - Versões anteriores
+- Funcionalidade básica de dropdown
+- Suporte a submenus
+- Interface original
