@@ -128,6 +128,7 @@
 
 .submenu-item:hover .item-actions {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* Remover opacity padrão de .submenu-item .item-actions */
