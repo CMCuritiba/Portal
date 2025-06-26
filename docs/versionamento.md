@@ -19,6 +19,7 @@
       - [Homologação](#homologação)
       - [Produção](#produção-1)
       - [_Hotfix_](#hotfix)
+  - [Contribuição externa](#contribuição-externa)
   - [Automação](#automação)
     - [CI/CD](#cicd)
     - [Ferramentas](#ferramentas)
@@ -339,6 +340,19 @@ graph TD
 > [!IMPORTANT]
 > _Hotfixes_ não devem conter _breaking changes_ a menos que seja absolutamente
 > necessário.
+
+## Contribuição externa
+
+De acordo com nossas [diretrizes](./CONTRIBUTING.md), faça um **fork**
+do repositório para enviar suas sugestões ou correções.
+
+Regras importantes:
+
+- Adicione suas modificações seguindo o padrão descrito neste documento.
+- Certifique-se de que os testes passem.
+- Mantenha o PR focado em uma única mudança.
+- Descreva claramente o que seu PR faz e referencie a issue relacionada (PRs
+  não relacionados a nenhuma issue poderão ser descartados).
 
 ## Automação
 
