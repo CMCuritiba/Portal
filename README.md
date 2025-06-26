@@ -123,7 +123,7 @@ make i18n
 Toda contribuição é bem vinda!
 
 Para ajudar-nos a manter o bom trabalho, por favor leia nossas
-[diretrizes](.github/CONTRIBUTING.md),
+[diretrizes](./docs/CONTRIBUTING.md),
 [fluxo de trabalho](./docs/versionamento.md) e
 [código de conduta](.github/CODE_OF_CONDUCT.md).
 
