@@ -352,8 +352,13 @@ graph TD
 ### Ferramentas
 
 - `semantic-release` (gera versão e changelog automaticamente).
-- Validação de mensagens de commit (`husky` + `commitlint`).
+- Validação de mensagens de commit (`husky`[^husky_hook][^padronizacao_commit] +
+  `commitlint`[^commitlint][^commitlint_repo]).
 
 [^semver]: [Semantic Versioning (SemVer)](https://semver.org/)
 [^convcom]: [Conventional Commits](https://www.conventionalcommits.org/)
 [^changelog]: [Keep a Changelog](http://keepachangelog.com/)
+[^husky_hook]: [Guide: Local setup | commitlint](https://commitlint.js.org/guides/local-setup.html)
+[^padronizacao_commit]: [Padronização de commit com (Commitlint, Husky e Commitizen)](https://dev.to/vitordevsp/padronizacao-de-commit-com-commitlint-husky-e-commitizen-3g1n)
+[^commitlint_repo]: [commitlint](https://github.com/conventional-changelog/commitlint)
+[^commitlint]: [Lint commit messages](https://commitlint.js.org/)
