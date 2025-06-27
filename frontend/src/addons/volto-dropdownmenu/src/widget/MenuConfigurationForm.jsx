@@ -180,7 +180,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
   const addSubmenuItem = () => {
     const newSubmenuItem = {
       title: `Submenu Item ${menuItem.submenu.length + 1}`,
-      mode: 'internal',
+      mode: 'simpleLink',
       '@id': '',
       link_external: '',
     };
@@ -198,7 +198,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
     updatedSubmenu[index] = { ...updatedSubmenu[index], [field]: value };
     // Limpa o campo não usado
     if (field === 'mode') {
-      if (value === 'internal') {
+      if (value === 'simpleLink') {
         updatedSubmenu[index].link_external = '';
       } else {
         updatedSubmenu[index]['@id'] = '';
@@ -424,7 +424,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
                   onChange={(e, value) => updateSubmenuItem(index, 'mode', value)}
                   valueList={[
                     {
-                      value: 'internal',
+                      value: 'simpleLink',
                       label: intl.formatMessage(messages.modeSimpleLink),
                     },
                     {

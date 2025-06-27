@@ -199,7 +199,7 @@ const Header = (props) => {
                                                     {menu?.submenu?.map((menu, index) => (
                                                         <li key={index}>
                                                             {
-                                                                menu?.mode === 'internal' &&
+                                                                menu?.mode === 'simpleLink' &&
                                                                 <Link to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
                                                                       title={menu?.title}>{menu.title}</Link>
                                                             }
@@ -228,7 +228,7 @@ const Header = (props) => {
                                             <li key={idx}>
 
                                                 {
-                                                    item?.mode === 'internal' &&
+                                                    item?.mode === 'simpleLink' &&
                                                     <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
                                                           title={item?.title}>
                                                         <span>

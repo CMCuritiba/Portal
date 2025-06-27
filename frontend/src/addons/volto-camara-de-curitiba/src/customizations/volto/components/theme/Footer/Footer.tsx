@@ -10,6 +10,8 @@ const Footer = () => {
 const footerMenu = getMenuByPath("/", "") || [];
 const termosPoliticas = getMenuByPath("/termos-e-politicas", "") || [];
 
+console.log("termosPoliticas", termosPoliticas)
+
   return (
     <Stack className="footer-ind">
       <Stack className="pesquisa">
@@ -42,25 +44,24 @@ const termosPoliticas = getMenuByPath("/termos-e-politicas", "") || [];
                 className="max-w-150"
               />
               <Typography>© 2025</Typography>
-
-
-
-                {
-                    termosPoliticas.map((menu, index) => (
-                        <>
-                            {
-                                menu?.mode === 'internal' &&
-                                <Link to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
-                                      title={menu?.title}>{menu?.title}</Link>
-                            }
-                            {
-                                menu?.mode === 'external' &&
-                                <a href={menu?.link_external} target="_blank"
-                                   title={menu?.title}>{menu?.title}</a>
-                            }
-                        </>
-                    ))
-                }
+                <div>
+                    {
+                        termosPoliticas.map((menu, index) => (
+                            <div key={index}>
+                                {
+                                    menu?.mode === 'simpleLink' &&
+                                    <Link to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
+                                          title={menu?.title}>{menu?.title}</Link>
+                                }
+                                {
+                                    menu?.mode === 'external' &&
+                                    <a href={menu?.link_external} target="_blank"
+                                       title={menu?.title}>{menu?.title}</a>
+                                }
+                            </div>
+                        ))
+                    }
+                </div>
               <Stack direction="row" sx={{ gap: '16px' }}>
                 <a href="/link-destino">
                   <img
@@ -109,7 +110,7 @@ const termosPoliticas = getMenuByPath("/termos-e-politicas", "") || [];
                                    menu?.submenu.map((submenu, index) => (
                                        <>
                                            {
-                                               submenu?.mode === 'internal' &&
+                                               submenu?.mode === 'simpleLink' &&
                                                <Link to={flattenToAppURL(submenu?.linkUrl?.[0]?.['@id'])}
                                                      title={submenu?.title}>{submenu?.title}</Link>
                                            }
