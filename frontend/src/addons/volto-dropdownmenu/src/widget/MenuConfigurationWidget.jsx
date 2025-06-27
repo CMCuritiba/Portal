@@ -26,7 +26,7 @@ const messages = defineMessages({
   },
   addMenuPath: {
     id: 'dropdownmenu-add-rootpath',
-    defaultMessage: 'Adicionar Menu',
+    defaultMessage: 'Adicionar Novo Menu',
   },
   deleteMenuPath: {
     id: 'dropdownmenu-delete-menupath',
@@ -302,15 +302,6 @@ const MenuConfigurationWidget = ({
               <h2>{title}</h2>
               <p className="description">{description}</p>
             </div>
-            <div className="menu-widget-actions">
-              <Button
-                primary
-                onClick={addMenuPath}
-                className="add-menu-path-button"
-              >
-                <PlusSVG /> {intl.formatMessage(messages.addMenuPath)}
-              </Button>
-            </div>
           </div>
 
           {/* Main Content */}
@@ -463,6 +454,15 @@ const MenuConfigurationWidget = ({
                     )}
                   </div>
                 ))}
+              </div>
+              <div className="py-16 px-16 w-100 mt-48">
+                <Button
+                  primary
+                  onClick={addMenuPath}
+                  className="add-menu-path-button"
+                >
+                  <PlusSVG /> {intl.formatMessage(messages.addMenuPath)}
+                </Button>
               </div>
             </div>
 
