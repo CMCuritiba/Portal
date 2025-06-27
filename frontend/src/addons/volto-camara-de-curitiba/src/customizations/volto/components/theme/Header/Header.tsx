@@ -260,7 +260,7 @@ const Header = (props) => {
                                             maisAcessados.map((item, index) => (
                                                 <li key={index}>
                                                     {
-                                                        item.linkType === 'internal' &&
+                                                        item.mode === 'simpleLink' &&
                                                         <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
                                                               title={item?.title}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
@@ -268,7 +268,7 @@ const Header = (props) => {
                                                         </Link>
                                                     }
                                                     {
-                                                        item.linkType === 'external' &&
+                                                        item.mode === 'linkExternal' &&
                                                         <a href={item?.link_external} target="_blank"
                                                            title={item?.title}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
