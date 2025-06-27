@@ -11,16 +11,16 @@ import SearchBar from "./SearchBar";
 import LoginBar from "./LoginBar";
 import PropTypes from "prop-types";
 import {flattenToAppURL} from "@plone/volto/helpers";
-import GetMenuByPath from "../../../../../components/DropdownMenu/components/GetMenuByPath";
+import {getMenuByPath} from "../../../../../components/DropdownMenu/utils";
 
 const Header = (props) => {
     const [act, setAct] = useState(false);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
     const pathname = props.pathname;
-    const menuDestaques = GetMenuByPath("/destaques", "");
-    const menuHeader = GetMenuByPath("/", "") || [];
-    const maisAcessados = GetMenuByPath("/mais-acessados", "") || [];
+    const menuDestaques = getMenuByPath("/destaques", "");
+    const menuHeader = getMenuByPath("/", "") || [];
+    const maisAcessados = getMenuByPath("/mais-acessados", "") || [];
 
     const [activeMenu, setActiveMenu] = useState(menuHeader[0]);
     const [activeMenuMobile, setActiveMenuMobile] = useState(null);
@@ -125,12 +125,12 @@ const Header = (props) => {
                                             </svg>
                                         }
                                         {
-                                            z.mode === 'simpleLink' &&
+                                            z?.mode === 'simpleLink' &&
                                             <Link to={flattenToAppURL(z.linkUrl?.[0]?.['@id'])} key={i}
                                                   title={z?.title}>{z.title}</Link>
                                         }
                                         {
-                                            z.mode === 'linkExternal' &&
+                                            z?.mode === 'linkExternal' &&
                                             <a href={z?.link_external} target="_blank" title={z?.title}
                                                key={i}>{z.title}</a>
                                         }
@@ -199,12 +199,12 @@ const Header = (props) => {
                                                     {menu?.submenu?.map((menu, index) => (
                                                         <li key={index}>
                                                             {
-                                                                menu.linkType === 'internal' &&
+                                                                menu?.mode === 'internal' &&
                                                                 <Link to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
                                                                       title={menu?.title}>{menu.title}</Link>
                                                             }
                                                             {
-                                                                menu.linkType === 'external' &&
+                                                                menu?.mode === 'external' &&
                                                                 <a href={menu?.link_external} target="_blank"
                                                                    title={menu?.title}>{menu.title}</a>
                                                             }
@@ -228,7 +228,7 @@ const Header = (props) => {
                                             <li key={idx}>
 
                                                 {
-                                                    item.linkType === 'internal' &&
+                                                    item?.mode === 'internal' &&
                                                     <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
                                                           title={item?.title}>
                                                         <span>
@@ -238,7 +238,7 @@ const Header = (props) => {
                                                     </Link>
                                                 }
                                                 {
-                                                    item.linkType === 'external' &&
+                                                    item?.mode === 'external' &&
                                                     <a href={item?.link_external} target="_blank" title={item?.title}>
                                                          <span>
                                                             {item.title}
@@ -260,7 +260,7 @@ const Header = (props) => {
                                             maisAcessados.map((item, index) => (
                                                 <li key={index}>
                                                     {
-                                                        item.mode === 'simpleLink' &&
+                                                        item?.mode === 'simpleLink' &&
                                                         <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
                                                               title={item?.title}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
@@ -268,7 +268,7 @@ const Header = (props) => {
                                                         </Link>
                                                     }
                                                     {
-                                                        item.mode === 'linkExternal' &&
+                                                        item?.mode === 'linkExternal' &&
                                                         <a href={item?.link_external} target="_blank"
                                                            title={item?.title}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
