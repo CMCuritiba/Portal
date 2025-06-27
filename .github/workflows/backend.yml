@@ -92,9 +92,25 @@ jobs:
         run: |
           pytest --disable-warnings src/camara_de_curitiba/tests
 
+  # check-version:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     changed: ${{ steps.result.outputs.changed }}
+  #   steps:
+  #     - name: Check for version change
+  #       id: version_check
+  #       uses: EndBug/version-check@v2
+  #       with:
+  #         path: "package.json"
+  #     - id: result
+  #       run: echo "changed=${{ steps.version_check.outputs.changed }}" >> $GITHUB_OUTPUT
+
   build-and-push:
+    # if: needs.check-version.outputs.changed == 'true'
+
     runs-on: ubuntu-latest
     needs:
+      # - check-version
       - black
       - flake8
       - zpretty
