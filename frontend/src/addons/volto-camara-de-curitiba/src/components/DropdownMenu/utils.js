@@ -1,3 +1,5 @@
+import {useSelector} from "react-redux";
+
 export function getItemsByPath(items, pathname) {
   let rootPathConfig = null;
   const itemsByPath = Array.isArray(items)
@@ -20,4 +22,12 @@ export function getItemsByPath(items, pathname) {
   if (matchingPaths.length > 0) return itemsByPath[matchingPaths[0]].items;
   else if (rootPathConfig) return rootPathConfig.items;
   else return [];
+}
+
+export function getMenuByPath(pathname, type) {
+  const dropdownMenuNavItems = useSelector(
+    (state) => state.dropdownMenuNavItems?.result,
+  );
+  const menu = getItemsByPath(dropdownMenuNavItems, pathname);
+  return menu;
 }
