@@ -180,7 +180,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
   const addSubmenuItem = () => {
     const newSubmenuItem = {
       title: `Submenu Item ${menuItem.submenu.length + 1}`,
-      linkType: 'internal',
+      mode: 'simpleLink',
       '@id': '',
       link_external: '',
     };
@@ -197,8 +197,8 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
     const updatedSubmenu = [...menuItem.submenu];
     updatedSubmenu[index] = { ...updatedSubmenu[index], [field]: value };
     // Limpa o campo não usado
-    if (field === 'linkType') {
-      if (value === 'internal') {
+    if (field === 'mode') {
+      if (value === 'simpleLink') {
         updatedSubmenu[index].link_external = '';
       } else {
         updatedSubmenu[index]['@id'] = '';
@@ -420,11 +420,11 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
                   title={intl.formatMessage(messages.mode)}
                   description=""
                   required={true}
-                  value={subItem.linkType || 'simpleLink'}
-                  onChange={(e, value) => updateSubmenuItem(index, 'linkType', value)}
+                  value={subItem.mode || 'simpleLink'}
+                  onChange={(e, value) => updateSubmenuItem(index, 'mode', value)}
                   valueList={[
                     {
-                      value: 'internal',
+                      value: 'simpleLink',
                       label: intl.formatMessage(messages.modeSimpleLink),
                     },
                     {
@@ -436,7 +436,7 @@ const MenuConfigurationForm = ({ id, menuItem, onChange, deleteMenuItem }) => {
                 />
               </div>
               <div className="submenu-item-field">
-                {subItem.linkType === 'external' ? (
+                {subItem.mode === 'external' ? (
                   <TextWidget
                     id={`${id}-submenu-link-external-${index}`}
                     title={intl.formatMessage(messages.submenuItemLink) + ' (externo)'}
