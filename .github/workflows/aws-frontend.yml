@@ -41,7 +41,7 @@ name: Deploy Frontend to Amazon ECS
 
 on:
   workflow_run:
-    workflows: ["frontend.yml"]
+    workflows: ["Docker Build and Push Frontend"] # frontend.yml
     branches: [ "main", "homolog" ]
     types:
       - completed
