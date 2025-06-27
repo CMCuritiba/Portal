@@ -5,9 +5,10 @@ on:
     branches: [ "develop", "homolog" ]
     paths:
       - "backend/src/**"
-      - ".github/workflows/backend.yml"
-
-  workflow_dispatch:
+  pull_request:
+    branches: [ "develop", "homolog" ]
+    paths:
+      - "backend/src/**"
 
 env:
   REGISTRY: ghcr.io
@@ -119,35 +120,38 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set image tag based on branch
-        id: image-tag
+      - name: Get version from setup.py
+        id: backend-version
+        working-directory: ./backend
         run: |
-          if [[ "${GITHUB_REF##*/}" == "develop" ]]; then
-            echo "tag=dev" >> $GITHUB_OUTPUT
-          elif [[ "${GITHUB_REF##*/}" == "homolog" ]]; then
-            echo "tag=homolog" >> $GITHUB_OUTPUT
-          else
-            echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
-          fi
+          echo "version=$(python3 setup.py --version)" >> $GITHUB_OUTPUT
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=${{ steps.image-tag.outputs.tag }}
-            type=raw,value=${{ needs.version.outputs.version }}
-          labels: |
-            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
+      # Obter os metadados pode ser uteis quando forem geradas tags de versão
+      # no repo. Ref:
+      # https://docs.docker.com/build/ci/github-actions/manage-tags-labels/
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: meta
+      #   uses: docker/metadata-action@v5
+      #   with:
+      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      #     tags: |
+      #       type=raw,value=${{ steps.image-tag.outputs.tag }}
+      #       type=raw,value=${{ needs.version.outputs.version }}
+      #     labels: |
+      #       org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
 
       - name: Build and push Docker image
         if: contains(github.ref, 'homolog')
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           context: backend
           file: backend/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ steps.package-version.outputs.version }}
+            ${{ steps.package-version.outputs.version }}-homolog
+            homolog
+          labels: |
+            ${{ steps.package-version.outputs.version }}
+            ${{ steps.package-version.outputs.version }}-homolog
