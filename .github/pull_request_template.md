@@ -1,14 +1,14 @@
-**Descrição do Merge Request**
+# Descrição do Merge
 
 - O que há de novo?
   - Descrição do que foi implementado...
 - O que mudou?
   - Descrição do que foi alterado...
 
-Resolves: #
-See also: #
+Resolve #, resolve #
+Veja também #
 
-**Checklist**
+## Checklist
 
 - [ ] Eu rodei este código localmente
 - [ ] Eu escrevi os testes necessários
@@ -16,12 +16,12 @@ See also: #
 - [ ] Eu não deixei dados _hard-coded_ em meu código
 - [ ] Eu atualizei o CHANGELOG/README
 
-**Recursos adicionais**
+## Recursos
 
 Link para qualquer recurso externo utilizado (issue, projeto, website, etc)
 
-**Considerações adicionais**
+## Considerações adicionais
 
-- Há mais alguma coisa que se deve saber?
-- Alguma observação sobre o deployment?
+- Há mais alguma coisa que se deva saber?
+- Alguma observação sobre o _deployment_?
 - Alguma documentação adicional?
