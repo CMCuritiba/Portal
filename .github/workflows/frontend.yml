@@ -76,11 +76,14 @@ jobs:
     outputs:
       changed: ${{ steps.result.outputs.changed }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Check for version change
         id: version_check
         uses: EndBug/version-check@v2
         with:
-          path: "package.json"
+          file-name: ./frontend/package.json
       - id: result
         run: echo "changed=${{ steps.version_check.outputs.changed }}" >> $GITHUB_OUTPUT
 
