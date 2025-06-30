@@ -138,7 +138,7 @@ jobs:
 
       - name: Get version from setup.py
         id: backend-version
-        working-directory: ./backend
+        working-directory: ./backend/src/camara_de_curitiba
         run: |
           echo "version=$(python3 setup.py --version)" >> $GITHUB_OUTPUT
 
@@ -165,9 +165,9 @@ jobs:
           file: backend/Dockerfile
           push: true
           tags: |
-            ${{ steps.package-version.outputs.version }}
-            ${{ steps.package-version.outputs.version }}-homolog
+            ${{ steps.backend-version.outputs.version }}
+            ${{ steps.backend-version.outputs.version }}-homolog
             homolog
           labels: |
-            ${{ steps.package-version.outputs.version }}
-            ${{ steps.package-version.outputs.version }}-homolog
+            ${{ steps.backend-version.outputs.version }}
+            ${{ steps.backend-version.outputs.version }}-homolog

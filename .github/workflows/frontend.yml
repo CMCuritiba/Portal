@@ -141,9 +141,9 @@ jobs:
           file: frontend/Dockerfile
           push: true
           tags: |
-            ${{ steps.package-version.outputs.version }}
-            ${{ steps.package-version.outputs.version }}-homolog
+            ${{ steps.frontend-version.outputs.version }}
+            ${{ steps.frontend-version.outputs.version }}-homolog
             homolog
           labels: |
-            ${{ steps.package-version.outputs.version }}
-            ${{ steps.package-version.outputs.version }}-homolog
+            ${{ steps.frontend-version.outputs.version }}
+            ${{ steps.frontend-version.outputs.version }}-homolog
