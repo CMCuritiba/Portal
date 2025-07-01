@@ -92,6 +92,13 @@ jobs:
         run: |
           pytest --disable-warnings src/camara_de_curitiba/tests
 
+  # Job para verificar se houve alteração no arquivo setup.py
+  # do backend, que é onde está a versão do Plone.
+  # Se houver alteração, o job de build-and-push será executado.
+  # ATENÇÃO: Isto não é o ideal, pois o build/push pode ser executado mesmo
+  # que haja alteração em porções do setup.py que não afetam a imagem Docker.
+  # Uma alternativa melhor seria utilizar uma action que de fato valide a versão
+  # no arquivo setup.py ou escrever um script que verifique se a versão mudou
   check-version:
     runs-on: ubuntu-latest
     outputs:
