@@ -34,7 +34,12 @@ msgstr ""
 #: widget/MenuConfigurationWidget
 # defaultMessage: Add menu item
 msgid "dropdownmenu-addmenuitem"
-msgstr ""
+msgstr "Adicionar item"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Add submenu item
+msgid "dropdownmenu-add-submenu-item"
+msgstr "Adicionar submenu"
 
 #: widget/MenuConfigurationForm
 # defaultMessage: Blocks
@@ -75,6 +80,11 @@ msgstr ""
 # defaultMessage: Delete menu item
 msgid "dropdownmenu-deletemenuitem-button"
 msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Delete submenu item
+msgid "dropdownmenu-delete-submenu-item"
+msgstr "Excluir item de submenu"
 
 #: widget/MenuConfigurationWidget
 # defaultMessage: Select a menu item
@@ -119,7 +129,7 @@ msgstr ""
 #: widget/MenuConfigurationWidget
 # defaultMessage: Move menu item up
 msgid "dropdownmenu-move-menuitem-up"
-msgstr ""
+msgstr "Mover para cima"
 
 #: widget/MenuConfigurationForm
 # defaultMessage: Navigation root
@@ -140,6 +150,26 @@ msgstr ""
 # defaultMessage: "Show more" link text
 msgid "dropdownmenu-showMoreText"
 msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu
+msgid "dropdownmenu-submenu"
+msgstr "Submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Configure level 2 submenu items
+msgid "dropdownmenu-submenu-description"
+msgstr "Configurar itens de submenu de nível 2"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item title
+msgid "dropdownmenu-submenu-item-title"
+msgstr "Título do item de submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item link
+msgid "dropdownmenu-submenu-item-link"
+msgstr "Link do item de submenu"
 
 #: widget/MenuConfigurationForm
 # defaultMessage: Title

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { defineMessages, useIntl } from 'react-intl';
-import { Segment, Container, Icon, Grid, Button } from 'semantic-ui-react';
+import { Segment, Container, Button } from 'semantic-ui-react';
 import { map } from 'lodash';
 import cx from 'classnames';
 import ConditionalLink from '@plone/volto/components/manage/ConditionalLink/ConditionalLink';
@@ -25,6 +25,65 @@ const messages = defineMessages({
     defaultMessage: 'Close menu',
   },
 });
+
+// SVGs para ícones
+const CloseSVG = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M6 14L14 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+);
+const ChevronDownSVG = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+);
+const ChevronUpSVG = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 10l4-4 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+);
+const ArrowRightSVG = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M10 5l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+);
+
+// Componente para renderizar itens de submenu
+const SubmenuItem = ({ item, closeMenu }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const hasSubmenu = item.submenu && item.submenu.length > 0;
+  
+  return (
+    <li className={cx('submenu-item', { 'has-submenu': hasSubmenu })}>
+      <div className="submenu-item-content">
+        <NavLink 
+          to={flattenToAppURL(item['@id'])}
+          onClick={closeMenu}
+          className="submenu-link"
+        >
+          <span>{item.title}</span>
+        </NavLink>
+        {hasSubmenu && (
+          <Button
+            basic
+            onClick={() => setIsOpen(!isOpen)}
+            className="submenu-toggle"
+            aria-label={isOpen ? 'Fechar submenu' : 'Abrir submenu'}
+          >
+            {isOpen ? <ChevronUpSVG /> : <ChevronDownSVG />}
+          </Button>
+        )}
+      </div>
+      {hasSubmenu && isOpen && (
+        <ul className="submenu-level-2">
+          {item.submenu.map((subItem, idx) => (
+            <li key={`submenu-${item['@id']}-${idx}`}>
+              <NavLink 
+                to={flattenToAppURL(subItem['@id'])}
+                onClick={closeMenu}
+              >
+                <span>{subItem.title}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+};
 
 const DropdownMenu = ({ menu, open = false, closeMenu }) => {
   const intl = useIntl();
@@ -82,10 +141,11 @@ const DropdownMenu = ({ menu, open = false, closeMenu }) => {
               className="dropdown-close-button"
               onClick={closeMenu}
               title={intl.formatMessage(messages.closeMenu)}
-              icon="times"
               basic
               size="mini"
-            />
+            >
+              <CloseSVG />
+            </Button>
           </div>
           <Grid container>
             {menu.navigationRoot?.map((navRoot) => (
@@ -104,11 +164,11 @@ const DropdownMenu = ({ menu, open = false, closeMenu }) => {
                 {navRoot.items?.length > 0 && (
                   <ul>
                     {navRoot.items?.map((navItem, idx) => (
-                      <li key={navRoot['@id'] + idx}>
-                        <NavLink to={flattenToAppURL(navItem['@id'])}>
-                          <span>{navItem.title}</span>
-                        </NavLink>
-                      </li>
+                      <SubmenuItem 
+                        key={navRoot['@id'] + idx} 
+                        item={navItem} 
+                        closeMenu={closeMenu}
+                      />
                     ))}
                   </ul>
                 )}
@@ -152,7 +212,7 @@ const DropdownMenu = ({ menu, open = false, closeMenu }) => {
                 onClick={closeMenu}
               >
                 <span>{menu.showMoreText}</span>
-                <Icon name="arrow right" />
+                <ArrowRightSVG />
               </NavLink>
             </Container>
           )}
