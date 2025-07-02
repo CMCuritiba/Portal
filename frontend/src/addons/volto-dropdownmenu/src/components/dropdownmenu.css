@@ -36,6 +36,14 @@
   border-left: 0;
 }
 
+.add-menu-path-button {
+  display: flex !important;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
 body.has-toolbar.has-sidebar .dropdown-menu-wrapper {
   left: 80px;
   width: calc(100% - 375px - 80px);
@@ -109,4 +117,86 @@ body.has-toolbar-collapsed:not(.has-sidebar):not(.has-sidebar-collapsed)
 
 .ui.menu > .ui.button.item.dropdownmenu-item i.dropdown.icon {
   margin-left: 0.5rem;
+}
+
+/* Estilos para submenus de nível 2 */
+.submenu-item {
+  position: relative;
+}
+
+.submenu-item.has-submenu {
+  margin-bottom: 0.5em;
+}
+
+.submenu-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.submenu-link {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.25rem 0;
+  display: block;
+}
+
+.submenu-link:hover {
+  text-decoration: underline;
+}
+
+.submenu-toggle {
+  flex-shrink: 0;
+  padding: 0.25rem !important;
+  min-width: auto !important;
+  height: auto !important;
+}
+
+.submenu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.submenu-level-2 {
+  list-style: none;
+  margin: 0.5rem 0 0 1rem;
+  padding: 0;
+  border-left: 2px solid rgba(199, 213, 216, 0.4);
+  padding-left: 1rem;
+}
+
+.submenu-level-2 li {
+  margin-bottom: 0.25rem;
+}
+
+.submenu-level-2 a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.9em;
+  padding: 0.25rem 0;
+  display: block;
+}
+
+.submenu-level-2 a:hover {
+  text-decoration: underline;
+  color: #007bff;
+}
+
+/* Responsividade para submenus */
+@media (max-width: 766px) {
+  .submenu-item-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .submenu-toggle {
+    align-self: flex-end;
+  }
+
+  .submenu-level-2 {
+    margin-left: 0.5rem;
+    padding-left: 0.5rem;
+  }
 }
