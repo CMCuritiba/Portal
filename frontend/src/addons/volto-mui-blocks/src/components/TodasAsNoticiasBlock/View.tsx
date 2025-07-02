@@ -41,7 +41,7 @@ interface ViewProps {
   };
 }
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 20;
 
 const View: React.FC<ViewProps> = (props) => {
   const { content, data } = props;
