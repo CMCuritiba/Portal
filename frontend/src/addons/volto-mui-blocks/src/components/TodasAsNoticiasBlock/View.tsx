@@ -94,7 +94,7 @@ const View: React.FC<ViewProps> = (props) => {
               <Link
                 key={index}
                 className="item card-default py-24 px-24"
-                to={item?.url}
+                to={item['@id']}
               >
                 <div className="flex gap-32 align-items-center flex-mb flex-column-mb">
                   <div className="thumbnail m-w-218">
