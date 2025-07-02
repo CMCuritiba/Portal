@@ -5,6 +5,10 @@ on:
     branches: [ "develop", "homolog" ]
     paths:
       - "frontend/**"
+  pull_request:
+    branches: [ "develop", "homolog" ]
+    paths:
+      - "frontend/**"
 
 env:
   REGISTRY: ghcr.io
