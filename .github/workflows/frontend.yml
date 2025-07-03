@@ -1,12 +1,12 @@
 name: Docker Build and Push Frontend
 
 on:
-  push:
-    branches: [ "develop", "homolog" ]
-    paths:
-      - "frontend/**"
   pull_request:
-    branches: [ "develop", "homolog" ]
+    types:
+      - closed
+    branches:
+      - "develop"
+      - "homolog"
     paths:
       - "frontend/**"
 
@@ -15,12 +15,11 @@ env:
   IMAGE_NAME: ${{ github.repository }}/frontend
   NODE_VERSION: 20.x
 
-defaults:
-  run:
-    working-directory: ./frontend
-
 jobs:
   code-analysis:
+    defaults:
+      run:
+        working-directory: ./frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout codebase
@@ -31,7 +30,7 @@ jobs:
           corepack enable
           corepack prepare yarn@stable --activate
 
-      - name: Use Node.js ${{ env.node-version }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -76,9 +75,7 @@ jobs:
     outputs:
       changed: ${{ steps.result.outputs.changed }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Check for version change
         id: version_check
         uses: EndBug/version-check@v2
@@ -94,6 +91,10 @@ jobs:
     needs:
       - check-version
       - code-analysis
+
+    env:
+      BRANCH: ${{ contains(github.ref, 'homolog') && 'homolog' || 'develop' }}
+
     permissions:
       contents: read
       packages: write
@@ -136,17 +137,41 @@ jobs:
       #       org.label-schema.docker.cmd=docker run -d -p 3000:3000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
 
       - name: Build and push Docker image
-        if: contains(github.ref, 'homolog')
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           context: frontend
           file: frontend/Dockerfile
-          push: true
+          push: ${{ contains(github.ref, 'homolog') }}
           tags: |
             ${{ steps.frontend-version.outputs.version }}
-            ${{ steps.frontend-version.outputs.version }}-homolog
-            homolog
+            ${{ steps.frontend-version.outputs.version }}-${{ env.BRANCH }}
+            ${{ env.BRANCH }}
           labels: |
             ${{ steps.frontend-version.outputs.version }}
-            ${{ steps.frontend-version.outputs.version }}-homolog
+            ${{ steps.frontend-version.outputs.version }}-${{ env.BRANCH }}
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    environment: develop
+    needs:
+      - check-version
+      - build-and-push
+    if: needs.check-version.outputs.changed == 'true' && contains(github.ref, 'homolog')
+
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
+        aws-region: ${{ secrets.DEV_AWS_REGION }}
+
+    - name: Deploy Frontend on Amazon ECS
+      run: |
+        aws ecs update-service \
+          --cluster "${{ secrets.DEV_ECS_CLUSTER }}" \
+          --service "${{ secrets.DEV_ECS_SERVICE_FRONTEND }}" \
+          --cli-input-json '{"forceNewDeployment": true}' >/dev/null
+

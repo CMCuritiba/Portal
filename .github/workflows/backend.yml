@@ -1,4 +1,4 @@
-name: Docker Build and Push Backend
+name: CI/CD Backend
 
 on:
   pull_request:
@@ -128,6 +128,10 @@ jobs:
       - flake8
       - zpretty
       - tests
+
+    env:
+      BRANCH: ${{ contains(github.ref, 'homolog') && 'homolog' || 'develop' }}
+
     permissions:
       contents: read
       packages: write
@@ -178,8 +182,33 @@ jobs:
           push: ${{ contains(github.ref, 'homolog') }}
           tags: |
             ${{ steps.backend-version.outputs.version }}
-            ${{ steps.backend-version.outputs.version }}-homolog
-            homolog
+            ${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
+            ${{ env.BRANCH }}
           labels: |
             ${{ steps.backend-version.outputs.version }}
-            ${{ steps.backend-version.outputs.version }}-homolog
+            ${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    environment: develop
+    needs:
+      - check-version
+      - build-and-push
+    if: needs.check-version.outputs.changed == 'true' && contains(github.ref, 'homolog')
+
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
+        aws-region: ${{ secrets.DEV_AWS_REGION }}
+
+    - name: Deploy Backend on Amazon ECS
+      run: |
+        aws ecs update-service \
+          --cluster "${{ secrets.DEV_ECS_CLUSTER }}" \
+          --service "${{ secrets.DEV_ECS_SERVICE_BACKEND }}" \
+          --cli-input-json '{"forceNewDeployment": true}' >/dev/null
+
