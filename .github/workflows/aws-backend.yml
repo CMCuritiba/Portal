@@ -41,7 +41,7 @@ name: Deploy Backend to Amazon ECS
 
 on:
   workflow_run:
-    workflows: ["backend.yml"]
+    workflows: ["Docker Build and Push Backend"] # backend.yml
     branches: [ "main", "homolog" ]
     types:
       - completed

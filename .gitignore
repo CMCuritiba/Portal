@@ -1,2 +1,19 @@
 !.vscode
 node_modules
+
+# certificates
+*.cert
+*.key
+*.crt
+*.pem
+*.pub
+
+# Logs
+logs/
+log/
+*.log.*
+*.log
+
+# zip files
+*.zip
+*.tar.gz

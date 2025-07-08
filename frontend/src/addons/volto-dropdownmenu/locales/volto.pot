@@ -39,6 +39,11 @@ msgid "dropdownmenu-addmenuitem"
 msgstr ""
 
 #: widget/MenuConfigurationForm
+# defaultMessage: Add submenu item
+msgid "dropdownmenu-add-submenu-item"
+msgstr ""
+
+#: widget/MenuConfigurationForm
 # defaultMessage: Blocks
 msgid "dropdownmenu-blocks"
 msgstr ""
@@ -76,6 +81,11 @@ msgstr ""
 #: widget/MenuConfigurationForm
 # defaultMessage: Delete menu item
 msgid "dropdownmenu-deletemenuitem-button"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Delete submenu item
+msgid "dropdownmenu-delete-submenu-item"
 msgstr ""
 
 #: widget/MenuConfigurationWidget
@@ -141,6 +151,26 @@ msgstr ""
 #: widget/MenuConfigurationForm
 # defaultMessage: "Show more" link text
 msgid "dropdownmenu-showMoreText"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu
+msgid "dropdownmenu-submenu"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Configure level 2 submenu items
+msgid "dropdownmenu-submenu-description"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item title
+msgid "dropdownmenu-submenu-item-title"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item link
+msgid "dropdownmenu-submenu-item-link"
 msgstr ""
 
 #: widget/MenuConfigurationForm
