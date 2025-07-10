@@ -101,7 +101,7 @@ const Header = (props) => {
                                 <MenuIcon/>
                                 MENU
                             </Button>
-                            <Link to="/" alt="Página Inicial">
+                            <Link to="/" title="Página Inicial" onClick={() => setAct(false)}>
                                 <img src="/camara-curitiba.png" alt="" className="logo-camara"/>
                             </Link>
                         </div>
@@ -127,12 +127,12 @@ const Header = (props) => {
                                         {
                                             z?.mode === 'simpleLink' &&
                                             <Link to={flattenToAppURL(z.linkUrl?.[0]?.['@id'])} key={i}
-                                                  title={z?.title}>{z.title}</Link>
+                                                  title={z?.title} onClick={() => setAct(false)}>{z.title}</Link>
                                         }
                                         {
                                             z?.mode === 'linkExternal' &&
                                             <a href={z?.link_external} target="_blank" title={z?.title}
-                                               key={i}>{z.title}</a>
+                                               key={i} onClick={() => setAct(false)}>{z.title}</a>
                                         }
                                     </>
                                 ))
@@ -182,31 +182,90 @@ const Header = (props) => {
                                         {menuHeader.map((menu, index) => (
                                             <li key={index}
                                                 className={menu?.title === activeMenuMobile?.title ? "active" : ""}>
-                                                <a
-                                                    href="#"
-                                                    className={menu?.title === activeMenu?.title ? "active" : ""}
-                                                    onMouseEnter={() => {
-                                                        setActiveMenu(menu);
-                                                        setActiveMenuMobile(menu)
-                                                    }}
-                                                >
-                                                    {menu?.title}
-                                                    <span className="d-none d-mb-block">
-                                                        <img src="/icons/menu/chevron.svg" alt="Chevron"/>
-                                                    </span>
-                                                </a>
+                                                {
+                                                    menu?.mode === 'simpleLink' ? (
+                                                        <Link
+                                                            to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
+                                                            className={menu?.title === activeMenu?.title ? "active" : ""}
+                                                            onMouseEnter={() => {
+                                                                setActiveMenu(menu);
+                                                                setActiveMenuMobile(menu)
+                                                            }}
+                                                            onClick={(e) => {
+                                                                // Em mobile, não navegar, apenas mostrar submenu
+                                                                if (window?.innerWidth <= 768) {
+                                                                    e.preventDefault();
+                                                                    setActiveMenuMobile(menu);
+                                                                } else {
+                                                                    setAct(false);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {menu?.title}
+                                                            <span className="d-none d-mb-block">
+                                                                <img src="/icons/menu/chevron.svg" alt="Chevron"/>
+                                                            </span>
+                                                        </Link>
+                                                    ) : menu?.mode === 'external' ? (
+                                                        <a
+                                                            href={menu?.link_external}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className={menu?.title === activeMenu?.title ? "active" : ""}
+                                                            onMouseEnter={() => {
+                                                                setActiveMenu(menu);
+                                                                setActiveMenuMobile(menu)
+                                                            }}
+                                                            onClick={(e) => {
+                                                                // Em mobile, não navegar, apenas mostrar submenu
+                                                                if (window?.innerWidth <= 768) {
+                                                                    e.preventDefault();
+                                                                    setActiveMenuMobile(menu);
+                                                                } else {
+                                                                    setAct(false);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {menu?.title}
+                                                            <span className="d-none d-mb-block">
+                                                                <img src="/icons/menu/chevron.svg" alt="Chevron"/>
+                                                            </span>
+                                                        </a>
+                                                    ) : (
+                                                        <a
+                                                            href="#"
+                                                            className={menu?.title === activeMenu?.title ? "active" : ""}
+                                                            onMouseEnter={() => {
+                                                                setActiveMenu(menu);
+                                                                setActiveMenuMobile(menu)
+                                                            }}
+                                                            onClick={(e) => {
+                                                                // Em mobile, não navegar, apenas mostrar submenu
+                                                                if (window?.innerWidth <= 768) {
+                                                                    e.preventDefault();
+                                                                    setActiveMenuMobile(menu);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {menu?.title}
+                                                            <span className="d-none d-mb-block">
+                                                                <img src="/icons/menu/chevron.svg" alt="Chevron"/>
+                                                            </span>
+                                                        </a>
+                                                    )
+                                                }
                                                 <ul className="sub-menu">
                                                     {menu?.submenu?.map((menu, index) => (
                                                         <li key={index}>
                                                             {
                                                                 menu?.mode === 'simpleLink' &&
                                                                 <Link to={flattenToAppURL(menu?.linkUrl?.[0]?.['@id'])}
-                                                                      title={menu?.title}>{menu.title}</Link>
+                                                                      title={menu?.title} onClick={() => setAct(false)}>{menu.title}</Link>
                                                             }
                                                             {
                                                                 menu?.mode === 'external' &&
                                                                 <a href={menu?.link_external} target="_blank"
-                                                                   title={menu?.title}>{menu.title}</a>
+                                                                   title={menu?.title} onClick={() => setAct(false)}>{menu.title}</a>
                                                             }
                                                         </li>
                                                     ))}
@@ -214,7 +273,7 @@ const Header = (props) => {
                                             </li>
                                         ))}
                                     </ul>
-                                    <Link className="mt-24 acessar-mobile" to="/login?return_url=">
+                                    <Link className="mt-24 acessar-mobile" to="/login?return_url=" onClick={() => setAct(false)}>
                                         <img src="/icons/menu/acessar-mobile.svg" alt="Acessar mobile"/>
                                         Acessar
                                     </Link>
@@ -230,7 +289,7 @@ const Header = (props) => {
                                                 {
                                                     item?.mode === 'simpleLink' &&
                                                     <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
-                                                          title={item?.title}>
+                                                          title={item?.title} onClick={() => setAct(false)}>
                                                         <span>
                                                             {item.title}
                                                         </span>
@@ -239,7 +298,7 @@ const Header = (props) => {
                                                 }
                                                 {
                                                     item?.mode === 'external' &&
-                                                    <a href={item?.link_external} target="_blank" title={item?.title}>
+                                                    <a href={item?.link_external} target="_blank" title={item?.title} onClick={() => setAct(false)}>
                                                          <span>
                                                             {item.title}
                                                          </span>
@@ -262,7 +321,7 @@ const Header = (props) => {
                                                     {
                                                         item?.mode === 'simpleLink' &&
                                                         <Link to={flattenToAppURL(item?.linkUrl?.[0]?.['@id'])}
-                                                              title={item?.title}>
+                                                              title={item?.title} onClick={() => setAct(false)}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
                                                             {item.title}
                                                         </Link>
@@ -270,7 +329,7 @@ const Header = (props) => {
                                                     {
                                                         item?.mode === 'linkExternal' &&
                                                         <a href={item?.link_external} target="_blank"
-                                                           title={item?.title}>
+                                                           title={item?.title} onClick={() => setAct(false)}>
                                                             <img src="/icons/menu/col-menu-white.svg" alt=""/>
                                                             {item.title}
                                                         </a>
@@ -295,19 +354,19 @@ const Header = (props) => {
             </div>
             {/* Menu Bottom Mobile */}
             <div className="fadeIn menu-bottom-mobile stack row">
-                <Link to="/" className={pathname === "" ? "flex-1 act" : "flex-1"}>
+                <Link to="/" className={pathname === "" ? "flex-1 act" : "flex-1"} onClick={() => setAct(false)}>
                     <img src="/icons/menu/home.svg" alt="Home"/>
                     Home
                 </Link>
-                <Link to="/noticias" className={pathname === "/noticias" ? "flex-1 act" : "flex-1"}>
+                <Link to="/noticias" className={pathname === "/noticias" ? "flex-1 act" : "flex-1"} onClick={() => setAct(false)}>
                     <img src="/icons/menu/news.svg" alt="Home"/>
                     Notícias
                 </Link>
-                <Link to="/vereadores" className={pathname === "/vereadores" ? "flex-1 act" : "flex-1"}>
+                <Link to="/vereadores" className={pathname === "/vereadores" ? "flex-1 act" : "flex-1"} onClick={() => setAct(false)}>
                     <img src="/icons/menu/vereadores.svg" alt="Home"/>
                     Vereadores
                 </Link>
-                <a href="#" className="flex-1">
+                <a href="#" className="flex-1" onClick={() => setAct(false)}>
                     <img src="/icons/menu/projetos-de-lei.svg" alt="Home"/>
                     Projeto de Lei
                 </a>
