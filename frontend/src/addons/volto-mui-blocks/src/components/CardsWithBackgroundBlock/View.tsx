@@ -1,91 +1,82 @@
 import React from 'react';
-import { withBlockExtensions } from '@plone/volto/helpers';
+import {withBlockExtensions} from '@plone/volto/helpers';
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 import './style.less';
+import {Link} from 'react-router-dom';
+import {flattenToAppURL} from "@plone/volto/helpers/Url/Url";
 
-const View = () => {
-  return (
-    <div className="cardsBlockBackground py-32 w-100-w background-white max-w-100">
-      <div className="container">
-        <h2 className="fs-24 color-dark text-center">Histórias de Curitiba</h2>
-        <p className="fs-18 color-gray mb-0 text-center ff-lato">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <div className="max-w-mobile-100vw">
-          <div className="stack row mt-40 gap-32 grid-cols-3 overflow-auto-mobile child-75vw">
-            <div className="item-card back card card-default position-relative">
-              <div className="thumbnail">
-                <img
-                  src="/images/memoria/nossa-memoria-1.png"
-                  alt="Especial de Halloween: caça às bruxas em Curitiba"
-                  className="aspect-ratio-358-537"
-                />
-              </div>
-              <div className="content stack flex-between gap-24 flex-column ">
-                <h3 className="color-white ff-lato fs-20 fw-400">
-                  Especial de Halloween: caça às bruxas em Curitiba é tema do
-                  CMC Podcasts
-                </h3>
-                <Button>
-                  Veja mais
-                  <img src="/icons/ver-mais-background.svg" alt="Ver mais" />
-                </Button>
-              </div>
+const View = (content) => {
+    console.log("content", content);
+    return (
+        <div className="cardsBlockBackground py-32 w-100-w background-white max-w-100">
+            <div className="container">
+                {
+                    content?.data?.title && (
+                        <h2 className="fs-24 color-dark text-center">{content?.data?.title}</h2>
+                    )
+                }
+                {
+                    content?.data?.subtitle && (
+                        <p className="fs-18 color-gray mb-0 text-center ff-lato">
+                            {content?.data?.subtitle}
+                        </p>
+                    )
+                }
+
+                <div className="max-w-mobile-100vw">
+                    <div className="stack row mt-40 gap-32 grid-cols-3 overflow-auto-mobile child-75vw">
+                        {
+                            content?.data?.links?.map((item, index) => {
+                                return item?.link?.map((link) => (
+                                    <div key={index} className="item-card back card card-default position-relative">
+                                        <div className="thumbnail">
+                                            <Link to={flattenToAppURL(link?.getURL)} title={link?.title}>
+                                                <img
+                                                    src={flattenToAppURL(link["@id"] + "/" + link.image_scales?.image[0]?.download) || "/images/news/default.png"}
+                                                    alt="Especial de Halloween: caça às bruxas em Curitiba"
+                                                    className="aspect-ratio-358-537"
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div className="content stack flex-between gap-24 flex-column ">
+                                            <Link to={flattenToAppURL(link?.getURL)} title={link?.title}>
+                                                <h3 className="color-white ff-lato fs-20 fw-400">
+                                                    {link?.title}
+                                                </h3>
+                                            </Link>
+                                            <Link to={flattenToAppURL(link?.getURL)} title={link?.title}>
+                                                <Button>
+                                                    Veja mais
+                                                    <img src="/icons/ver-mais-background.svg" alt="Ver mais"/>
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))
+                            })
+                        }
+                    </div>
+                </div>
+                <div className="flex flex-center mt-40 mb-16">
+                    {
+                        content?.data?.link && content?.data?.link_text && (
+                            content?.data?.link.map((link) => (
+                                <Link to={flattenToAppURL(link.getURL)} title={content?.data?.link_text}>
+                                    <Button
+                                        className="button button-secondary"
+                                        component="a"
+                                    >
+                                        {content?.data?.link_text}
+                                    </Button>
+                                </Link>
+                            ))
+                        )
+                    }
+                </div>
             </div>
-            <div className="item-card back card card-default position-relative">
-              <div className="thumbnail">
-                <img
-                  src="/images/memoria/nossa-memoria-2.png"
-                  alt="Participação popular na política I"
-                  className="aspect-ratio-358-537"
-                />
-              </div>
-              <div className="content stack flex-between gap-24 flex-column ">
-                <h3 className="color-white ff-lato fs-20 fw-400">
-                  Participação popular na política I: três marcos decisivos na
-                  história de Curitiba
-                </h3>
-                <Button>
-                  Veja mais
-                  <img src="/icons/ver-mais-background.svg" alt="Ver mais" />
-                </Button>
-              </div>
-            </div>
-            <div className="item-card back card card-default position-relative">
-              <div className="thumbnail">
-                <img
-                  src="/images/memoria/nossa-memoria-2.png"
-                  alt="Participação popular na política II"
-                  className="aspect-ratio-358-537"
-                />
-              </div>
-              <div className="content stack flex-between gap-24 flex-column ">
-                <h3 className="color-white ff-lato fs-20 fw-400">
-                  Participação popular na política II: a luta pela Emancipação
-                  do Paraná
-                </h3>
-                <Button>
-                  Veja mais
-                  <img src="/icons/ver-mais-background.svg" alt="Ver mais" />
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
-        <div className="flex flex-center mt-40 mb-16">
-          <Button
-            href="/memorias"
-            className="button button-secondary"
-            component="a"
-          >
-            Visite nossas memórias
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default withBlockExtensions(View);

@@ -20,12 +20,22 @@ export const Schema = (props) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['links'],
+        fields: ['title', 'subtitle', 'links', 'link_text', 'link'],
       },
     ],
     properties: {
+      title: {
+        title:"Título",
+        mode:"text",
+        default:"Histórias de Curitiba",
+        value:"Histórias de Curitiba",
+      },
+      subtitle: {
+        title:"Subtitulo",
+        mode:"text",
+      },
       links: {
-        title: 'Banners',
+        title: 'Notícias',
         widget: 'object_list', // Widget para gerenciar listas de objetos
         mode: 'array', // Permite múltiplos itens
         schema: {
@@ -34,16 +44,10 @@ export const Schema = (props) => {
             {
               id: 'default',
               title: 'Default',
-              fields: ['link', 'image'],
+              fields: ['link'],
             },
           ],
           properties: {
-            image: {
-              title: 'Imagem',
-              widget: 'object_browser',
-              mode: 'image',
-              allowExternals: true,
-            },
             link: {
               title: 'Link',
               widget: 'object_browser', // Usa o widget object_browser
@@ -53,6 +57,16 @@ export const Schema = (props) => {
           },
           required: ['link', 'image'],
         },
+      },
+      link_text: {
+        title: 'Texto do link',
+        mode: 'text', // Vincula ao objeto no Plone
+      },
+      link: {
+        title: 'Link',
+        widget: 'object_browser', // Usa o widget object_browser
+        mode: 'link', // Vincula ao objeto no Plone
+        allowExternals: true,
       },
     },
     required: ['links'],
