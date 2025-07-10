@@ -50,10 +50,10 @@ const View = (props: ViewProps) => {
 
     const eventTypeOptions = [
         { value: '', label: 'Todos os tipos' },
-        { value: 'sessao-plenaria', label: 'Sessão Plenária' },
-        { value: 'audiencia-publica', label: 'Audiência Pública' },
-        { value: 'reuniao-comissao', label: 'Reunião de Comissão' },
-        { value: 'evento-especial', label: 'Evento Especial' }
+        { value: 'Sessão Plenária', label: 'Sessão Plenária' },
+        { value: 'Audiência Pública', label: 'Audiência Pública' },
+        { value: 'Reunião de Comissão', label: 'Reunião de Comissão' },
+        { value: 'Evento Especial', label: 'Evento Especial' }
     ];
 
     const buildQuery = () => {
@@ -62,19 +62,11 @@ const View = (props: ViewProps) => {
                 i: 'portal_type',
                 o: 'plone.app.querystring.operation.selection.is',
                 v: ['Event']
-            },
-            {
-                i: 'start',
-                o: 'plone.app.querystring.operation.date.afterToday',
-                v: ''
             }
         ];
 
         // Filtro por data usando seletor de data de início e fim
         if (startDate || endDate) {
-            // Remover o filtro afterToday se temos um filtro específico
-            query = query.filter(q => !(q.i === 'start' && q.o === 'plone.app.querystring.operation.date.afterToday'));
-
             if (startDate && endDate) {
                 // Filtro por intervalo de datas
                 query.push({
@@ -86,25 +78,32 @@ const View = (props: ViewProps) => {
                 // Filtro apenas por data de início
                 query.push({
                     i: 'start',
-                    o: 'plone.app.querystring.operation.date.after',
+                    o: 'plone.app.querystring.operation.date.largerThan',
                     v: startDate
                 });
             } else if (endDate) {
                 // Filtro apenas por data de fim
                 query.push({
                     i: 'start',
-                    o: 'plone.app.querystring.operation.date.before',
+                    o: 'plone.app.querystring.operation.date.lessThan',
                     v: endDate
                 });
             }
+        } else {
+            // Apenas eventos futuros quando não há filtro de data específico
+            query.push({
+                i: 'start',
+                o: 'plone.app.querystring.operation.date.afterToday',
+                v: ''
+            });
         }
 
         // Filtro por tipo de evento
         if (selectedType) {
             query.push({
-                i: 'subjects',
-                o: 'plone.app.querystring.operation.selection.is',
-                v: [selectedType]
+                i: 'Subject',
+                o: 'plone.app.querystring.operation.selection.any',
+                v: [selectedType]   
             });
         }
 
@@ -113,6 +112,8 @@ const View = (props: ViewProps) => {
 
     const fetchEvents = () => {
         const query = buildQuery();
+        console.log('Query sendo enviada:', query);
+        console.log('Filtros aplicados:', { startDate, endDate, selectedType });
 
         dispatch(
             getQueryStringResults('/institucional/agenda-de-atividades', {
@@ -132,6 +133,8 @@ const View = (props: ViewProps) => {
 
     useEffect(() => {
         if (searchResults) {
+            console.log('Eventos recebidos:', searchResults);
+            console.log('Primeiro evento subjects:', searchResults[0]?.subjects);
             setEvents(searchResults);
         }
     }, [searchResults]);
