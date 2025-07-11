@@ -42,6 +42,11 @@ import HomeNewsBlockEdit from "./components/HomeNewsBlock/Edit";
 import AgendaListBlockView from "./components/AgendaListBlock/View";
 import AgendaListBlockEdit from "./components/AgendaListBlock/Edit";
 
+import NewsThumbnailView from "./components/NewsThumbnail/View";
+import NewsThumbnailEdit from "./components/NewsThumbnail/Edit";
+
+import NewsAuthorPostDateView from "./components/NewsAuthorPostDate/View";
+import NewsAuthorPostDateEdit from "./components/NewsAuthorPostDate/Edit";
 
 const blockDefinitions = {
   gridMuiBlock: { title: "Grid View", view: View, edit: GridBlockEdit },
@@ -63,6 +68,8 @@ const blockDefinitions = {
   carouselBlock: { title: "Carousel", view: CarouselBlockView, edit: CarouselBlockEdit },
   homeNewsBlock: { title: "Notícias da Home", view: HomeNewsBlockView, edit: HomeNewsBlockEdit },
   agendaListBlock: { title: "Listagem agenda", view: AgendaListBlockView, edit: AgendaListBlockEdit },
+  newsThumbnailBlock: { title: "Thumbnail News", view: NewsThumbnailView, edit: NewsThumbnailEdit },
+  newsAuthorPostDate: { title: "Autor e data", view: NewsAuthorPostDateView, edit: NewsAuthorPostDateEdit },
 };
 
 const applyConfig = (config) => {

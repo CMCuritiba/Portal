@@ -1,0 +1,225 @@
+.midiaBlock {
+  background-color: #3E8A8E;
+  padding: 32px 0px;
+  margin-top: 32px;
+}
+
+.options-midia .tab-top.act {
+  border-bottom: 1px white !important;
+}
+
+.tab-top:not(:first-child) {
+  border-left: none;
+}
+
+.tab-top {
+  color: white !important;
+  flex: 1 !important;
+  padding: 12px 0px !important;
+  border: 1px solid white !important;
+  border-radius: 0px !important;
+  color: white !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 22px !important; /* 137.5% */
+  text-transform: none !important;
+}
+
+.tab-top.act img {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(14%) saturate(1355%) hue-rotate(134deg) brightness(97%) contrast(92%) !important;
+}
+
+.tab-top:first-child {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.tab-top:last-child {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+
+.tab-top.act {
+  color: #3E8A8E !important;
+  background-color: white;
+}
+
+.tab-top.act img {
+  filter: brightness(100);
+}
+
+.midiaBlock .box .ver-mais {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  /* Desktop/Botao Medio */
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.midiaBlock .box h2 {
+  color: white;
+  font-family: Lato, sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.video-item .thumbnail {
+  border-radius: 8px;
+  background-color: black;
+  position: relative;
+}
+
+.video-item .thumbnail .play {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  align-items: center;
+}
+
+.video-item p {
+  color: var(--White, #ffffff);
+  /* Desktop/Paragrafo 1 */
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+
+.video-item .thumbnail > img {
+  opacity: 0.70;
+  border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  display: block;
+  max-width: 100%;
+  height: auto;;
+  object-fit: cover;
+}
+
+.video-item .thumbnail iframe {
+  aspect-ratio: 16 / 9;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.video-item h3 {
+  color: var(--White, #FFFFFF);
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.small .video-item h3 {
+  color: #FFFFFF;
+  /* Desktop/Subtitulo 2 */
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  display: -webkit-box; /* Define um contêiner flexível */
+  -webkit-box-orient: vertical; /* Orientação vertical */
+  overflow: hidden; /* Oculta o texto extra */
+  -webkit-line-clamp: 6; /* Limita a 3 linhas */
+  text-overflow: ellipsis;
+}
+
+.thumbnail {
+  width: 100%;
+}
+
+.small .video-item .thumbnail, .small .video-item .thumbnail > img {
+  aspect-ratio: 16 / 9;
+  min-width: 218px;
+  object-fit: cover;
+}
+
+.small .video-item .thumbnail .play img {
+  max-width: 62px;
+  height: 62px;
+}
+
+.small .video-item p {
+  font-size: 14px;
+}
+
+.w-100 {
+  max-width: 100% !important;
+}
+
+.icones- {
+  max-width: 100%;
+  padding: 80px 0px;
+  background: var(--Primary, #3E8A8E);
+}
+
+.grid-col-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+.icones- .default h2 {
+  color: #FFF;
+  margin: 0px;
+  /* Desktop/H3 */
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.link-div {
+  padding: 4px 16px 8px 4px;
+  display: flex;
+  align-items: center;
+  border-left: 2px solid white;
+}
+
+.link-icone:hover {
+  color: #f4f4f4;
+  transform: translateX(14px);
+}
+
+.link-icone {
+  transition: all ease-in-out 300ms;
+  color: var(--White, #FFF);
+  /* Desktop/Subtitulo 2 */
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.icones- .default {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+
+}
