@@ -13,8 +13,8 @@ import cx from "classnames";
 
 const View = (props) => {
   const { data, isEditMode, className, block, classes, properties } = props;
-  const Image = config.getComponent('Image').component;
-
+  const Image = config?.getComponent('Image')?.component;
+    console.log("properties", properties);
   return (
     <>
         {properties?.image && (
@@ -22,19 +22,28 @@ const View = (props) => {
                 {(() => {
                     const image = (
                         <figure className="figure center large">
-                            <Image
-                                className={"w-100"}
-                                item={properties}
-                                imageField="image"
-                                sizes={config.blocks.blocksConfig.leadimage.getSizes(data)}
-                                alt={properties.image_caption || ''}
-                                responsive={true}
-                                caption={properties.image_caption || ''}
-                            />
+                            {
+                                properties?.image?.data && (
+                                    <img src={`data:${properties?.image?.data["content-type"]};base64,${properties.image.data}`} alt={properties?.image_caption || ''} className={"w-100"} />
+                                )
+                            }
+                            {
+                                properties?.image?.download && (
+                                    <Image
+                                        className={"w-100"}
+                                        item={properties}
+                                        imageField="image"
+                                        alt={properties?.image_caption || ''}
+                                        responsive={true}
+                                        caption={properties?.image_caption || ''}
+                                    />
+                                )
+                            }
+
                             {
                                 properties?.image_caption && (
                                     <figcaption>
-                                        <div className="description"><p>{properties.image_caption}</p></div>
+                                        <div className="description"><p>{properties?.image_caption}</p></div>
                                     </figcaption>
                                 )
                             }
