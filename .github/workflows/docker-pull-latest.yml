@@ -1,7 +1,7 @@
 name: Docker Pull (Frontend e Backend) com Tag 'latest'
 
 on:
-  workflow_dispatch:  # Execução manual
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,18 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Login no GitHub Container Registry (GHCR)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Substituir tag 'homolog' por 'latest' e fazer Docker Pull
         run: |
           FRONTEND_IMAGE="ghcr.io/cmcuritiba/portal/frontend:homolog"
           BACKEND_IMAGE="ghcr.io/cmcuritiba/portal/backend:homolog"
 
-          FRONTEND_LATEST=$(echo $FRONTEND_IMAGE | sed 's/:homolog/:latest/')
-          BACKEND_LATEST=$(echo $BACKEND_IMAGE | sed 's/:homolog/:latest/')
+          FRONTEND_LATEST="${FRONTEND_IMAGE/:homolog/:latest}"
+          BACKEND_LATEST="${BACKEND_IMAGE/:homolog/:latest}"
 
-          echo "Frontend: $FRONTEND_LATEST"
-          echo "Backend:  $BACKEND_LATEST"
-
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u USERNAME --password-stdin
-
+          echo "Pulling frontend image: $FRONTEND_LATEST"
           docker pull $FRONTEND_LATEST
+
+          echo "Pulling backend image: $BACKEND_LATEST"
           docker pull $BACKEND_LATEST
