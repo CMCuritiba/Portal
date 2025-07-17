@@ -16,11 +16,32 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get branch info
-        id: branch
+      - name: Debug workflow info
         run: |
-          echo "source_branch=${{ github.event.workflow_run.head_branch }}" >> $GITHUB_OUTPUT
-          echo "target_branch=${{ github.event.workflow_run.head_branch }}" >> $GITHUB_OUTPUT
+          echo "Workflow run head branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
+          echo "Current branch: ${{ github.ref }}"
+          echo "Repository: ${{ github.repository }}"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          # Check if there are any changes to commit
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --name-only
+          fi
+
+      - name: Create test file for PR
+        if: steps.changes.outputs.has_changes == 'false'
+        run: |
+          echo "# Auto PR Test" > auto-pr-test.md
+          echo "This file was created to test the auto PR functionality." >> auto-pr-test.md
+          echo "Created at: $(date)" >> auto-pr-test.md
 
       - name: Create Pull Request
         id: pr
@@ -47,11 +68,20 @@ jobs:
           delete-branch: true
           commit-message: "chore: auto-pr changes [skip ci]"
 
+      - name: Debug PR creation
+        run: |
+          echo "PR number: ${{ steps.pr.outputs.pull-request-number }}"
+          echo "PR URL: ${{ steps.pr.outputs.pull-request-url }}"
+          echo "PR created: ${{ steps.pr.outputs.pull-request-number != '' }}"
+          echo "Has changes: ${{ steps.changes.outputs.has_changes }}"
+
       - name: Approve Pull Request
-        if: steps.pr.outputs.pull-request-number
+        if: steps.pr.outputs.pull-request-number != ''
         uses: actions/github-script@v7
         with:
           script: |
+            console.log('Starting approval process...');
+            
             // Add approval review
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
@@ -64,10 +94,12 @@ jobs:
             console.log(`Approved PR #${{ steps.pr.outputs.pull-request-number }}`);
 
       - name: Merge Pull Request
-        if: steps.pr.outputs.pull-request-number
+        if: steps.pr.outputs.pull-request-number != ''
         uses: actions/github-script@v7
         with:
           script: |
+            console.log('Starting merge process...');
+            
             // Wait a bit for the approval to be processed
             await new Promise(resolve => setTimeout(resolve, 2000));
             
