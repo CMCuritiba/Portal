@@ -6,6 +6,11 @@ on:
       - homolog
       - main
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -14,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,6 +32,7 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_ENV: production
         run: npx semantic-release
         working-directory: ./frontend
 

@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+permissions:
+  contents: write
+
 jobs:
   update-homolog-tag:
     runs-on: ubuntu-latest
@@ -13,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update homolog tag
         run: |
@@ -33,6 +38,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update latest tag
         run: |
