@@ -75,24 +75,6 @@ jobs:
           echo "PR created: ${{ steps.pr.outputs.pull-request-number != '' }}"
           echo "Has changes: ${{ steps.changes.outputs.has_changes }}"
 
-      - name: Approve Pull Request
-        if: steps.pr.outputs.pull-request-number != ''
-        uses: actions/github-script@v7
-        with:
-          script: |
-            console.log('Starting approval process...');
-            
-            // Add approval review
-            await github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: ${{ steps.pr.outputs.pull-request-number }},
-              event: 'APPROVE',
-              body: 'Auto-approved by GitHub Actions for semantic-release changes'
-            });
-            
-            console.log(`Approved PR #${{ steps.pr.outputs.pull-request-number }}`);
-
       - name: Merge Pull Request
         if: steps.pr.outputs.pull-request-number != ''
         uses: actions/github-script@v7
@@ -100,10 +82,7 @@ jobs:
           script: |
             console.log('Starting merge process...');
             
-            // Wait a bit for the approval to be processed
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Try to merge the PR
+            // Try to merge the PR directly (without approval)
             try {
               await github.rest.pulls.merge({
                 owner: context.repo.owner,
@@ -118,4 +97,5 @@ jobs:
             } catch (error) {
               console.log('Could not auto-merge PR. It may require manual approval.');
               console.log('Error:', error.message);
+              console.log('PR URL:', `https://github.com/${{ github.repository }}/pull/${{ steps.pr.outputs.pull-request-number }}`);
             } 
