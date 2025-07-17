@@ -6,36 +6,40 @@ on:
       - develop
       - homolog
       - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+      - homolog
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend/src/camara_de_curitiba
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true || github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install python-semantic-release[all]
+      - name: Install python-semantic-release
+        run: pip install python-semantic-release
 
-      - name: Run python-semantic-release
+      - name: Semantic Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release publish
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
+        working-directory: ./backend/src/camara_de_curitiba
 
   build-image:
     needs: release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
+    if: (github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main') && (github.event.action == 'closed' && github.event.pull_request.merged == true || github.event_name == 'push')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
