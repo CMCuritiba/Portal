@@ -1,3 +1,10 @@
+# [1.1.0-homolog.5](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.4...v1.1.0-homolog.5) (2025-07-17)
+
+
+### Bug Fixes
+
+* **components:** ajusta o bloco "Cards com background" ([3af4683](https://github.com/CMCuritiba/Portal/commit/3af4683adf44b6cd8b7385afb014fcc7fbc67d91))
+
 # [1.1.0-homolog.4](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.3...v1.1.0-homolog.4) (2025-07-17)
 
 
