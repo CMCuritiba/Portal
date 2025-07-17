@@ -38,7 +38,7 @@
       }
     ],
     [
-      "@semantic-release/monorepo",
+      "semantic-release-monorepo",
       {
         "packages": [
           "frontend/src/addons/*"
