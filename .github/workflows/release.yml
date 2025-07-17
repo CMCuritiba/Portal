@@ -1,33 +1,35 @@
-name: Release Backend
+name: Release
 
 on:
   push:
     branches:
       - homolog
       - main
+      - develop
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '18'
 
-      - name: Install python-semantic-release
-        run: pip install python-semantic-release[all]
+      - name: Install semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
-        working-directory: ./backend/src/camara_de_curitiba
+        run: npx semantic-release
+        working-directory: ./
 
   build-image:
     needs: release
@@ -57,6 +59,23 @@ jobs:
           echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
           echo "Using version: $LATEST_TAG"
 
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ghcr.io/cmcuritiba/portal/frontend:${{ steps.version.outputs.version }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Build and push Backend image
         uses: docker/build-push-action@v5
         with:
@@ -72,4 +91,4 @@ jobs:
             org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max 
+          cache-to: type=gha,mode=max
