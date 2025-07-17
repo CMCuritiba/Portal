@@ -25,7 +25,17 @@ jobs:
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
-      - name: Semantic Release
+      - name: Semantic Release (Dry Run for Protected Branches)
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # For protected branches, we'll do a dry run and let auto-pr handle the actual release
+          npx semantic-release --dry-run
+        working-directory: ./
+
+      - name: Semantic Release (Normal for Non-Protected Branches)
+        if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
