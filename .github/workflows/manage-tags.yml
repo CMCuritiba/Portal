@@ -1,0 +1,48 @@
+name: Manage Tags
+
+on:
+  workflow_run:
+    workflows: ["Release Frontend", "Release Backend"]
+    types:
+      - completed
+
+jobs:
+  update-homolog-tag:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'homolog'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update homolog tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Delete existing homolog tag if it exists
+          git tag -d homolog 2>/dev/null || true
+          git push origin :refs/tags/homolog 2>/dev/null || true
+          
+          # Create new homolog tag pointing to current commit
+          git tag homolog
+          git push origin homolog
+
+  update-latest-tag:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update latest tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Delete existing latest tag if it exists
+          git tag -d latest 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
+          
+          # Create new latest tag pointing to current commit
+          git tag latest
+          git push origin latest 
