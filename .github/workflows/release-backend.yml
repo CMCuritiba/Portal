@@ -62,8 +62,17 @@ jobs:
       - name: Get latest tag version
         id: version
         run: |
+          # Fetch all tags
+          git fetch --tags
+          
           # Get the latest tag created by semantic-release
-          LATEST_TAG=$(git describe --tags --abbrev=0)
+          LATEST_TAG=$(git tag --sort=-version:refname | head -1)
+          
+          if [ -z "$LATEST_TAG" ]; then
+            echo "No tags found, using commit SHA"
+            LATEST_TAG=${{ github.sha }}
+          fi
+          
           echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
           echo "Using version: $LATEST_TAG"
 
