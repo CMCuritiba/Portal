@@ -9,7 +9,8 @@
     "@commitlint/config-conventional": "^17.4.4",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "semantic-release-monorepo": "^8.0.2"
   },
   "config": {
     "commitizen": {
