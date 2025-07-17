@@ -51,19 +51,14 @@ jobs:
           fi
 
       - name: Commit consolidated changelog
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
           if git diff --quiet CHANGELOG.md; then
             echo "No changes to commit"
           else
             git add CHANGELOG.md
             git commit -m "docs: consolidate changelog from all packages [skip ci]"
-
-            # Usa o GH_TOKEN para autenticação
-            git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
-            git push origin HEAD
+            git push
           fi
