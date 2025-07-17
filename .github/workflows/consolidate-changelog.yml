@@ -20,7 +20,7 @@ jobs:
           echo "" >> CHANGELOG.md
           echo "All notable changes to this project will be documented in this file." >> CHANGELOG.md
           echo "" >> CHANGELOG.md
-          
+
           # Adicionar changelog do frontend se existir
           if [ -f "frontend/CHANGELOG.md" ]; then
             echo "## Frontend" >> CHANGELOG.md
@@ -28,7 +28,7 @@ jobs:
             cat frontend/CHANGELOG.md >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
-          
+
           # Adicionar changelog dos addons se existirem
           for addon in frontend/src/addons/*/; do
             if [ -f "${addon}CHANGELOG.md" ]; then
@@ -39,7 +39,7 @@ jobs:
               echo "" >> CHANGELOG.md
             fi
           done
-          
+
           # Adicionar changelog do backend se existir
           if [ -f "backend/CHANGELOG.md" ]; then
             echo "## Backend" >> CHANGELOG.md
@@ -52,11 +52,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
+            # Verifica se houve mudanças no arquivo CHANGELOG.md
           if git diff --quiet CHANGELOG.md; then
-            echo "No changes to commit"
-          else
+            echo "Nenhuma alteração para commitar"
+            else
             git add CHANGELOG.md
             git commit -m "docs: consolidate changelog from all packages [skip ci]"
-            git push
-          fi 
+
+            # Autentica o push com o GH_TOKEN
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          fi
