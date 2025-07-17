@@ -1,3 +1,22 @@
+# [1.1.0-homolog.2](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.1...v1.1.0-homolog.2) (2025-07-17)
+
+
+### Bug Fixes
+
+* **versionamento:** fix tag image build docker ([a2478cc](https://github.com/CMCuritiba/Portal/commit/a2478cc0f2746067b5269d011484230afa8c12ab))
+* **versionamento:** fix tag sem-ver 3 ([5605a27](https://github.com/CMCuritiba/Portal/commit/5605a27f61ecc6711fd473d5ec139cfed942b97d))
+* **versionamento:** fix tags version ([37d86b2](https://github.com/CMCuritiba/Portal/commit/37d86b249a4f2de85a6ea8f0a6cb3a12b705ef86))
+* **versionamento:** fix tags version ([379e746](https://github.com/CMCuritiba/Portal/commit/379e7466664f6d7bf0921694201a6f59d97c8ae0))
+* **versionamento:** fix tags version tag ([e972383](https://github.com/CMCuritiba/Portal/commit/e972383500206e51f9dfda1baed586966d81a3ff))
+* **versionamento:** fix tags version tag ([e55a5ed](https://github.com/CMCuritiba/Portal/commit/e55a5ed0b890b6700f15374e81bc99bba7a7b557))
+* **versionamento:** fix tags version tag ([10c2588](https://github.com/CMCuritiba/Portal/commit/10c2588dd5b78efe0f782118a379f0cffbd54c26))
+
+
+### Reverts
+
+* **versionamento:** fix tags version tag ([9007d79](https://github.com/CMCuritiba/Portal/commit/9007d796f7c5cb9663abc209d5546ca0d66beaad))
+* **versionamento:** fix tags version tag ([cbeac2a](https://github.com/CMCuritiba/Portal/commit/cbeac2a9b0bc98fdadcb80d541118324e25a60b4))
+
 # [1.1.0-homolog.1](https://github.com/CMCuritiba/Portal/compare/v1.0.2...v1.1.0-homolog.1) (2025-07-17)
 
 
