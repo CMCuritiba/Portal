@@ -15,7 +15,6 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,6 +36,7 @@ jobs:
         working-directory: ./backend/src/camara_de_curitiba
 
   build-image:
+    needs: release
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
     steps:
@@ -55,19 +55,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get current version
+      - name: Get latest tag version
         id: version
         run: |
-          # Get current version from setup.py or pyproject.toml
-          if [ -f "backend/src/camara_de_curitiba/setup.py" ]; then
-            VERSION=$(python -c "import sys; sys.path.insert(0, 'backend/src/camara_de_curitiba'); from setup import setup; print(setup.version)")
-          elif [ -f "backend/src/camara_de_curitiba/pyproject.toml" ]; then
-            VERSION=$(python -c "import tomllib; print(tomllib.load(open('backend/src/camara_de_curitiba/pyproject.toml', 'rb'))['project']['version'])")
-          else
-            VERSION="latest"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Using version: $VERSION"
+          # Get the latest tag created by semantic-release
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "Using version: $LATEST_TAG"
 
       - name: Build and push Backend image
         uses: docker/build-push-action@v5
