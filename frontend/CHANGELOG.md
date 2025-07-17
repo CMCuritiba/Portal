@@ -1,3 +1,15 @@
+# [1.1.0-homolog.3](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.2...v1.1.0-homolog.3) (2025-07-17)
+
+
+### Bug Fixes
+
+* **versionamento:** consolidate-changelog gh token ([4d28036](https://github.com/CMCuritiba/Portal/commit/4d28036f64c9297439c25e2640b14d9a72e06b64))
+
+
+### Reverts
+
+* **versionamento:** fix multiple tags ([0594328](https://github.com/CMCuritiba/Portal/commit/05943283b0c11d53d2b1fd07e14fa36a6f139e07))
+
 # [1.1.0-homolog.2](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.1...v1.1.0-homolog.2) (2025-07-17)
 
 
