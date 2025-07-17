@@ -1,0 +1,62 @@
+name: Consolidate Changelog
+
+on:
+  workflow_run:
+    workflows: ["Release Frontend", "Release Backend"]
+    types:
+      - completed
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Consolidate changelogs
+        run: |
+          echo "# Changelog" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "All notable changes to this project will be documented in this file." >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          
+          # Adicionar changelog do frontend se existir
+          if [ -f "frontend/CHANGELOG.md" ]; then
+            echo "## Frontend" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat frontend/CHANGELOG.md >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+          
+          # Adicionar changelog dos addons se existirem
+          for addon in frontend/src/addons/*/; do
+            if [ -f "${addon}CHANGELOG.md" ]; then
+              addon_name=$(basename "$addon")
+              echo "## Addon: $addon_name" >> CHANGELOG.md
+              echo "" >> CHANGELOG.md
+              cat "${addon}CHANGELOG.md" >> CHANGELOG.md
+              echo "" >> CHANGELOG.md
+            fi
+          done
+          
+          # Adicionar changelog do backend se existir
+          if [ -f "backend/CHANGELOG.md" ]; then
+            echo "## Backend" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat backend/CHANGELOG.md >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+
+      - name: Commit consolidated changelog
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          if git diff --quiet CHANGELOG.md; then
+            echo "No changes to commit"
+          else
+            git add CHANGELOG.md
+            git commit -m "docs: consolidate changelog from all packages [skip ci]"
+            git push
+          fi 

@@ -1,18 +1,30 @@
-# Change Log
+# Changelog
 
-Todas as alterações significativas neste projeto serão documentadas aqui.
+All notable changes to this project will be documented in this file.
 
-O formato é baseado em [Keep a Changelog](http://keepachangelog.com/) e este
-projeto segue [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.0.0 (2025-01-21)
+## [Unreleased]
 
-- Initial version [collective]
+### Added
+- Initial project setup
+- Semantic release configuration
+- Automated versioning for frontend, addons and backend
+- Docker image builds with proper versioning
+- GitHub Actions workflows for CI/CD
 
-## 1.0.1 (2025-03-14)
+### Changed
+- N/A
 
-- Initial version with new volto blocks [digigroup]
+### Deprecated
+- N/A
 
-## 1.0.2 (2025-04-29)
+### Removed
+- N/A
 
-- Adicona os plugins pas.plugins.oidc e volto.authomatic [ramiroluz]
+### Fixed
+- N/A
+
+### Security
+- N/A
