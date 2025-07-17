@@ -1,0 +1,202 @@
+name: CI Backend
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "develop"
+      - "homolog"
+    paths:
+      - "backend/src/**"
+
+permissions:
+  pull-requests: read
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: cmcuritiba/portal/backend
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      PLONE_VERSION: ${{ steps.vars.outputs.PLONE_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set Env Vars
+        id: vars
+        run: |
+          echo "PLONE_VERSION=$(cat backend/version.txt)" >> $GITHUB_OUTPUT
+
+  black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      - name: Run check
+        uses: plone/code-analysis-action@v2
+        with:
+          base_dir: 'backend'
+          check: 'black'
+
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      - name: Run check
+        uses: plone/code-analysis-action@v2
+        with:
+          base_dir: 'backend'
+          check: 'flake8'
+
+  zpretty:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      - name: Run check
+        uses: plone/code-analysis-action@v2
+        with:
+          base_dir: 'backend'
+          check: 'zpretty'
+
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - meta
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Plone ${{ needs.meta.outputs.PLONE_VERSION }} with Python ${{ env.PYTHON_VERSION }}
+        uses: plone/setup-plone@v2.0.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          plone-version: ${{ needs.meta.outputs.PLONE_VERSION }}
+
+      - name: Install package
+        run: |
+          pip install mxdev
+          mxdev -c mx.ini
+          pip install -r requirements-mxdev.txt
+
+      - name: Run tests
+        run: |
+          pytest --disable-warnings src/camara_de_curitiba/tests
+
+  # Job para verificar se houve alteração no arquivo setup.py
+  # do backend, que é onde está a versão do Plone.
+  # Se houver alteração, o job de build-and-push será executado.
+  # ATENÇÃO: Isto não é o ideal, pois o build/push pode ser executado mesmo
+  # que haja alteração em porções do setup.py que não afetam a imagem Docker.
+  # Uma alternativa melhor seria utilizar uma action que de fato valide a versão
+  # no arquivo setup.py ou escrever um script que verifique se a versão mudou
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.result.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for version change
+        id: version_check
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - './backend/src/camara_de_curitiba/setup.py'
+      - id: result
+        run: echo "changed=${{ steps.version_check.outputs.backend }}" >> $GITHUB_OUTPUT
+
+  build-and-push:
+    if: needs.check-version.outputs.changed == 'true'
+
+    runs-on: ubuntu-latest
+    needs:
+      - check-version
+      - black
+      - flake8
+      - zpretty
+      - tests
+
+    env:
+      BRANCH: ${{ contains(github.ref, 'homolog') && 'homolog' || 'develop' }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get version from setup.py
+        id: backend-version
+        working-directory: ./backend/src/camara_de_curitiba
+        run: |
+          echo "version=$(python3 setup.py --version)" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64
+          context: backend
+          file: backend/Dockerfile
+          push: ${{ contains(github.ref, 'homolog') }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.backend-version.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.BRANCH }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.backend-version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    environment: develop
+    needs:
+      - check-version
+      - build-and-push
+    if: needs.check-version.outputs.changed == 'true' && contains(github.ref, 'homolog')
+
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
+        aws-region: ${{ secrets.DEV_AWS_REGION }}
+
+    - name: Deploy Backend on Amazon ECS
+      run: |
+        aws ecs update-service \
+          --cluster "${{ secrets.DEV_ECS_CLUSTER }}" \
+          --service "${{ secrets.DEV_ECS_SERVICE_BACKEND }}" \
+          --cli-input-json '{"forceNewDeployment": true}' >/dev/null
+
