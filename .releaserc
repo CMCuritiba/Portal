@@ -1,6 +1,6 @@
 {
   "branches": [
-    "develop2",
+    "develop",
     {
       "name": "homolog",
       "prerelease": "homolog",
@@ -43,4 +43,4 @@
       }
     ]
   ]
-} 
+}
