@@ -3,7 +3,6 @@ name: Release Frontend
 on:
   push:
     branches:
-      - develop
       - homolog
       - main
 

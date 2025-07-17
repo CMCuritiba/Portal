@@ -3,7 +3,6 @@ name: Release Backend
 on:
   push:
     branches:
-      - develop
       - homolog
       - main
 
