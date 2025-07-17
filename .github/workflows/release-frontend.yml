@@ -5,10 +5,12 @@ on:
     branches:
       - homolog
       - main
+      - develop2
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop2'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,4 +74,4 @@ jobs:
             org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max 
+          cache-to: type=gha,mode=max
