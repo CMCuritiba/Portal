@@ -14,16 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
-        working-directory: ./frontend
-
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github @semantic-release/monorepo
         
