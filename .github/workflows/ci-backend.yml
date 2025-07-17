@@ -1,4 +1,4 @@
-name: CI/CD Backend
+name: CI Backend
 
 on:
   pull_request:
@@ -159,20 +159,6 @@ jobs:
         run: |
           echo "version=$(python3 setup.py --version)" >> $GITHUB_OUTPUT
 
-      # Obter os metadados pode ser uteis quando forem geradas tags de versão
-      # no repo. Ref:
-      # https://docs.docker.com/build/ci/github-actions/manage-tags-labels/
-      # - name: Extract metadata (tags, labels) for Docker
-      #   id: meta
-      #   uses: docker/metadata-action@v5
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      #     tags: |
-      #       type=raw,value=${{ steps.image-tag.outputs.tag }}
-      #       type=raw,value=${{ needs.version.outputs.version }}
-      #     labels: |
-      #       org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-tag.outputs.tag }}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -181,12 +167,14 @@ jobs:
           file: backend/Dockerfile
           push: ${{ contains(github.ref, 'homolog') }}
           tags: |
-            ${{ steps.backend-version.outputs.version }}
-            ${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
-            ${{ env.BRANCH }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.backend-version.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.BRANCH }}
           labels: |
-            ${{ steps.backend-version.outputs.version }}
-            ${{ steps.backend-version.outputs.version }}-${{ env.BRANCH }}
+            org.opencontainers.image.version=${{ steps.backend-version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
 
   deploy:
     name: deploy
