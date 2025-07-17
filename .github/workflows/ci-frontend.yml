@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/frontend
+  IMAGE_NAME: cmcuritiba/portal/frontend
   NODE_VERSION: 20.x
 
 jobs:

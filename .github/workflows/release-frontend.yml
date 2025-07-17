@@ -53,9 +53,9 @@ jobs:
           context: ./frontend
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/frontend:${{ steps.frontend-version.outputs.version }}
-            ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
-            ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ steps.frontend-version.outputs.version }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
           labels: |
             org.opencontainers.image.version=${{ steps.frontend-version.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}
