@@ -6,10 +6,18 @@ on:
       - develop
       - homolog
       - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+      - homolog
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true || github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +34,7 @@ jobs:
   build-image:
     needs: release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
+    if: (github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main') && (github.event.action == 'closed' && github.event.pull_request.merged == true || github.event_name == 'push')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
