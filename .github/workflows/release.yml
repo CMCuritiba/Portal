@@ -1,4 +1,4 @@
-name: Release Backend
+name: Release
 
 on:
   push:
@@ -6,12 +6,6 @@ on:
       - homolog
       - main
       - develop2
-
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  packages: write
 
 jobs:
   release:
@@ -23,19 +17,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '18'
 
-      - name: Install python-semantic-release
-        run: pip install python-semantic-release[all]
+      - name: Install semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
-        working-directory: ./backend/src/camara_de_curitiba
+        run: npx semantic-release
+        working-directory: ./
 
   build-image:
     needs: release
@@ -64,6 +58,23 @@ jobs:
           LATEST_TAG=$(git describe --tags --abbrev=0)
           echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
           echo "Using version: $LATEST_TAG"
+
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ghcr.io/cmcuritiba/portal/frontend:${{ steps.version.outputs.version }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push Backend image
         uses: docker/build-push-action@v5
