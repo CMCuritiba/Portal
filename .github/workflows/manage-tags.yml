@@ -2,7 +2,7 @@ name: Manage Tags
 
 on:
   workflow_run:
-    workflows: ["Release Frontend", "Release Backend"]
+    workflows: ["Release"]
     types:
       - completed
 
