@@ -1,3 +1,11 @@
+## [1.1.6](https://github.com/CMCuritiba/Portal/compare/v1.1.5...v1.1.6) (2025-07-18)
+
+
+### Bug Fixes
+
+* **components:** ajusta margem top do video ([e1b7411](https://github.com/CMCuritiba/Portal/commit/e1b7411ce38d74e8121007f966442d6a1fcba32b))
+* **components:** ajusta o icone de play no componente de "Vídeo" ([6c06c84](https://github.com/CMCuritiba/Portal/commit/6c06c84ab4873261190ebbd997153f558a37f7a6))
+
 ## [1.1.5](https://github.com/CMCuritiba/Portal/compare/v1.1.4...v1.1.5) (2025-07-18)
 
 
