@@ -34,9 +34,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Usar configuração específica para develop (sem plugin GitHub)
+          cp .releaserc.develop .releaserc
+          
           # Executar semantic-release em dry-run para capturar nova versão e changelog
-          # Usar apenas plugins necessários para develop (sem GitHub)
-          OUTPUT=$(npx semantic-release --dry-run --no-ci --plugins @semantic-release/commit-analyzer --plugins @semantic-release/release-notes-generator --plugins @semantic-release/changelog 2>&1)
+          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
           echo "$OUTPUT"
           
           # Capturar a nova versão do output do semantic-release
@@ -91,6 +93,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Restaurar configuração original para homolog
+          cp .releaserc .releaserc.backup
+          
           # Executar semantic-release em dry-run para pegar a versão
           OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
           echo "$OUTPUT"
@@ -127,6 +132,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Restaurar configuração original para main
+          cp .releaserc .releaserc.backup
+          
           # Executar semantic-release em dry-run para pegar a versão
           OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
           echo "$OUTPUT"
