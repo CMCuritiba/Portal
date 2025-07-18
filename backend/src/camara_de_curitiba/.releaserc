@@ -62,6 +62,13 @@
           }
         ],
         [
+          "semantic-release-pypi",
+          {
+            "distPath": "dist",
+            "pypiPublish": false
+          }
+        ],
+        [
           "semantic-release-exec",
           {
             "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; fs.writeFileSync('version.txt',version); console.log('Updated version.txt with:',version);\""
