@@ -1,6 +1,10 @@
 {
   "branches": [
     {
+      "name": "develop",
+      "channel": "develop"
+    },
+    {
       "name": "homolog",
       "prerelease": "homolog",
       "channel": "homolog"
@@ -26,7 +30,6 @@
         "pypiPublish": false
       }
     ],
-    "semantic-release-github",
     [
       "semantic-release-exec",
       {
@@ -45,5 +48,37 @@
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
+  ],
+  "overrides": [
+    {
+      "branches": ["develop"],
+      "plugins": [
+        "semantic-release-commit-analyzer",
+        "semantic-release-release-notes-generator",
+        [
+          "semantic-release-changelog",
+          {
+            "changelogFile": "CHANGELOG.md"
+          }
+        ],
+        [
+          "semantic-release-exec",
+          {
+            "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; fs.writeFileSync('version.txt',version); console.log('Updated version.txt with:',version);\""
+          }
+        ],
+        [
+          "semantic-release-git",
+          {
+            "assets": [
+              "setup.py",
+              "CHANGELOG.md",
+              "version.txt"
+            ],
+            "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+          }
+        ]
+      ]
+    }
   ]
 } 
