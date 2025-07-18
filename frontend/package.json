@@ -2,7 +2,7 @@
   "name": "frontend",
   "description": "A new project using Plone 6.",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0-homolog.3",
   "scripts": {
     "start": "razzle start",
     "postinstall": "make omelette && make patches",
