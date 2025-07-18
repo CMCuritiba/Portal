@@ -1,6 +1,5 @@
 {
   "branches": [
-    "develop",
     {
       "name": "homolog",
       "prerelease": "homolog",
@@ -8,10 +7,6 @@
     },
     {
       "name": "main",
-      "channel": "latest"
-    },
-    {
-      "name": "hotfix/*",
       "channel": "latest"
     }
   ],
@@ -58,4 +53,4 @@
       }
     ]
   ]
-}
+} 

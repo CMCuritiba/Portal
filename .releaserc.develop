@@ -1,19 +1,6 @@
 {
   "branches": [
-    "develop",
-    {
-      "name": "homolog",
-      "prerelease": "homolog",
-      "channel": "homolog"
-    },
-    {
-      "name": "main",
-      "channel": "latest"
-    },
-    {
-      "name": "hotfix/*",
-      "channel": "latest"
-    }
+    "develop"
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -32,17 +19,6 @@
       }
     ],
     [
-      "@semantic-release/github",
-      {
-        "assets": [
-          {
-            "path": "dist/*.tgz",
-            "label": "Release ${nextRelease.version}"
-          }
-        ]
-      }
-    ],
-    [
       "@semantic-release/git",
       {
         "assets": [
@@ -58,4 +34,4 @@
       }
     ]
   ]
-}
+} 

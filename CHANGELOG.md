@@ -1,3 +1,19 @@
+## [1.1.5](https://github.com/CMCuritiba/Portal/compare/v1.1.4...v1.1.5) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta semantic-release nao criar tag final ([44d611a](https://github.com/CMCuritiba/Portal/commit/44d611a4fd025a16228a32bc6269a7e96e81a956))
+* **versionamento:** ajusta semantic-release nao criar tag final ([058759f](https://github.com/CMCuritiba/Portal/commit/058759ff5a68e67b2f7e8caa3ec6666438119406))
+* **versionamento:** ajusta semantic-release nao criar tag final ([0b336ad](https://github.com/CMCuritiba/Portal/commit/0b336ad83d171fbc33e06dcd606a610f0b67c509))
+* **versionamento:** ajusta semantic-release nao criar tag final ([498f0d2](https://github.com/CMCuritiba/Portal/commit/498f0d286aa8f42e8e09c78b419ac75cea435c69))
+* **versionamento:** ajusta semantic-release nao criar tag final ([873d1ec](https://github.com/CMCuritiba/Portal/commit/873d1ecd4758c601c84f6ba58b12945796721809))
+* **versionamento:** ajusta semantic-release nao criar tag final ([231d847](https://github.com/CMCuritiba/Portal/commit/231d84700c774719583c3b3f828eddb88bd8b48b))
+* **versionamento:** ajusta semantic-release nao criar tag final ([baf2396](https://github.com/CMCuritiba/Portal/commit/baf239636a5a238c5e06d0e13060182d0b329ba5))
+* **versionamento:** ajusta semantic-release nao criar tag final ([16d7a15](https://github.com/CMCuritiba/Portal/commit/16d7a15ba11a9b4eb5bfea30b6ded3c8e10dc6ca))
+* **versionamento:** atualiza changelog ([fba4d3b](https://github.com/CMCuritiba/Portal/commit/fba4d3bc626e896b1a8e088326d9b29f26b69ae9))
+* **versionamento:** atualiza changelog ([d04d309](https://github.com/CMCuritiba/Portal/commit/d04d309b64e6fa46453db280078ef61424e36bcd))
+
 ## [1.1.4](https://github.com/CMCuritiba/Portal/compare/v1.1.3...v1.1.4) (2025-07-18)
 
 
