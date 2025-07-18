@@ -12,6 +12,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,12 +36,13 @@ jobs:
 
       - name: Setup GitHub CLI
         run: |
-          # Instalar GitHub CLI
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-          chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-          apt update
-          apt install gh -y
+          # GitHub CLI já está disponível no ambiente do GitHub Actions
+          gh --version
+          echo "✅ GitHub CLI está disponível"
+          
+          # Configurar autenticação para o GitHub CLI
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          echo "✅ GitHub CLI autenticado"
 
       - name: DEVELOP - Update Version and Changelog
         if: github.ref == 'refs/heads/develop'
