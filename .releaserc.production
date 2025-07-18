@@ -1,0 +1,21 @@
+{
+  "branches": [
+    {
+      "name": "homolog",
+      "prerelease": "homolog",
+      "channel": "homolog"
+    },
+    {
+      "name": "main",
+      "channel": "latest"
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    "@semantic-release/github",
+    "@semantic-release/git"
+  ]
+} 
