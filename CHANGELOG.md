@@ -1,3 +1,10 @@
+## [1.1.16](https://github.com/CMCuritiba/Portal/compare/v1.1.15...v1.1.16) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta as tags release, pre-release ([8964202](https://github.com/CMCuritiba/Portal/commit/8964202e34d387b6dc63fc707e41ee94e5148a6f))
+
 ## [1.1.15](https://github.com/CMCuritiba/Portal/compare/v1.1.14...v1.1.15) (2025-07-18)
 
 ## [1.1.14](https://github.com/CMCuritiba/Portal/compare/v1.1.13...v1.1.14) (2025-07-18)
