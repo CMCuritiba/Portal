@@ -1,9 +1,6 @@
 {
   "branches": [
-    {
-      "name": "develop",
-      "channel": "dev"
-    },
+    "develop",
     {
       "name": "homolog",
       "prerelease": "homolog",
@@ -12,13 +9,53 @@
     {
       "name": "main",
       "channel": "latest"
+    },
+    {
+      "name": "hotfix/*",
+      "channel": "latest"
     }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
-    "@semantic-release/git"
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false,
+        "tarballDir": "dist"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/*.tgz",
+            "label": "Release ${nextRelease.version}"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "package.json",
+          "CHANGELOG.md",
+          "frontend/package.json",
+          "frontend/CHANGELOG.md",
+          "frontend/src/addons/*/package.json",
+          "frontend/src/addons/*/CHANGELOG.md",
+          "backend/src/camara_de_curitiba/setup.py"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
   ]
 }
