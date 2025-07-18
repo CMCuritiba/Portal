@@ -77,8 +77,9 @@ if [ "$RELEASE_TYPE" != "release" ] && [ "$RELEASE_TYPE" != "prerelease" ]; then
     exit 1
 fi
 
-# Verificar se já existe um release para esta tag
-if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+# Verificar se já existe um release para esta tag (sem usar jq)
+EXISTING_RELEASE=$(gh release view "$TAG_NAME" --json url 2>/dev/null || echo "")
+if [ -n "$EXISTING_RELEASE" ]; then
     echo "⚠️  Release já existe para $TAG_NAME. Atualizando..."
     
     if [ "$RELEASE_TYPE" = "prerelease" ]; then
