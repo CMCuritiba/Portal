@@ -27,14 +27,21 @@ jobs:
 
       # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
 
-      - name: Semantic Release (Normal for Homolog)
+      - name: Semantic Release (Bump Version for Develop)
+        if: github.ref == 'refs/heads/develop'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+        working-directory: ./
+
+      - name: Semantic Release (Tag Homolog for Homolog)
         if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
         working-directory: ./
 
-      - name: Semantic Release (Normal for Main)
+      - name: Semantic Release (Tag Production for Main)
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
