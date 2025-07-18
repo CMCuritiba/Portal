@@ -3,14 +3,15 @@ name: Release
 on:
   push:
     branches:
+      - develop
       - homolog
       - main
-      - develop
+      - 'hotfix/*'
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,26 +26,91 @@ jobs:
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
-      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Semantic Release (Normal for Homolog)
+      - name: DEVELOP - Update Version and Changelog
+        if: github.ref == 'refs/heads/develop'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Usar configuração específica para develop
+          cp .releaserc.develop .releaserc
+
+          # Executar semantic-release para atualizar versão e changelog
+          npx semantic-release --no-ci
+
+          echo "Develop version and changelog updated successfully"
+
+      - name: HOMOLOG - Create Homolog Release
         if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-        working-directory: ./
+        run: |
+          # Usar configuração específica para homolog
+          cp .releaserc.production .releaserc
 
-      - name: Semantic Release (Normal for Main)
+          # Executar semantic-release para criar release de homolog
+          npx semantic-release --no-ci
+
+          # Atualizar tag 'homolog' para apontar para a versão mais recente
+          LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+          if [ -n "$LATEST_HOMOLOG_TAG" ]; then
+            git tag -f homolog $LATEST_HOMOLOG_TAG
+            git push origin homolog --force
+            echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
+          fi
+
+          echo "Homolog release created successfully"
+
+      - name: MAIN - Create Production Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-        working-directory: ./
+        run: |
+          # Usar configuração específica para main
+          cp .releaserc.production .releaserc
+
+          # Executar semantic-release para criar release de produção
+          npx semantic-release --no-ci
+
+          # Atualizar tag 'latest' para apontar para a versão mais recente
+          LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$LATEST_MAIN_TAG" ]; then
+            git tag -f latest $LATEST_MAIN_TAG
+            git push origin latest --force
+            echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+          fi
+
+          echo "Production release created successfully"
+
+      - name: HOTFIX - Create Hotfix Release
+        if: startsWith(github.ref, 'refs/heads/hotfix/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Usar configuração específica para hotfix
+          cp .releaserc.hotfix .releaserc
+
+          # Executar semantic-release para criar release de hotfix
+          npx semantic-release --no-ci
+
+          # Atualizar tag 'latest' para apontar para a versão mais recente
+          LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$LATEST_MAIN_TAG" ]; then
+            git tag -f latest $LATEST_MAIN_TAG
+            git push origin latest --force
+            echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+          fi
+
+          echo "Hotfix release created successfully"
 
   build-image:
     needs: release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,22 +127,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get latest tag version
+      - name: Get version for tagging
         id: version
         run: |
-          # Get the latest tag created by semantic-release
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            # For main branch, get the latest homolog tag
-            LATEST_TAG=$(git tag --list "*homolog*" --sort=-version:refname | head -n1)
+          if [ "${{ github.ref_name }}" = "main" ] || [[ "${{ github.ref_name }}" == hotfix/* ]]; then
+            # Para main e hotfix, pega a última tag de produção (que NÃO contém 'homolog')
+            LATEST_TAG=$(git tag --list | grep -v 'homolog' | sort -V | tail -n1)
             if [ -z "$LATEST_TAG" ]; then
               LATEST_TAG="latest"
             fi
           else
-            # For other branches, get the latest tag
-            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
+            # Para homolog, pega a última tag de homolog
+            LATEST_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="homolog"
+            fi
           fi
-          echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "Using version: $LATEST_TAG"
+
+          # Remover sufixos como +001, +build, etc. para compatibilidade com Docker
+          CLEAN_TAG=$(echo $LATEST_TAG | sed 's/+[^+]*$//')
+
+          echo "version=$CLEAN_TAG" >> $GITHUB_OUTPUT
+          echo "Using version: $CLEAN_TAG (cleaned from $LATEST_TAG)"
 
       - name: Build and push Frontend image
         uses: docker/build-push-action@v5
@@ -87,6 +159,7 @@ jobs:
             ghcr.io/cmcuritiba/portal/frontend:${{ steps.version.outputs.version }}
             ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
             ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
+            ${{ github.ref_name == 'main' && 'ghcr.io/cmcuritiba/portal/frontend:latest' || '' }}
           labels: |
             org.opencontainers.image.version=${{ steps.version.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}

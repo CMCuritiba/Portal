@@ -9,6 +9,10 @@
     {
       "name": "main",
       "channel": "latest"
+    },
+    {
+      "name": "hotfix/*",
+      "channel": "latest"
     }
   ],
   "plugins": [
@@ -27,7 +31,17 @@
         "tarballDir": "dist"
       }
     ],
-    "@semantic-release/github",
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/*.tgz",
+            "label": "Release ${nextRelease.version}"
+          }
+        ]
+      }
+    ],
     [
       "@semantic-release/git",
       {
@@ -37,7 +51,8 @@
           "frontend/package.json",
           "frontend/CHANGELOG.md",
           "frontend/src/addons/*/package.json",
-          "frontend/src/addons/*/CHANGELOG.md"
+          "frontend/src/addons/*/CHANGELOG.md",
+          "backend/src/camara_de_curitiba/setup.py"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
