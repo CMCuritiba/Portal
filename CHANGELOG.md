@@ -1,4 +1,11 @@
-## [1.1.13-homolog.1](https://github.com/CMCuritiba/Portal/compare/v1.1.12...v1.1.13-homolog.1) (2025-07-18)
+## [1.1.14](https://github.com/CMCuritiba/Portal/compare/v1.1.13...v1.1.14) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta tags ([79bae06](https://github.com/CMCuritiba/Portal/commit/79bae06ec0bc266892d655ddb2f06b324ec77dcc))
+
+## [1.1.13](https://github.com/CMCuritiba/Portal/compare/v1.1.12...v1.1.13) (2025-07-18)
 
 ## [1.1.12](https://github.com/CMCuritiba/Portal/compare/v1.1.11...v1.1.12) (2025-07-18)
 
