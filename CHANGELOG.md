@@ -1,3 +1,5 @@
+## [1.1.24](https://github.com/CMCuritiba/Portal/compare/v1.1.23...v1.1.24) (2025-07-18)
+
 ## [1.1.23](https://github.com/CMCuritiba/Portal/compare/v1.1.22...v1.1.23) (2025-07-18)
 
 ### Bug Fixes
