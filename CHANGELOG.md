@@ -1,3 +1,12 @@
+# [1.1.0-homolog.7](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.6...v1.1.0-homolog.7) (2025-07-18)
+
+
+### Bug Fixes
+
+* ajusta o release.yml para nao taguear a ajusta versao de homologação. ([893a8ad](https://github.com/CMCuritiba/Portal/commit/893a8adb1a3d52188ce1ecaa1470eb6a9a343bb2))
+* retira tag de versão na dev ([85d3a75](https://github.com/CMCuritiba/Portal/commit/85d3a7534d35b48b4310fc4626f3ebf634540483))
+* **versionamento:** se adequa a politica ([e411dbb](https://github.com/CMCuritiba/Portal/commit/e411dbb7d2c74e7e91373deed1629e90ce94093d))
+
 ## [1.0.1](https://github.com/CMCuritiba/Portal/compare/v1.0.0...v1.0.1) (2025-07-18)
 
 
