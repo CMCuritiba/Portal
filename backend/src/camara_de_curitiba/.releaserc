@@ -30,6 +30,7 @@
         "pypiPublish": false
       }
     ],
+    "semantic-release-github",
     [
       "semantic-release-exec",
       {
@@ -59,6 +60,13 @@
           "semantic-release-changelog",
           {
             "changelogFile": "CHANGELOG.md"
+          }
+        ],
+        [
+          "semantic-release-pypi",
+          {
+            "distPath": "dist",
+            "pypiPublish": false
           }
         ],
         [
