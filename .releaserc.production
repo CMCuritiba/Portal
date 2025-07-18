@@ -1,10 +1,6 @@
 {
   "branches": [
     {
-      "name": "develop",
-      "channel": "dev"
-    },
-    {
       "name": "homolog",
       "prerelease": "homolog",
       "channel": "homolog"
@@ -19,6 +15,7 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/npm",
+    "@semantic-release/github",
     "@semantic-release/git"
   ]
-}
+} 
