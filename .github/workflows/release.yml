@@ -12,6 +12,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,6 +33,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup GitHub CLI
+        run: |
+          # GitHub CLI já está disponível no ambiente do GitHub Actions
+          gh --version
+          echo "✅ GitHub CLI está disponível"
+          
+          # Configurar autenticação para o GitHub CLI
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          echo "✅ GitHub CLI autenticado"
 
       - name: DEVELOP - Update Version and Changelog
         if: github.ref == 'refs/heads/develop'
@@ -123,16 +136,14 @@ jobs:
             exit 1
           fi
 
-          # Atualizar tag 'homolog' para apontar para a versão mais recente
-          if [ -n "$LATEST_HOMOLOG_TAG" ]; then
-            # Remover tag homolog se existir
-            git tag -d homolog 2>/dev/null || true
-            git push origin :refs/tags/homolog 2>/dev/null || true
-
-            # Criar nova tag homolog apontando para a versão mais recente
-            git tag homolog "$LATEST_HOMOLOG_TAG"
-            git push origin refs/tags/homolog
-            echo "✅ Tag 'homolog' atualizada para apontar para $LATEST_HOMOLOG_TAG"
+          # Criar GitHub Release para homolog (pre-release)
+          if [ -n "$LATEST_HOMOLOG_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
+            echo "🚀 Criando GitHub Release para homolog..."
+            
+            # Usar script para criar release com conteúdo da tag de develop
+            ./scripts/create-github-release.sh "$LATEST_HOMOLOG_TAG" "prerelease" "$LATEST_DEVELOP_TAG"
+            
+            echo "✅ GitHub Release criado para $LATEST_HOMOLOG_TAG (pre-release)"
           fi
 
           echo "✅ Homolog release created successfully"
@@ -198,14 +209,14 @@ jobs:
             exit 1
           fi
 
-          # Atualizar tag 'latest' para apontar para a versão mais recente
-          if [ -n "$LATEST_MAIN_TAG" ]; then
-            git tag -d latest 2>/dev/null || true
-            git push origin :refs/tags/latest 2>/dev/null || true
-
-            git tag latest "$LATEST_MAIN_TAG"
-            git push origin refs/tags/latest
-            echo "✅ Tag 'latest' atualizada para apontar para: $LATEST_MAIN_TAG"
+          # Criar GitHub Release para produção (release)
+          if [ -n "$LATEST_MAIN_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
+            echo "🚀 Criando GitHub Release para produção..."
+            
+            # Usar script para criar release com conteúdo da tag de develop
+            ./scripts/create-github-release.sh "$LATEST_MAIN_TAG" "release" "$LATEST_DEVELOP_TAG"
+            
+            echo "✅ GitHub Release criado para $LATEST_MAIN_TAG (release)"
           fi
 
           echo "✅ Production release completed successfully"
