@@ -1,3 +1,8 @@
+## [1.1.23](https://github.com/CMCuritiba/Portal/compare/v1.1.22...v1.1.23) (2025-07-18)
+
+### Bug Fixes
+
+* **versionamento:** ajusta as tags release, pre-release e promoção da tag release ([45a191f](https://github.com/CMCuritiba/Portal/commit/45a191f06360d7c7b015403cb719599f4d999286))
 ## [1.1.22](https://github.com/CMCuritiba/Portal/compare/v1.1.21...v1.1.22) (2025-07-18)
 
 ## [1.1.21](https://github.com/CMCuritiba/Portal/compare/v1.1.20...v1.1.21) (2025-07-18)
