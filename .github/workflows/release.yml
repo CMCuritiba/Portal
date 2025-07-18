@@ -52,11 +52,6 @@ jobs:
           # Usar configuração específica para homolog
           cp .releaserc.production .releaserc
 
-          # Sempre criar um commit de força para garantir release
-          echo "Criando commit de força para homolog..."
-          git commit --allow-empty -m "chore: force homolog release - Forçar criação de release de homolog [skip ci]"
-          git push origin homolog
-
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
 
@@ -69,7 +64,7 @@ jobs:
             
             # Criar nova tag homolog
             git tag homolog $LATEST_HOMOLOG_TAG
-            git push origin homolog
+            git push origin refs/tags/homolog
             echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
           fi
 
@@ -83,25 +78,52 @@ jobs:
           # Usar configuração específica para main
           cp .releaserc.production .releaserc
 
-          # Sempre criar um commit de força para garantir release
-          echo "Criando commit de força para produção..."
-          git commit --allow-empty -m "chore: force production release - Forçar criação de release de produção [skip ci]"
-          git push origin main
-
-          # Executar semantic-release para criar release de produção
-          npx semantic-release --no-ci
-
-          # Atualizar tag 'latest' para apontar para a versão mais recente
-          LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-          if [ -n "$LATEST_MAIN_TAG" ]; then
+          # Verificar se há versões de homolog para promover
+          echo "Verificando versões de homolog para promover..."
+          LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+          
+          if [ -n "$LATEST_HOMOLOG_TAG" ]; then
+            # Extrair versão base (remover sufixo -homolog)
+            BASE_VERSION=${LATEST_HOMOLOG_TAG%-homolog}
+            echo "Promovendo versão $BASE_VERSION de homolog para produção"
+            
             # Remover tag latest se existir
             git tag -d latest 2>/dev/null || true
             git push origin :refs/tags/latest 2>/dev/null || true
             
-            # Criar nova tag latest
-            git tag latest $LATEST_MAIN_TAG
-            git push origin latest
-            echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+            # Remover tag da versão se existir
+            git tag -d "$BASE_VERSION" 2>/dev/null || true
+            git push origin ":refs/tags/$BASE_VERSION" 2>/dev/null || true
+            
+            # Criar tag de produção
+            git tag "$BASE_VERSION" "$LATEST_HOMOLOG_TAG"
+            git push origin "refs/tags/$BASE_VERSION"
+            
+            # Criar tag latest
+            git tag latest "$BASE_VERSION"
+            git push origin refs/tags/latest
+            
+            echo "✅ Versão $BASE_VERSION promovida de homolog para produção"
+            echo "✅ Tag 'latest' atualizada para $BASE_VERSION"
+          else
+            echo "⚠️  Nenhuma versão de homolog encontrada"
+            echo "Executando semantic-release normalmente..."
+            
+            # Executar semantic-release para criar release de produção
+            npx semantic-release --no-ci
+
+            # Atualizar tag 'latest' para apontar para a versão mais recente
+            LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+            if [ -n "$LATEST_MAIN_TAG" ]; then
+              # Remover tag latest se existir
+              git tag -d latest 2>/dev/null || true
+              git push origin :refs/tags/latest 2>/dev/null || true
+              
+              # Criar nova tag latest
+              git tag latest $LATEST_MAIN_TAG
+              git push origin refs/tags/latest
+              echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+            fi
           fi
 
           echo "Production release created successfully"
@@ -126,7 +148,7 @@ jobs:
             
             # Criar nova tag latest
             git tag latest $LATEST_MAIN_TAG
-            git push origin latest
+            git push origin refs/tags/latest
             echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
           fi
 
