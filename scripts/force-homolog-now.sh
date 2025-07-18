@@ -34,7 +34,7 @@ echo "2. Criando commit de força..."
 git commit --allow-empty -m "chore: force homolog release - Forçar criação de release de homolog [skip ci]"
 
 echo "3. Push do commit..."
-git push origin homolog
+git push origin HEAD:homolog
 
 echo ""
 echo "✅ Script executado com sucesso!"
