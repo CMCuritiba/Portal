@@ -25,60 +25,79 @@ jobs:
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
-      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
-
-      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
-
-      - name: Bump Version for Develop (Dry Run)
+      - name: DEV - Update Version and Create Dev Tag
         if: github.ref == 'refs/heads/develop'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Executar semantic-release em dry-run para capturar nova versão
-          npx semantic-release --dry-run --no-ci
+          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
+          echo "$OUTPUT"
           
-          # Capturar a nova versão do output do semantic-release
-          NEW_VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          # Capturar a nova versão do output
+          NEW_VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
           
           if [ -n "$NEW_VERSION" ]; then
             echo "New version detected: $NEW_VERSION"
-            echo $NEW_VERSION > version.txt
-            echo "Updated version.txt to: $NEW_VERSION"
             
-            # Commit da mudança
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add version.txt
-            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-            git push
+            # Atualizar version.txt
+            echo $NEW_VERSION > version.txt
+            
+            # Atualizar package.json (se existir)
+            if [ -f "package.json" ]; then
+              npm version $NEW_VERSION --no-git-tag-version
+              echo "Updated package.json"
+            fi
+            
+            # Atualizar frontend/package.json (se existir)
+            if [ -f "frontend/package.json" ]; then
+              cd frontend
+              npm version $NEW_VERSION --no-git-tag-version
+              cd ..
+              echo "Updated frontend/package.json"
+            fi
+            
+            # Atualizar backend/setup.py (se existir)
+            if [ -f "backend/src/camara_de_curitiba/setup.py" ]; then
+              sed -i "s/version='[^']*'/version='$NEW_VERSION'/" backend/src/camara_de_curitiba/setup.py
+              echo "Updated backend/setup.py"
+            fi
+            
+            echo "Updated all version files and changelog to: $NEW_VERSION"
           else
-            echo "No version bump needed"
+            echo "No version bump needed, but updating changelog..."
+            npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
+            NEW_VERSION=$(cat version.txt)
           fi
-        working-directory: ./
+          
+          # Sempre fazer commit das mudanças (versão ou changelog)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: update version and changelog [skip ci]"
+          git push
+          
+          # Criar tag v-dev (sem ser release)
+          git tag v-dev
+          git push origin v-dev
+          echo "Created tag v-dev"
 
-      - name: Create Homolog Tag
+      - name: HML - Create Homolog Release
         if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Executar semantic-release em dry-run para pegar a versão
-          npx semantic-release --dry-run --no-ci
-          
-          # Capturar a versão do output
-          VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
-          
-          if [ -z "$VERSION" ]; then
-            # Se não conseguir pegar do semantic-release, tentar ler do version.txt
-            if [ -f "version.txt" ]; then
-              VERSION=$(cat version.txt)
-            else
-              echo "Error: Could not determine version"
-              exit 1
-            fi
+          # Ler versão do version.txt
+          if [ -f "version.txt" ]; then
+            VERSION=$(cat version.txt)
+            echo "Version from version.txt: $VERSION"
+          else
+            echo "Error: version.txt not found"
+            exit 1
           fi
           
           TAG_NAME="v${VERSION}-homolog"
-          echo "Creating homolog tag: $TAG_NAME"
+          echo "Creating homolog release: $TAG_NAME"
           
           # Criar tag localmente
           git tag $TAG_NAME
@@ -86,34 +105,30 @@ jobs:
           # Push da tag para o repositório
           git push origin $TAG_NAME
           
-          # Criar release como pre-release no GitHub
-          gh release create $TAG_NAME --prerelease --title "$TAG_NAME" --notes "Homologação release"
+          # Criar release como pre-release no GitHub com changelog
+          gh release create $TAG_NAME --prerelease --title "$TAG_NAME" --notes-file CHANGELOG.md
           
-          echo "Tag $TAG_NAME created successfully as pre-release"
+          echo "Release $TAG_NAME created successfully as pre-release"
 
-      - name: Create Production Tag
+      - name: Main - Create Production Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Executar semantic-release em dry-run para pegar a versão
-          npx semantic-release --dry-run --no-ci
-          
-          # Capturar a versão do output
-          VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
-          
-          if [ -z "$VERSION" ]; then
-            # Se não conseguir pegar do semantic-release, tentar ler do version.txt
-            if [ -f "version.txt" ]; then
-              VERSION=$(cat version.txt)
-            else
-              echo "Error: Could not determine version"
-              exit 1
-            fi
+          # Ler versão do version.txt
+          if [ -f "version.txt" ]; then
+            VERSION=$(cat version.txt)
+            echo "Version from version.txt: $VERSION"
+          else
+            echo "Error: version.txt not found"
+            exit 1
           fi
           
-          TAG_NAME="v${VERSION}"
-          echo "Creating production tag: $TAG_NAME"
+          # Remover sufixo -dev se existir
+          CLEAN_VERSION=$(echo $VERSION | sed 's/-dev$//')
+          
+          TAG_NAME="v${CLEAN_VERSION}"
+          echo "Creating production release: $TAG_NAME"
           
           # Criar tag localmente
           git tag $TAG_NAME
@@ -121,7 +136,10 @@ jobs:
           # Push da tag para o repositório
           git push origin $TAG_NAME
           
-          echo "Tag $TAG_NAME created successfully"
+          # Criar release final no GitHub com changelog
+          gh release create $TAG_NAME --title "$TAG_NAME" --notes-file CHANGELOG.md
+          
+          echo "Release $TAG_NAME created successfully"
 
   build-image:
     needs: release
@@ -157,8 +175,12 @@ jobs:
             # Para outras branches, pega a última tag normalmente
             LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
           fi
-          echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "Using version: $LATEST_TAG"
+          
+          # Remover sufixos como +001, +build, etc. para compatibilidade com Docker
+          CLEAN_TAG=$(echo $LATEST_TAG | sed 's/+[^+]*$//')
+          
+          echo "version=$CLEAN_TAG" >> $GITHUB_OUTPUT
+          echo "Using version: $CLEAN_TAG (cleaned from $LATEST_TAG)"
 
       - name: Build and push Frontend image
         uses: docker/build-push-action@v5
