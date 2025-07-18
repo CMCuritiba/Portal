@@ -1,3 +1,12 @@
+## [1.1.9-homolog.2](https://github.com/CMCuritiba/Portal/compare/v1.1.9-homolog.1...v1.1.9-homolog.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** forçar tag de versão para release ([11eb903](https://github.com/CMCuritiba/Portal/commit/11eb903c078eb161706fe51f924c1362dc961eef))
+* **versionamento:** homolog conflito ([e24909e](https://github.com/CMCuritiba/Portal/commit/e24909ef9c6c95af30e14a729f0c6d456639fdb6))
+* **versionamento:** homolog conflito ([d9ca04d](https://github.com/CMCuritiba/Portal/commit/d9ca04d00a066b9b2e6e637ead23c19fffe5e286))
+
 ## [1.1.9-homolog.1](https://github.com/CMCuritiba/Portal/compare/v1.1.8...v1.1.9-homolog.1) (2025-07-18)
 
 
