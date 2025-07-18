@@ -1,3 +1,13 @@
+## [1.1.4](https://github.com/CMCuritiba/Portal/compare/v1.1.3...v1.1.4) (2025-07-18)
+
+
+### Bug Fixes
+
+* retira dev tag no repositorio e adiciona o release nos repositorios ([6484c5a](https://github.com/CMCuritiba/Portal/commit/6484c5addd0f3f99e2c44698ebad9022178e85c1))
+* **versionamento:** mantem as mesmas versoes nas branchs ([dfb3a17](https://github.com/CMCuritiba/Portal/commit/dfb3a1758a74a8f7cc20f8b8186677364796b1f2))
+* **versionamento:** mantem as mesmas versoes nas branchs ([eb4bbfd](https://github.com/CMCuritiba/Portal/commit/eb4bbfd0ef8be9569a7b6f8c6b4440c9ac2eaa85))
+* **versionamento:** mantem as mesmas versoes nas branchs ([bfc2d69](https://github.com/CMCuritiba/Portal/commit/bfc2d699a23922393245b2dcc7a8c36f2dfb7192))
+
 ## [1.1.3](https://github.com/CMCuritiba/Portal/compare/v1.1.2...v1.1.3) (2025-07-18)
 
 
