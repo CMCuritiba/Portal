@@ -1,6 +1,9 @@
 {
   "branches": [
-    "develop"
+    {
+      "name": "hotfix/*",
+      "channel": "latest"
+    }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -16,6 +19,17 @@
       {
         "npmPublish": false,
         "tarballDir": "dist"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/*.tgz",
+            "label": "Hotfix Release ${nextRelease.version}"
+          }
+        ]
       }
     ],
     [
