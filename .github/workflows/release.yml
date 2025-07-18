@@ -187,8 +187,12 @@ jobs:
             # Para outras branches, pega a última tag normalmente
             LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
           fi
-          echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "Using version: $LATEST_TAG"
+          
+          # Remover sufixos como +001, +build, etc. para compatibilidade com Docker
+          CLEAN_TAG=$(echo $LATEST_TAG | sed 's/+[^+]*$//')
+          
+          echo "version=$CLEAN_TAG" >> $GITHUB_OUTPUT
+          echo "Using version: $CLEAN_TAG (cleaned from $LATEST_TAG)"
 
       - name: Build and push Frontend image
         uses: docker/build-push-action@v5
