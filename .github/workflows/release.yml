@@ -52,14 +52,40 @@ jobs:
           # Usar configuração específica para homolog
           cp .releaserc.production .releaserc
 
+          # Verificar se há commits relevantes desde a última versão
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$LAST_TAG" ]; then
+            COMMITS_SINCE_LAST=$(git log --oneline $LAST_TAG..HEAD --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
+          else
+            COMMITS_SINCE_LAST=$(git log --oneline --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
+          fi
+
+          echo "Commits relevantes desde a última versão: $COMMITS_SINCE_LAST"
+
+          # Se não há commits relevantes, criar um commit de força
+          if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
+            echo "Nenhum commit relevante detectado. Criando commit de força..."
+            git commit --allow-empty -m "chore: force homolog release
+
+Forçar criação de release de homolog devido a merges de PRs.
+
+[skip ci]"
+            git push origin homolog
+          fi
+
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
 
           # Atualizar tag 'homolog' para apontar para a versão mais recente
           LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
           if [ -n "$LATEST_HOMOLOG_TAG" ]; then
-            git tag -f homolog $LATEST_HOMOLOG_TAG
-            git push origin homolog --force
+            # Remover tag homolog se existir
+            git tag -d homolog 2>/dev/null || true
+            git push origin :refs/tags/homolog 2>/dev/null || true
+            
+            # Criar nova tag homolog
+            git tag homolog $LATEST_HOMOLOG_TAG
+            git push origin homolog
             echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
           fi
 
@@ -73,14 +99,40 @@ jobs:
           # Usar configuração específica para main
           cp .releaserc.production .releaserc
 
+          # Verificar se há commits relevantes desde a última versão
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$LAST_TAG" ]; then
+            COMMITS_SINCE_LAST=$(git log --oneline $LAST_TAG..HEAD --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
+          else
+            COMMITS_SINCE_LAST=$(git log --oneline --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
+          fi
+
+          echo "Commits relevantes desde a última versão: $COMMITS_SINCE_LAST"
+
+          # Se não há commits relevantes, criar um commit de força
+          if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
+            echo "Nenhum commit relevante detectado. Criando commit de força..."
+            git commit --allow-empty -m "chore: force production release
+
+Forçar criação de release de produção devido a merges de PRs.
+
+[skip ci]"
+            git push origin main
+          fi
+
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
 
           # Atualizar tag 'latest' para apontar para a versão mais recente
           LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
           if [ -n "$LATEST_MAIN_TAG" ]; then
-            git tag -f latest $LATEST_MAIN_TAG
-            git push origin latest --force
+            # Remover tag latest se existir
+            git tag -d latest 2>/dev/null || true
+            git push origin :refs/tags/latest 2>/dev/null || true
+            
+            # Criar nova tag latest
+            git tag latest $LATEST_MAIN_TAG
+            git push origin latest
             echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
           fi
 
@@ -100,8 +152,13 @@ jobs:
           # Atualizar tag 'latest' para apontar para a versão mais recente
           LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
           if [ -n "$LATEST_MAIN_TAG" ]; then
-            git tag -f latest $LATEST_MAIN_TAG
-            git push origin latest --force
+            # Remover tag latest se existir
+            git tag -d latest 2>/dev/null || true
+            git push origin :refs/tags/latest 2>/dev/null || true
+            
+            # Criar nova tag latest
+            git tag latest $LATEST_MAIN_TAG
+            git push origin latest
             echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
           fi
 
@@ -177,6 +234,7 @@ jobs:
             ghcr.io/cmcuritiba/portal/backend:${{ steps.version.outputs.version }}
             ghcr.io/cmcuritiba/portal/backend:${{ github.sha }}
             ghcr.io/cmcuritiba/portal/backend:${{ github.ref_name }}
+            ${{ github.ref_name == 'main' && 'ghcr.io/cmcuritiba/portal/backend:latest' || '' }}
           labels: |
             org.opencontainers.image.version=${{ steps.version.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}
