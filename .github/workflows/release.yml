@@ -25,7 +25,17 @@ jobs:
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
-      - name: Semantic Release
+      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
+
+      - name: Semantic Release (Normal for Homolog)
+        if: github.ref == 'refs/heads/homolog'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+        working-directory: ./
+
+      - name: Semantic Release (Normal for Main)
+        if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
@@ -55,7 +65,16 @@ jobs:
         id: version
         run: |
           # Get the latest tag created by semantic-release
-          LATEST_TAG=$(git describe --tags --abbrev=0)
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            # For main branch, get the latest homolog tag
+            LATEST_TAG=$(git tag --list "*homolog*" --sort=-version:refname | head -n1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="latest"
+            fi
+          else
+            # For other branches, get the latest tag
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
+          fi
           echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
           echo "Using version: $LATEST_TAG"
 
