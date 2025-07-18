@@ -12,55 +12,55 @@
         "releaseRules": [
           {
             "type": "feat",
-            "release": "minor"
+            "release": false
           },
           {
             "type": "fix",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "refactor",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "perf",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "docs",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "style",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "test",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "chore",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "ci",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "build",
-            "release": "patch"
+            "release": false
           },
           {
             "breaking": true,
-            "release": "major"
+            "release": false
           },
           {
             "type": "merge",
-            "release": "patch"
+            "release": false
           },
           {
             "type": "Merge",
-            "release": "patch"
+            "release": false
           }
         ],
         "parserOpts": {
