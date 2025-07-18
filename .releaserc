@@ -1,36 +1,24 @@
 {
   "branches": [
-    "develop"
+    {
+      "name": "develop",
+      "channel": "dev"
+    },
+    {
+      "name": "homolog",
+      "prerelease": "homolog",
+      "channel": "homolog"
+    },
+    {
+      "name": "main",
+      "channel": "latest"
+    }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    [
-      "@semantic-release/changelog",
-      {
-        "changelogFile": "CHANGELOG.md"
-      }
-    ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false,
-        "tarballDir": "dist"
-      }
-    ],
-    [
-      "@semantic-release/git",
-      {
-        "assets": [
-          "package.json",
-          "CHANGELOG.md",
-          "frontend/package.json",
-          "frontend/CHANGELOG.md",
-          "frontend/src/addons/*/package.json",
-          "frontend/src/addons/*/CHANGELOG.md"
-        ],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      }
-    ]
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    "@semantic-release/git"
   ]
-} 
+}

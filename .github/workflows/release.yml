@@ -32,33 +32,33 @@ jobs:
         run: |
           # Usar configuração específica para develop (sem plugin GitHub)
           cp .releaserc.develop .releaserc
-          
+
           # Executar semantic-release em dry-run para capturar nova versão e atualizar changelog
           OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
           echo "$OUTPUT"
-          
+
           # Capturar a nova versão do output
           NEW_VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
-          
+
           # Se não conseguiu capturar a versão, tentar executar semantic-release para atualizar changelog
           if [ -z "$NEW_VERSION" ]; then
             echo "No new version detected, but updating changelog..."
             npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
             NEW_VERSION=$(cat version.txt)
           fi
-          
+
           if [ -n "$NEW_VERSION" ]; then
             echo "New version detected: $NEW_VERSION"
-            
+
             # Atualizar version.txt
             echo $NEW_VERSION > version.txt
-            
+
             # Atualizar package.json (se existir)
             if [ -f "package.json" ]; then
               npm version $NEW_VERSION --no-git-tag-version
               echo "Updated package.json"
             fi
-            
+
             # Atualizar frontend/package.json (se existir)
             if [ -f "frontend/package.json" ]; then
               cd frontend
@@ -66,13 +66,13 @@ jobs:
               cd ..
               echo "Updated frontend/package.json"
             fi
-            
+
             # Atualizar backend/setup.py (se existir)
             if [ -f "backend/src/camara_de_curitiba/setup.py" ]; then
               sed -i "s/version='[^']*'/version='$NEW_VERSION'/" backend/src/camara_de_curitiba/setup.py
               echo "Updated backend/setup.py"
             fi
-            
+
             echo "Updated all version files and changelog to: $NEW_VERSION"
           else
             echo "No version bump needed, but updating changelog..."
@@ -80,14 +80,14 @@ jobs:
             npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
             NEW_VERSION=$(cat version.txt)
           fi
-          
+
           # Sempre fazer commit das mudanças (versão ou changelog)
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "chore: update version and changelog [skip ci]"
           git push
-          
+
           # Criar tag v-dev (sem ser release)
           git tag v-dev
           git push origin v-dev
@@ -98,59 +98,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Ler versão do version.txt
-          if [ -f "version.txt" ]; then
-            VERSION=$(cat version.txt)
-            echo "Version from version.txt: $VERSION"
-          else
-            echo "Error: version.txt not found"
-            exit 1
-          fi
-          
-          TAG_NAME="v${VERSION}-homolog"
-          echo "Creating homolog release: $TAG_NAME"
-          
-          # Criar tag localmente
-          git tag $TAG_NAME
-          
-          # Push da tag para o repositório
-          git push origin $TAG_NAME
-          
-          # Criar release como pre-release no GitHub com changelog
-          gh release create $TAG_NAME --prerelease --title "$TAG_NAME" --notes-file CHANGELOG.md
-          
-          echo "Release $TAG_NAME created successfully as pre-release"
+          # Usar configuração específica para homolog (com plugin GitHub)
+          cp .releaserc.production .releaserc
+
+          # Executar semantic-release para homolog
+          npx semantic-release --no-ci
+
+          echo "Homolog release created successfully"
 
       - name: Main - Create Production Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Ler versão do version.txt
-          if [ -f "version.txt" ]; then
-            VERSION=$(cat version.txt)
-            echo "Version from version.txt: $VERSION"
-          else
-            echo "Error: version.txt not found"
-            exit 1
-          fi
-          
-          # Remover sufixo -dev se existir
-          CLEAN_VERSION=$(echo $VERSION | sed 's/-dev$//')
-          
-          TAG_NAME="v${CLEAN_VERSION}"
-          echo "Creating production release: $TAG_NAME"
-          
-          # Criar tag localmente
-          git tag $TAG_NAME
-          
-          # Push da tag para o repositório
-          git push origin $TAG_NAME
-          
-          # Criar release final no GitHub com changelog
-          gh release create $TAG_NAME --title "$TAG_NAME" --notes-file CHANGELOG.md
-          
-          echo "Release $TAG_NAME created successfully"
+          # Usar configuração específica para main (com plugin GitHub)
+          cp .releaserc.production .releaserc
+
+          # Executar semantic-release para main
+          npx semantic-release --no-ci
+
+          echo "Production release created successfully"
 
   build-image:
     needs: release
@@ -186,10 +153,10 @@ jobs:
             # Para outras branches, pega a última tag normalmente
             LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
           fi
-          
+
           # Remover sufixos como +001, +build, etc. para compatibilidade com Docker
           CLEAN_TAG=$(echo $LATEST_TAG | sed 's/+[^+]*$//')
-          
+
           echo "version=$CLEAN_TAG" >> $GITHUB_OUTPUT
           echo "Using version: $CLEAN_TAG (cleaned from $LATEST_TAG)"
 
