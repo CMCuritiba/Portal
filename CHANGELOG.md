@@ -4,7 +4,7 @@
 ### Bug Fixes
 
 * **versionamento:** ajusta as tags release, pre-release e promoção da tag release ([c14acca](https://github.com/CMCuritiba/Portal/commit/c14acca1b74ba94bfe3033e7c891989b2b25f7b2))
-
+* 
 ## [1.1.20](https://github.com/CMCuritiba/Portal/compare/v1.1.19...v1.1.20) (2025-07-18)
 
 
