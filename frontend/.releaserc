@@ -28,11 +28,19 @@
     ],
     "@semantic-release/github",
     [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "node -e \"const fs=require('fs'); const currentVersion=fs.readFileSync('version.txt','utf8').trim(); const newVersion=process.env.NEXT_RELEASE_VERSION; const isHomolog=newVersion.includes('-homolog'); if(isHomolog && currentVersion===newVersion.replace(/-homolog(\\.[0-9]+)?$/,'')) { const lastTag=require('child_process').execSync('git tag --list \"*homolog*\" --sort=-version:refname | head -n1',{encoding:'utf8'}).trim(); const match=lastTag.match(/-homolog\\.([0-9]+)$/); const nextNumber=(match?parseInt(match[1]):0)+1; const finalVersion=newVersion.replace(/-homolog(\\.[0-9]+)?$/,`-homolog.${nextNumber}`); fs.writeFileSync('version.txt',finalVersion); fs.writeFileSync('frontend/version.txt',finalVersion); } else { fs.writeFileSync('version.txt',newVersion); fs.writeFileSync('frontend/version.txt',newVersion); }\""
+      }
+    ],
+    [
       "@semantic-release/git",
       {
         "assets": [
           "package.json",
-          "CHANGELOG.md"
+          "CHANGELOG.md",
+          "version.txt",
+          "frontend/version.txt"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }

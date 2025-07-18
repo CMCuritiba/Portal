@@ -64,15 +64,15 @@ jobs:
       - name: Get latest tag version
         id: version
         run: |
-          # Get the latest tag created by semantic-release
+          # Get the latest tag criada pelo semantic-release
           if [ "${{ github.ref_name }}" = "main" ]; then
-            # For main branch, get the latest homolog tag
-            LATEST_TAG=$(git tag --list "*homolog*" --sort=-version:refname | head -n1)
+            # Para main, pega a última tag de produção (que NÃO contém 'homolog')
+            LATEST_TAG=$(git tag --list | grep -v 'homolog' | sort -V | tail -n1)
             if [ -z "$LATEST_TAG" ]; then
               LATEST_TAG="latest"
             fi
           else
-            # For other branches, get the latest tag
+            # Para outras branches, pega a última tag normalmente
             LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
           fi
           echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
@@ -87,6 +87,7 @@ jobs:
             ghcr.io/cmcuritiba/portal/frontend:${{ steps.version.outputs.version }}
             ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
             ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
+            ${{ github.ref_name == 'main' && 'ghcr.io/cmcuritiba/portal/frontend:latest' || '' }}
           labels: |
             org.opencontainers.image.version=${{ steps.version.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}
