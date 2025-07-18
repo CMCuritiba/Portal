@@ -29,52 +29,69 @@ jobs:
 
       # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
 
-      - name: Semantic Release for Develop (Update Files)
+      - name: Bump Version for Develop (Dry Run + Manual Update)
         if: github.ref == 'refs/heads/develop'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Executar semantic-release em dry-run para capturar nova versão
+          npx semantic-release --dry-run --no-ci
+          
+          # Capturar a nova versão do output do semantic-release
+          NEW_VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          
+          if [ -n "$NEW_VERSION" ]; then
+            echo "New version detected: $NEW_VERSION"
+            
+            # Atualizar version.txt
+            echo $NEW_VERSION > version.txt
+            
+            # Atualizar package.json (se existir)
+            if [ -f "package.json" ]; then
+              npm version $NEW_VERSION --no-git-tag-version
+              echo "Updated package.json"
+            fi
+            
+            # Atualizar frontend/package.json (se existir)
+            if [ -f "frontend/package.json" ]; then
+              cd frontend
+              npm version $NEW_VERSION --no-git-tag-version
+              cd ..
+              echo "Updated frontend/package.json"
+            fi
+            
+            # Atualizar backend/setup.py (se existir)
+            if [ -f "backend/src/camara_de_curitiba/setup.py" ]; then
+              sed -i "s/version='[^']*'/version='$NEW_VERSION'/" backend/src/camara_de_curitiba/setup.py
+              echo "Updated backend/setup.py"
+            fi
+            
+            echo "Updated all version files to: $NEW_VERSION"
+            
+            # Commit das mudanças
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+            git push
+          else
+            echo "No version bump needed"
+          fi
+        working-directory: ./
+
+      - name: Semantic Release for Homolog
+        if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
         working-directory: ./
 
-
-
-      - name: Create Homolog Tag
-        if: github.ref == 'refs/heads/homolog'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Ler versão do version.txt
-          VERSION=$(cat version.txt)
-          TAG_NAME="v${VERSION}-homolog"
-          
-          echo "Creating homolog tag: $TAG_NAME"
-          
-          # Criar tag localmente
-          git tag $TAG_NAME
-          
-          # Push da tag para o repositório
-          git push origin $TAG_NAME
-          
-          echo "Tag $TAG_NAME created successfully"
-
-      - name: Create Production Tag
+      - name: Semantic Release for Main
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Ler versão do version.txt
-          VERSION=$(cat version.txt)
-          TAG_NAME="v${VERSION}"
-          
-          echo "Creating production tag: $TAG_NAME"
-          
-          # Criar tag localmente
-          git tag $TAG_NAME
-          
-          # Push da tag para o repositório
-          git push origin $TAG_NAME
-          
-          echo "Tag $TAG_NAME created successfully"
+        run: npx semantic-release
+        working-directory: ./
 
   build-image:
     needs: release
