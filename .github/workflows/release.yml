@@ -52,22 +52,10 @@ jobs:
           # Usar configuração específica para homolog
           cp .releaserc.production .releaserc
 
-          # Verificar se há commits relevantes desde a última versão
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          if [ -n "$LAST_TAG" ]; then
-            COMMITS_SINCE_LAST=$(git log --oneline $LAST_TAG..HEAD --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
-          else
-            COMMITS_SINCE_LAST=$(git log --oneline --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
-          fi
-
-          echo "Commits relevantes desde a última versão: $COMMITS_SINCE_LAST"
-
-          # Se não há commits relevantes, criar um commit de força
-          if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
-            echo "Nenhum commit relevante detectado. Criando commit de força..."
-            git commit --allow-empty -m "chore: force homolog release - Forçar criação de release de homolog devido a merges de PRs [skip ci]"
-            git push origin homolog
-          fi
+          # Sempre criar um commit de força para garantir release
+          echo "Criando commit de força para homolog..."
+          git commit --allow-empty -m "chore: force homolog release - Forçar criação de release de homolog [skip ci]"
+          git push origin homolog
 
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
@@ -95,22 +83,10 @@ jobs:
           # Usar configuração específica para main
           cp .releaserc.production .releaserc
 
-          # Verificar se há commits relevantes desde a última versão
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          if [ -n "$LAST_TAG" ]; then
-            COMMITS_SINCE_LAST=$(git log --oneline $LAST_TAG..HEAD --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
-          else
-            COMMITS_SINCE_LAST=$(git log --oneline --grep="^Merge pull request" --grep="^feat:" --grep="^fix:" --grep="^refactor:" --grep="^perf:" --grep="^docs:" --grep="^style:" --grep="^test:" --grep="^chore:" --grep="^ci:" --grep="^build:" | wc -l)
-          fi
-
-          echo "Commits relevantes desde a última versão: $COMMITS_SINCE_LAST"
-
-          # Se não há commits relevantes, criar um commit de força
-          if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
-            echo "Nenhum commit relevante detectado. Criando commit de força..."
-            git commit --allow-empty -m "chore: force production release - Forçar criação de release de produção devido a merges de PRs [skip ci]"
-            git push origin main
-          fi
+          # Sempre criar um commit de força para garantir release
+          echo "Criando commit de força para produção..."
+          git commit --allow-empty -m "chore: force production release - Forçar criação de release de produção [skip ci]"
+          git push origin main
 
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
