@@ -52,33 +52,66 @@ jobs:
           # Usar configuração específica para homolog (sem alterar package.json)
           cp .releaserc.homolog .releaserc
 
-          # Remover tags conflitantes ANTES do semantic-release
-          echo "Removendo tags conflitantes antes do semantic-release..."
+          # Verificar e limpar tags conflitantes ANTES do semantic-release
+          echo "🔍 Verificando tags existentes..."
+          EXISTING_TAGS=$(git tag --list)
+          echo "Tags existentes:"
+          echo "$EXISTING_TAGS"
+
+          # Encontrar a última tag de develop (sem sufixos)
+          LATEST_DEVELOP_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V | tail -n1)
+          echo "Última tag de develop: $LATEST_DEVELOP_TAG"
+
+          if [ -n "$LATEST_DEVELOP_TAG" ]; then
+            # Extrair versão base
+            BASE_VERSION=${LATEST_DEVELOP_TAG#v}
+            POTENTIAL_HOMOLOG_TAG="v${BASE_VERSION}-homolog"
+            
+            echo "Tag potencial de homolog: $POTENTIAL_HOMOLOG_TAG"
+            
+            # Verificar se a tag potencial já existe
+            if git tag --list | grep -q "^$POTENTIAL_HOMOLOG_TAG$"; then
+              echo "⚠️  Tag $POTENTIAL_HOMOLOG_TAG já existe. Removendo..."
+              git tag -d "$POTENTIAL_HOMOLOG_TAG" 2>/dev/null || true
+              git push origin ":refs/tags/$POTENTIAL_HOMOLOG_TAG" 2>/dev/null || true
+              echo "✅ Tag $POTENTIAL_HOMOLOG_TAG removida"
+            fi
+          fi
+
+          # Remover tags conflitantes
+          echo "🧹 Removendo tags conflitantes..."
           git tag -d homolog 2>/dev/null || true
           git push origin :refs/tags/homolog 2>/dev/null || true
 
-          # Encontrar a última tag de develop (sem sufixos)
-          LATEST_DEVELOP_TAG=$(git tag --list | grep -v "homolog" | grep -v "latest" | sort -V | tail -n1)
-          echo "Última tag de develop: $LATEST_DEVELOP_TAG"
-
-          # Executar semantic-release para criar release de homolog
-          npx semantic-release --no-ci
+          # Executar semantic-release (não deve incrementar versão, apenas criar tag com sufixo)
+          echo "🚀 Executando semantic-release para homolog..."
+          if npx semantic-release --no-ci; then
+            echo "✅ Semantic-release executado com sucesso"
+          else
+            echo "⚠️  Semantic-release falhou, criando tag manualmente..."
+            
+            # Fallback: criar tag manualmente baseada na versão de develop
+            if [ -n "$LATEST_DEVELOP_TAG" ]; then
+              BASE_VERSION=${LATEST_DEVELOP_TAG#v}
+              HOMOLOG_TAG="v${BASE_VERSION}-homolog"
+              
+              echo "🔄 Criando tag de homolog manualmente: $HOMOLOG_TAG"
+              git tag "$HOMOLOG_TAG"
+              git push origin "refs/tags/$HOMOLOG_TAG"
+              echo "✅ Tag criada manualmente: $HOMOLOG_TAG"
+            else
+              echo "❌ Não foi possível determinar a versão base para homolog"
+              exit 1
+            fi
+          fi
 
           # Verificar se semantic-release criou uma tag
           LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
           if [ -n "$LATEST_HOMOLOG_TAG" ]; then
-            echo "✅ Semantic-release criou tag: $LATEST_HOMOLOG_TAG"
+            echo "✅ Tag de homolog criada: $LATEST_HOMOLOG_TAG"
           else
-            echo "⚠️  Semantic-release não criou tag, forçando criação..."
-            if [ -n "$LATEST_DEVELOP_TAG" ]; then
-              # Extrair versão base e criar tag de homolog
-              BASE_VERSION=${LATEST_DEVELOP_TAG#v}
-              HOMOLOG_TAG="v${BASE_VERSION}-homolog"
-              git tag $HOMOLOG_TAG
-              git push origin refs/tags/$HOMOLOG_TAG
-              LATEST_HOMOLOG_TAG=$HOMOLOG_TAG
-              echo "✅ Tag forçada criada: $LATEST_HOMOLOG_TAG"
-            fi
+            echo "❌ Nenhuma tag de homolog foi criada"
+            exit 1
           fi
 
           # Atualizar tag 'homolog' para apontar para a versão mais recente
@@ -87,14 +120,13 @@ jobs:
             git tag -d homolog 2>/dev/null || true
             git push origin :refs/tags/homolog 2>/dev/null || true
 
-            # Criar nova tag homolog
-            HOMOLOG_TAG="v${BASE_VERSION}-homolog"
-            git tag $HOMOLOG_TAG
+            # Criar nova tag homolog apontando para a versão mais recente
+            git tag homolog "$LATEST_HOMOLOG_TAG"
             git push origin refs/tags/homolog
-            echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
+            echo "✅ Tag 'homolog' atualizada para apontar para $LATEST_HOMOLOG_TAG"
           fi
 
-          echo "Homolog release created successfully"
+          echo "✅ Homolog release created successfully"
 
       - name: MAIN - Create Production Release
         if: github.ref == 'refs/heads/main'
@@ -104,39 +136,66 @@ jobs:
           # Usar configuração específica para main (sem alterar package.json)
           cp .releaserc.main .releaserc
 
-          # Remover tags conflitantes ANTES do semantic-release
-          echo "Removendo tags conflitantes antes do semantic-release..."
-          git tag -d latest 2>/dev/null || true
-          git push origin :refs/tags/latest 2>/dev/null || true
+          # Verificar e limpar tags conflitantes ANTES do semantic-release
+          echo "🔍 Verificando tags existentes..."
+          EXISTING_TAGS=$(git tag --list)
+          echo "Tags existentes:"
+          echo "$EXISTING_TAGS"
 
           # Encontrar a última tag de develop (sem sufixos)
           LATEST_DEVELOP_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v -E 'homolog|latest|release' | sort -V | tail -n1)
           echo "Última tag de develop: $LATEST_DEVELOP_TAG"
 
-          # Executar semantic-release para criar release de produção
-          npx semantic-release --no-ci
+          if [ -n "$LATEST_DEVELOP_TAG" ]; then
+            # Verificar se a tag de develop já existe como tag de produção
+            if git tag --list | grep -q "^$LATEST_DEVELOP_TAG$"; then
+              echo "⚠️  Tag $LATEST_DEVELOP_TAG já existe. Verificando se é uma tag de produção..."
+              # Se a tag já existe, vamos usá-la como tag de produção
+              LATEST_MAIN_TAG=$LATEST_DEVELOP_TAG
+              echo "✅ Usando tag existente como produção: $LATEST_MAIN_TAG"
+            fi
+          fi
 
-          # Verificar se semantic-release criou uma nova tag de produção
-          LATEST_MAIN_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V | tail -n1)
-          if [ -n "$LATEST_MAIN_TAG" ] && [ "$LATEST_MAIN_TAG" != "$LATEST_DEVELOP_TAG" ]; then
-            echo "✅ Semantic-release criou nova tag: $LATEST_MAIN_TAG"
+          # Remover tags conflitantes
+          echo "🧹 Removendo tags conflitantes..."
+          git tag -d latest 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
+
+          # Executar semantic-release (não deve incrementar versão, apenas promover versão homologada)
+          echo "🚀 Executando semantic-release para produção..."
+          if npx semantic-release --no-ci; then
+            echo "✅ Semantic-release executado com sucesso"
           else
-            echo "⚠️  Semantic-release não criou nova tag, promovendo tag de develop..."
+            echo "⚠️  Semantic-release falhou, promovendo tag de develop..."
+            
+            # Fallback: promover tag de develop se semantic-release falhar
             if [ -n "$LATEST_DEVELOP_TAG" ]; then
               LATEST_MAIN_TAG=$LATEST_DEVELOP_TAG
               echo "✅ Promovendo $LATEST_MAIN_TAG para produção"
             else
-              echo "❌ Nenhuma versão encontrada para promover"
+              echo "❌ Não foi possível determinar a versão para produção"
               exit 1
             fi
           fi
 
-          # Atualizar tag 'latest' para apontar para a versão mais recente (sem criar nova)
+          # Verificar se semantic-release criou uma nova tag de produção
+          NEW_MAIN_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$NEW_MAIN_TAG" ] && [ "$NEW_MAIN_TAG" != "$LATEST_DEVELOP_TAG" ]; then
+            echo "✅ Semantic-release criou nova tag: $NEW_MAIN_TAG"
+            LATEST_MAIN_TAG=$NEW_MAIN_TAG
+          elif [ -n "$LATEST_MAIN_TAG" ]; then
+            echo "✅ Usando tag existente: $LATEST_MAIN_TAG"
+          else
+            echo "❌ Nenhuma versão encontrada para produção"
+            exit 1
+          fi
+
+          # Atualizar tag 'latest' para apontar para a versão mais recente
           if [ -n "$LATEST_MAIN_TAG" ]; then
             git tag -d latest 2>/dev/null || true
             git push origin :refs/tags/latest 2>/dev/null || true
 
-            git tag latest $LATEST_MAIN_TAG
+            git tag latest "$LATEST_MAIN_TAG"
             git push origin refs/tags/latest
             echo "✅ Tag 'latest' atualizada para apontar para: $LATEST_MAIN_TAG"
           fi
