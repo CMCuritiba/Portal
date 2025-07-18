@@ -115,10 +115,9 @@ jobs:
             exit 1
           fi
 
-          # Verificar se semantic-release criou uma tag
-          LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+          # Verificar se a tag de homolog foi definida corretamente
           if [ -n "$LATEST_HOMOLOG_TAG" ]; then
-            echo "✅ Tag de homolog criada: $LATEST_HOMOLOG_TAG"
+            echo "✅ Tag de homolog definida: $LATEST_HOMOLOG_TAG"
           else
             echo "❌ Nenhuma tag de homolog foi criada"
             exit 1
