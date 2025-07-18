@@ -30,6 +30,7 @@
         "pypiPublish": false
       }
     ],
+    "semantic-release-github",
     [
       "semantic-release-exec",
       {

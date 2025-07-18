@@ -1305,9 +1305,25 @@ figure {
 
   &.select-internal {
     margin: 0px 24px 0px 0px;
+    max-width: 100%;
   }
 }
 
+.select-internal {
+  #start-date, #end-date {
+    border: 1px solid #BDBDBD;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 16px 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    line-height: 24px;
+    letter-spacing: 0%;
+  }
+}
 .other-blocks-sd {
   margin-top: 24px;
 }
