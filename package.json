@@ -1,6 +1,6 @@
 {
   "name": "portal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Portal institucional da Câmara de Curitiba",
   "repository": "git@github.com:CMCuritiba/Portal.git",
   "license": "GPL-3.0-or-later",

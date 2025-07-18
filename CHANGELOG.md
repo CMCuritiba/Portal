@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/CMCuritiba/Portal/compare/v1.1.0...v1.1.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* retira tag da dev ([bd710c2](https://github.com/CMCuritiba/Portal/commit/bd710c2f4cf945bc1ef50caa9a2bfa1d34a60439))
+
 # [1.1.0](https://github.com/CMCuritiba/Portal/compare/v1.0.1...v1.1.0) (2025-07-18)
 
 
