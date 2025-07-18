@@ -106,6 +106,10 @@ jobs:
           git tag -d latest 2>/dev/null || true
           git push origin :refs/tags/latest 2>/dev/null || true
 
+          # Verificar qual é a versão mais recente de develop
+          LATEST_DEVELOP_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+          echo "Versão mais recente de develop: $LATEST_DEVELOP_VERSION"
+
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
 
@@ -113,17 +117,31 @@ jobs:
           LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
           if [ -n "$LATEST_MAIN_TAG" ]; then
             echo "✅ Semantic-release criou tag: $LATEST_MAIN_TAG"
+            
+            # Se semantic-release incrementou a versão, usar a versão de develop
+            if [ "$LATEST_MAIN_TAG" != "$LATEST_DEVELOP_VERSION" ]; then
+              echo "⚠️  Semantic-release incrementou versão, usando versão de develop..."
+              # Remover tag criada pelo semantic-release
+              git tag -d $LATEST_MAIN_TAG 2>/dev/null || true
+              git push origin ":refs/tags/$LATEST_MAIN_TAG" 2>/dev/null || true
+              
+              # Criar tag com versão de develop
+              git tag $LATEST_DEVELOP_VERSION
+              git push origin refs/tags/$LATEST_DEVELOP_VERSION
+              LATEST_MAIN_TAG=$LATEST_DEVELOP_VERSION
+              echo "✅ Tag corrigida para versão de develop: $LATEST_MAIN_TAG"
+            fi
           else
             echo "⚠️  Semantic-release não criou tag, forçando criação..."
-            # Se não criou tag, forçar criação baseada na última versão
-            LATEST_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-            if [ -n "$LATEST_VERSION" ]; then
-              # Usar a versão mais recente como tag de produção
-              PRODUCTION_TAG=$LATEST_VERSION
+            if [ -n "$LATEST_DEVELOP_VERSION" ]; then
+              # Usar a versão mais recente de develop como tag de produção
+              PRODUCTION_TAG=$LATEST_DEVELOP_VERSION
               git tag $PRODUCTION_TAG
               git push origin refs/tags/$PRODUCTION_TAG
               LATEST_MAIN_TAG=$PRODUCTION_TAG
-              echo "✅ Tag forçada criada: $LATEST_MAIN_TAG"
+              echo "✅ Tag de produção forçada criada: $LATEST_MAIN_TAG"
+            else
+              echo "❌ Nenhuma versão encontrada para criar tag de produção"
             fi
           fi
 
