@@ -35,10 +35,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Executar semantic-release em dry-run para capturar nova versão e changelog
-          npx semantic-release --dry-run --no-ci
+          # Usar apenas plugins necessários para develop (sem GitHub)
+          OUTPUT=$(npx semantic-release --dry-run --no-ci --plugins @semantic-release/commit-analyzer --plugins @semantic-release/release-notes-generator --plugins @semantic-release/changelog 2>&1)
+          echo "$OUTPUT"
           
           # Capturar a nova versão do output do semantic-release
-          NEW_VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          NEW_VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
           
           if [ -n "$NEW_VERSION" ]; then
             echo "New version detected: $NEW_VERSION"
@@ -66,10 +68,6 @@ jobs:
               echo "Updated backend/setup.py"
             fi
             
-            # Gerar changelog manualmente usando semantic-release
-            npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
-            echo "Updated CHANGELOG.md"
-            
             echo "Updated all version files and changelog to: $NEW_VERSION"
             
             # Commit das mudanças
@@ -78,6 +76,11 @@ jobs:
             git add .
             git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
             git push
+            
+            # Criar tag v-dev
+            git tag v-dev
+            git push origin v-dev
+            echo "Created tag v-dev"
           else
             echo "No version bump needed"
           fi
@@ -89,10 +92,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Executar semantic-release em dry-run para pegar a versão
-          npx semantic-release --dry-run --no-ci
+          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
+          echo "$OUTPUT"
           
           # Capturar a versão do output
-          VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
           
           if [ -z "$VERSION" ]; then
             # Se não conseguir pegar do semantic-release, tentar ler do version.txt
@@ -124,10 +128,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Executar semantic-release em dry-run para pegar a versão
-          npx semantic-release --dry-run --no-ci
+          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
+          echo "$OUTPUT"
           
           # Capturar a versão do output
-          VERSION=$(npx semantic-release --dry-run --no-ci 2>&1 | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
           
           if [ -z "$VERSION" ]; then
             # Se não conseguir pegar do semantic-release, tentar ler do version.txt
@@ -139,7 +144,10 @@ jobs:
             fi
           fi
           
-          TAG_NAME="v${VERSION}"
+          # Remover sufixo -dev se existir
+          CLEAN_VERSION=$(echo $VERSION | sed 's/-dev$//')
+          
+          TAG_NAME="v${CLEAN_VERSION}"
           echo "Creating production release: $TAG_NAME"
           
           # Criar tag localmente
