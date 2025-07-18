@@ -1,12 +1,9 @@
 {
   "repositoryUrl": "https://github.com/CMCuritiba/Portal.git",
   "branches": [
-    {
-      "name": "homolog",
-      "prerelease": "homolog",
-      "channel": "homolog"
-    }
+    "homolog"
   ],
+  "prerelease": "homolog",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -86,7 +83,9 @@
             "path": "dist/*.tgz",
             "label": "Homolog Release ${nextRelease.version}"
           }
-        ]
+        ],
+        "successComment": false,
+        "failComment": false
       }
     ],
     [
