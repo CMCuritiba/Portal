@@ -1,3 +1,39 @@
+## [1.1.12](https://github.com/CMCuritiba/Portal/compare/v1.1.11...v1.1.12) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** homolog conflito ([e24909e](https://github.com/CMCuritiba/Portal/commit/e24909ef9c6c95af30e14a729f0c6d456639fdb6))
+
+## [1.1.11](https://github.com/CMCuritiba/Portal/compare/v1.1.10...v1.1.11) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** homolog conflito ([d9ca04d](https://github.com/CMCuritiba/Portal/commit/d9ca04d00a066b9b2e6e637ead23c19fffe5e286))
+
+## [1.1.10](https://github.com/CMCuritiba/Portal/compare/v1.1.9...v1.1.10) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** forçar tag de versão para release ([11eb903](https://github.com/CMCuritiba/Portal/commit/11eb903c078eb161706fe51f924c1362dc961eef))
+
+## [1.1.9](https://github.com/CMCuritiba/Portal/compare/v1.1.8...v1.1.9) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta tags homolog e latest em backend ([f7c4f23](https://github.com/CMCuritiba/Portal/commit/f7c4f23b268d24a46a465763cc8f433d93a01c00))
+
+## [1.1.8](https://github.com/CMCuritiba/Portal/compare/v1.1.7...v1.1.8) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta tags homolog e latest em backend ([3fe4ed0](https://github.com/CMCuritiba/Portal/commit/3fe4ed07a739e2e9574f7f53ea76038566a9f194))
+* **versionamento:** ajusta tags homolog e latest em backend ([33390ad](https://github.com/CMCuritiba/Portal/commit/33390adfe49230bf9ecb39cad5dd6c67ae8800fb))
+
 ## [1.1.7](https://github.com/CMCuritiba/Portal/compare/v1.1.6...v1.1.7) (2025-07-18)
 
 
