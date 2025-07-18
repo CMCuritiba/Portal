@@ -1,11 +1,25 @@
-# [1.1.0-homolog.7](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.6...v1.1.0-homolog.7) (2025-07-18)
+## [1.1.1](https://github.com/CMCuritiba/Portal/compare/v1.1.0...v1.1.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* retira tag da dev ([bd710c2](https://github.com/CMCuritiba/Portal/commit/bd710c2f4cf945bc1ef50caa9a2bfa1d34a60439))
+
+# [1.1.0](https://github.com/CMCuritiba/Portal/compare/v1.0.1...v1.1.0) (2025-07-18)
 
 
 ### Bug Fixes
 
 * ajusta o release.yml para nao taguear a ajusta versao de homologação. ([893a8ad](https://github.com/CMCuritiba/Portal/commit/893a8adb1a3d52188ce1ecaa1470eb6a9a343bb2))
-* retira tag de versão na dev ([85d3a75](https://github.com/CMCuritiba/Portal/commit/85d3a7534d35b48b4310fc4626f3ebf634540483))
-* **versionamento:** se adequa a politica ([e411dbb](https://github.com/CMCuritiba/Portal/commit/e411dbb7d2c74e7e91373deed1629e90ce94093d))
+* **components:** ajusta o bloco "Cards com background" ([3af4683](https://github.com/CMCuritiba/Portal/commit/3af4683adf44b6cd8b7385afb014fcc7fbc67d91))
+* versionamento com ajuste de acordo com a politica ([bd9e2f1](https://github.com/CMCuritiba/Portal/commit/bd9e2f1374fa847de2b4c0d570ba016fa9e8c91a))
+
+
+### Features
+
+* **agenda:** ajusta filtros ([d4e9748](https://github.com/CMCuritiba/Portal/commit/d4e9748d2bd0307ff2875d1457165bc58f057f2b))
+* **agenda:** ajusta filtros (bug de data) ([e2cfc1e](https://github.com/CMCuritiba/Portal/commit/e2cfc1e18228193b0ae96f8a10e2254fd2d9a132))
+* **news:** 122 interna noticias  ([#126](https://github.com/CMCuritiba/Portal/issues/126)) ([bff0f69](https://github.com/CMCuritiba/Portal/commit/bff0f697e5a78128761a94acfe40c89d34b6cb92))
 
 ## [1.0.1](https://github.com/CMCuritiba/Portal/compare/v1.0.0...v1.0.1) (2025-07-18)
 
