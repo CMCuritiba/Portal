@@ -49,8 +49,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Usar configuração específica para homolog
-          cp .releaserc.production .releaserc
+          # Usar configuração específica para homolog (sem alterar package.json)
+          cp .releaserc.homolog .releaserc
 
           # Remover tags conflitantes ANTES do semantic-release
           echo "Removendo tags conflitantes antes do semantic-release..."
@@ -60,8 +60,26 @@ jobs:
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
 
-          # Atualizar tag 'homolog' para apontar para a versão mais recente
+          # Verificar se semantic-release criou uma tag
           LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+          if [ -n "$LATEST_HOMOLOG_TAG" ]; then
+            echo "✅ Semantic-release criou tag: $LATEST_HOMOLOG_TAG"
+          else
+            echo "⚠️  Semantic-release não criou tag, forçando criação..."
+            # Se não criou tag, forçar criação baseada na última versão
+            LATEST_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+            if [ -n "$LATEST_VERSION" ]; then
+              # Extrair versão base e criar tag de homolog
+              BASE_VERSION=${LATEST_VERSION#v}
+              HOMOLOG_TAG="v${BASE_VERSION}-homolog"
+              git tag $HOMOLOG_TAG
+              git push origin refs/tags/$HOMOLOG_TAG
+              LATEST_HOMOLOG_TAG=$HOMOLOG_TAG
+              echo "✅ Tag forçada criada: $LATEST_HOMOLOG_TAG"
+            fi
+          fi
+
+          # Atualizar tag 'homolog' para apontar para a versão mais recente
           if [ -n "$LATEST_HOMOLOG_TAG" ]; then
             # Remover tag homolog se existir
             git tag -d homolog 2>/dev/null || true
@@ -80,8 +98,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Usar configuração específica para main
-          cp .releaserc.production .releaserc
+          # Usar configuração específica para main (sem alterar package.json)
+          cp .releaserc.main .releaserc
 
           # Remover tags conflitantes ANTES do semantic-release
           echo "Removendo tags conflitantes antes do semantic-release..."
@@ -91,8 +109,25 @@ jobs:
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
 
-          # Atualizar tag 'latest' para apontar para a versão mais recente
+          # Verificar se semantic-release criou uma tag
           LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$LATEST_MAIN_TAG" ]; then
+            echo "✅ Semantic-release criou tag: $LATEST_MAIN_TAG"
+          else
+            echo "⚠️  Semantic-release não criou tag, forçando criação..."
+            # Se não criou tag, forçar criação baseada na última versão
+            LATEST_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+            if [ -n "$LATEST_VERSION" ]; then
+              # Usar a versão mais recente como tag de produção
+              PRODUCTION_TAG=$LATEST_VERSION
+              git tag $PRODUCTION_TAG
+              git push origin refs/tags/$PRODUCTION_TAG
+              LATEST_MAIN_TAG=$PRODUCTION_TAG
+              echo "✅ Tag forçada criada: $LATEST_MAIN_TAG"
+            fi
+          fi
+
+          # Atualizar tag 'latest' para apontar para a versão mais recente
           if [ -n "$LATEST_MAIN_TAG" ]; then
             # Remover tag latest se existir
             git tag -d latest 2>/dev/null || true
@@ -171,6 +206,13 @@ jobs:
             LATEST_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
             if [ -z "$LATEST_TAG" ]; then
               LATEST_TAG="homolog"
+            fi
+          fi
+
+          # Para homolog, garantir que o sufixo -homolog esteja presente
+          if [ "${{ github.ref_name }}" = "homolog" ]; then
+            if [[ "$LATEST_TAG" != *"-homolog"* ]]; then
+              LATEST_TAG="${LATEST_TAG}-homolog"
             fi
           fi
 
