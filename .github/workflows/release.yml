@@ -46,24 +46,39 @@ jobs:
             # Atualizar version.txt
             echo $NEW_VERSION > version.txt
             
-            # Atualizar package.json (se existir)
+            # Atualizar package.json (se existir e versão mudou)
             if [ -f "package.json" ]; then
-              npm version $NEW_VERSION --no-git-tag-version
-              echo "Updated package.json"
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+                npm version $NEW_VERSION --no-git-tag-version
+                echo "Updated package.json from $CURRENT_VERSION to $NEW_VERSION"
+              else
+                echo "Package.json version unchanged ($CURRENT_VERSION)"
+              fi
             fi
             
-            # Atualizar frontend/package.json (se existir)
+            # Atualizar frontend/package.json (se existir e versão mudou)
             if [ -f "frontend/package.json" ]; then
-              cd frontend
-              npm version $NEW_VERSION --no-git-tag-version
-              cd ..
-              echo "Updated frontend/package.json"
+              CURRENT_VERSION=$(node -p "require('./frontend/package.json').version")
+              if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+                cd frontend
+                npm version $NEW_VERSION --no-git-tag-version
+                cd ..
+                echo "Updated frontend/package.json from $CURRENT_VERSION to $NEW_VERSION"
+              else
+                echo "Frontend package.json version unchanged ($CURRENT_VERSION)"
+              fi
             fi
             
-            # Atualizar backend/setup.py (se existir)
+            # Atualizar backend/setup.py (se existir e versão mudou)
             if [ -f "backend/src/camara_de_curitiba/setup.py" ]; then
-              sed -i "s/version='[^']*'/version='$NEW_VERSION'/" backend/src/camara_de_curitiba/setup.py
-              echo "Updated backend/setup.py"
+              CURRENT_VERSION=$(grep -o "version='[^']*'" backend/src/camara_de_curitiba/setup.py | cut -d"'" -f2)
+              if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+                sed -i "s/version='[^']*'/version='$NEW_VERSION'/" backend/src/camara_de_curitiba/setup.py
+                echo "Updated backend/setup.py from $CURRENT_VERSION to $NEW_VERSION"
+              else
+                echo "Backend setup.py version unchanged ($CURRENT_VERSION)"
+              fi
             fi
             
             echo "Updated all version files to: $NEW_VERSION"
