@@ -39,28 +39,73 @@ echo "✅ Tag $TAG_NAME existe"
 # Obter conteúdo do changelog da tag base
 echo "📋 Obtendo conteúdo do changelog da tag base..."
 if [ -f "CHANGELOG.md" ]; then
-    # Extrair seção do changelog para a versão base
-    CHANGELOG_CONTENT=$(awk -v version="$BASE_TAG" '
-        /^## \['"$BASE_TAG"'\]/ { 
-            in_section = 1
-            print
-            next
-        }
-        /^## \[/ && in_section { 
-            in_section = 0
-            exit
-        }
-        in_section { 
-            print
-        }
-    ' CHANGELOG.md)
+    echo "📋 Verificando se $BASE_TAG existe no changelog..."
     
-    if [ -n "$CHANGELOG_CONTENT" ]; then
-        echo "✅ Conteúdo do changelog encontrado para $BASE_TAG"
-        RELEASE_NOTES="$CHANGELOG_CONTENT"
+    # Verificar se a versão existe no changelog (com formato com data)
+    BASE_VERSION_NUM=${BASE_TAG#v}  # Remove o 'v' do início
+    if grep -q "^## \[$BASE_VERSION_NUM\]" CHANGELOG.md; then
+        echo "✅ Versão $BASE_VERSION_NUM encontrada no changelog"
+        
+        # Extrair seção do changelog para a versão base
+        CHANGELOG_CONTENT=$(awk -v version="$BASE_VERSION_NUM" '
+            /^## \['"$BASE_VERSION_NUM"'\]/ { 
+                in_section = 1
+                print
+                next
+            }
+            /^## \[/ && in_section { 
+                in_section = 0
+                exit
+            }
+            in_section { 
+                print
+            }
+        ' CHANGELOG.md)
+        
+        if [ -n "$CHANGELOG_CONTENT" ]; then
+            echo "✅ Conteúdo do changelog extraído para $BASE_TAG"
+            RELEASE_NOTES="$CHANGELOG_CONTENT"
+        else
+            echo "⚠️  Conteúdo do changelog vazio para $BASE_TAG, usando padrão"
+            RELEASE_NOTES="Release $TAG_NAME based on $BASE_TAG"
+        fi
     else
-        echo "⚠️  Conteúdo do changelog não encontrado para $BASE_TAG, usando padrão"
-        RELEASE_NOTES="Release $TAG_NAME based on $BASE_TAG"
+        echo "⚠️  Versão $BASE_VERSION_NUM não encontrada no changelog"
+        echo "📋 Versões disponíveis no changelog:"
+        grep "^## \[[0-9]" CHANGELOG.md | head -5
+        
+        # Tentar usar a versão mais recente do changelog
+        LATEST_CHANGELOG_VERSION=$(grep "^## \[[0-9]" CHANGELOG.md | head -1 | sed 's/^## \[\([^]]*\)\].*/\1/')
+        if [ -n "$LATEST_CHANGELOG_VERSION" ]; then
+            echo "📋 Usando versão mais recente do changelog: $LATEST_CHANGELOG_VERSION"
+            
+            # Extrair conteúdo da versão mais recente
+            CHANGELOG_CONTENT=$(awk -v version="$LATEST_CHANGELOG_VERSION" '
+                /^## \['"$LATEST_CHANGELOG_VERSION"'\]/ { 
+                    in_section = 1
+                    print
+                    next
+                }
+                /^## \[/ && in_section { 
+                    in_section = 0
+                    exit
+                }
+                in_section { 
+                    print
+                }
+            ' CHANGELOG.md)
+            
+            if [ -n "$CHANGELOG_CONTENT" ]; then
+                echo "✅ Conteúdo do changelog extraído da versão mais recente"
+                RELEASE_NOTES="$CHANGELOG_CONTENT"
+            else
+                echo "⚠️  Conteúdo do changelog vazio, usando padrão"
+                RELEASE_NOTES="Release $TAG_NAME based on $BASE_TAG"
+            fi
+        else
+            echo "⚠️  Nenhuma versão encontrada no changelog, usando padrão"
+            RELEASE_NOTES="Release $TAG_NAME based on $BASE_TAG"
+        fi
     fi
 else
     echo "⚠️  CHANGELOG.md não encontrado, usando padrão"
@@ -68,6 +113,11 @@ else
 fi
 
 # Escapar caracteres especiais para JSON (sem usar jq)
+echo "📋 Conteúdo que será usado no release:"
+echo "---"
+echo "$RELEASE_NOTES"
+echo "---"
+
 echo "📋 Preparando conteúdo para JSON..."
 RELEASE_NOTES_JSON=$(echo "$RELEASE_NOTES" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
 RELEASE_NOTES_JSON="\"$RELEASE_NOTES_JSON\""

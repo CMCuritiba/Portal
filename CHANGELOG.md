@@ -1,3 +1,17 @@
+## [1.1.29](https://github.com/CMCuritiba/Portal/compare/v1.1.28...v1.1.29) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** extração com data o conteudo da versao ([8ea2eab](https://github.com/CMCuritiba/Portal/commit/8ea2eab540bee181cfa4bc17e547f53c9f8e56e1))
+
+## [1.1.28](https://github.com/CMCuritiba/Portal/compare/v1.1.27...v1.1.28) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** pega o conteudo da versao ([ec1d74e](https://github.com/CMCuritiba/Portal/commit/ec1d74e1dd24957ea5a7840593ab7f03ef400899))
+
 ## [1.1.27](https://github.com/CMCuritiba/Portal/compare/v1.1.26...v1.1.27) (2025-07-18)
 
 
