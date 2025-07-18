@@ -11,10 +11,6 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code
@@ -34,9 +30,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Configurar autenticação para semantic-release
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: DEVELOP - Update Version and Changelog
         if: github.ref == 'refs/heads/develop'
@@ -59,6 +52,11 @@ jobs:
           # Usar configuração específica para homolog
           cp .releaserc.production .releaserc
 
+          # Remover tags conflitantes ANTES do semantic-release
+          echo "Removendo tags conflitantes antes do semantic-release..."
+          git tag -d homolog 2>/dev/null || true
+          git push origin :refs/tags/homolog 2>/dev/null || true
+
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
 
@@ -68,7 +66,7 @@ jobs:
             # Remover tag homolog se existir
             git tag -d homolog 2>/dev/null || true
             git push origin :refs/tags/homolog 2>/dev/null || true
-            
+
             # Criar nova tag homolog
             git tag homolog $LATEST_HOMOLOG_TAG
             git push origin refs/tags/homolog
@@ -85,65 +83,12 @@ jobs:
           # Usar configuração específica para main
           cp .releaserc.production .releaserc
 
-          # Verificar se há versões de homolog para promover
-          echo "Verificando versões de homolog para promover..."
-          LATEST_HOMOLOG_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
-          
-          if [ -n "$LATEST_HOMOLOG_TAG" ]; then
-            # Extrair versão base (remover sufixo -homolog)
-            BASE_VERSION=${LATEST_HOMOLOG_TAG%-homolog}
-            echo "Promovendo versão $BASE_VERSION de homolog para produção"
-            
-            # Remover tag latest se existir
-            git tag -d latest 2>/dev/null || true
-            git push origin :refs/tags/latest 2>/dev/null || true
-            
-            # Remover tag da versão se existir
-            git tag -d "$BASE_VERSION" 2>/dev/null || true
-            git push origin ":refs/tags/$BASE_VERSION" 2>/dev/null || true
-            
-            # Criar tag de produção
-            git tag "$BASE_VERSION" "$LATEST_HOMOLOG_TAG"
-            git push origin "refs/tags/$BASE_VERSION"
-            
-            # Criar tag latest
-            git tag latest "$BASE_VERSION"
-            git push origin refs/tags/latest
-            
-            echo "✅ Versão $BASE_VERSION promovida de homolog para produção"
-            echo "✅ Tag 'latest' atualizada para $BASE_VERSION"
-          else
-            echo "⚠️  Nenhuma versão de homolog encontrada"
-            echo "Executando semantic-release normalmente..."
-            
-            # Executar semantic-release para criar release de produção
-            npx semantic-release --no-ci
+          # Remover tags conflitantes ANTES do semantic-release
+          echo "Removendo tags conflitantes antes do semantic-release..."
+          git tag -d latest 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
 
-            # Atualizar tag 'latest' para apontar para a versão mais recente
-            LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-            if [ -n "$LATEST_MAIN_TAG" ]; then
-              # Remover tag latest se existir
-              git tag -d latest 2>/dev/null || true
-              git push origin :refs/tags/latest 2>/dev/null || true
-              
-              # Criar nova tag latest
-              git tag latest $LATEST_MAIN_TAG
-              git push origin refs/tags/latest
-              echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
-            fi
-          fi
-
-          echo "Production release created successfully"
-
-      - name: HOTFIX - Create Hotfix Release
-        if: startsWith(github.ref, 'refs/heads/hotfix/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Usar configuração específica para hotfix
-          cp .releaserc.hotfix .releaserc
-
-          # Executar semantic-release para criar release de hotfix
+          # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
 
           # Atualizar tag 'latest' para apontar para a versão mais recente
@@ -159,14 +104,42 @@ jobs:
             echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
           fi
 
+          echo "Production release created successfully"
+
+      - name: HOTFIX - Create Hotfix Release
+        if: startsWith(github.ref, 'refs/heads/hotfix/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Usar configuração específica para hotfix
+          cp .releaserc.hotfix .releaserc
+
+          # Remover tags conflitantes ANTES do semantic-release
+          echo "Removendo tags conflitantes antes do semantic-release..."
+          git tag -d latest 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
+
+          # Executar semantic-release para criar release de hotfix
+          npx semantic-release --no-ci
+
+          # Atualizar tag 'latest' para apontar para a versão mais recente
+          LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$LATEST_MAIN_TAG" ]; then
+            # Remover tag latest se existir
+            git tag -d latest 2>/dev/null || true
+            git push origin :refs/tags/latest 2>/dev/null || true
+
+            # Criar nova tag latest
+            git tag latest $LATEST_MAIN_TAG
+            git push origin refs/tags/latest
+            echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+          fi
+
           echo "Hotfix release created successfully"
 
   build-image:
     needs: release
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code
