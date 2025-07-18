@@ -3,7 +3,6 @@
   "branches": [
     "homolog"
   ],
-  "prerelease": "homolog",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
