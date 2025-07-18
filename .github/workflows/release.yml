@@ -88,7 +88,8 @@ jobs:
             git push origin :refs/tags/homolog 2>/dev/null || true
 
             # Criar nova tag homolog
-            git tag homolog $LATEST_HOMOLOG_TAG
+            HOMOLOG_TAG="v${BASE_VERSION}-homolog"
+            git tag $HOMOLOG_TAG
             git push origin refs/tags/homolog
             echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
           fi
@@ -109,43 +110,38 @@ jobs:
           git push origin :refs/tags/latest 2>/dev/null || true
 
           # Encontrar a última tag de develop (sem sufixos)
-          LATEST_DEVELOP_TAG=$(git tag --list | grep -v "homolog" | grep -v "latest" | sort -V | tail -n1)
+          LATEST_DEVELOP_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v -E 'homolog|latest|release' | sort -V | tail -n1)
           echo "Última tag de develop: $LATEST_DEVELOP_TAG"
 
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
 
-          # Verificar se semantic-release criou uma tag
-          LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-          if [ -n "$LATEST_MAIN_TAG" ]; then
-            echo "✅ Semantic-release criou tag: $LATEST_MAIN_TAG"
+          # Verificar se semantic-release criou uma nova tag de produção
+          LATEST_MAIN_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V | tail -n1)
+          if [ -n "$LATEST_MAIN_TAG" ] && [ "$LATEST_MAIN_TAG" != "$LATEST_DEVELOP_TAG" ]; then
+            echo "✅ Semantic-release criou nova tag: $LATEST_MAIN_TAG"
           else
-            echo "⚠️  Semantic-release não criou tag, forçando criação..."
+            echo "⚠️  Semantic-release não criou nova tag, promovendo tag de develop..."
             if [ -n "$LATEST_DEVELOP_TAG" ]; then
-              # Usar a versão mais recente de develop como tag de produção
-              PRODUCTION_TAG=$LATEST_DEVELOP_TAG
-              git tag $PRODUCTION_TAG
-              git push origin refs/tags/$PRODUCTION_TAG
-              LATEST_MAIN_TAG=$PRODUCTION_TAG
-              echo "✅ Tag de produção forçada criada: $LATEST_MAIN_TAG"
+              LATEST_MAIN_TAG=$LATEST_DEVELOP_TAG
+              echo "✅ Promovendo $LATEST_MAIN_TAG para produção"
             else
-              echo "❌ Nenhuma versão encontrada para criar tag de produção"
+              echo "❌ Nenhuma versão encontrada para promover"
+              exit 1
             fi
           fi
 
-          # Atualizar tag 'latest' para apontar para a versão mais recente
+          # Atualizar tag 'latest' para apontar para a versão mais recente (sem criar nova)
           if [ -n "$LATEST_MAIN_TAG" ]; then
-            # Remover tag latest se existir
             git tag -d latest 2>/dev/null || true
             git push origin :refs/tags/latest 2>/dev/null || true
-            
-            # Criar nova tag latest
+
             git tag latest $LATEST_MAIN_TAG
             git push origin refs/tags/latest
-            echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
+            echo "✅ Tag 'latest' atualizada para apontar para: $LATEST_MAIN_TAG"
           fi
 
-          echo "Production release created successfully"
+          echo "✅ Production release completed successfully"
 
       - name: HOTFIX - Create Hotfix Release
         if: startsWith(github.ref, 'refs/heads/hotfix/')
