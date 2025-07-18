@@ -1,3 +1,10 @@
+## [1.1.27](https://github.com/CMCuritiba/Portal/compare/v1.1.26...v1.1.27) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** promove as tags corretamente ([665f62f](https://github.com/CMCuritiba/Portal/commit/665f62f5ccc79c0c3c629374359fc2c8cf66060d))
+
 ## [1.1.26](https://github.com/CMCuritiba/Portal/compare/v1.1.25...v1.1.26) (2025-07-18)
 
 
