@@ -43,6 +43,16 @@ jobs:
           # Configurar autenticação para o GitHub CLI
           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
           echo "✅ GitHub CLI autenticado"
+          
+          # Verificar se o token está disponível
+          echo "📋 Verificando GITHUB_TOKEN..."
+          if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "✅ GITHUB_TOKEN está disponível"
+            echo "📋 Token (primeiros 10 caracteres): ${GITHUB_TOKEN:0:10}..."
+          else
+            echo "❌ GITHUB_TOKEN não está disponível"
+            exit 1
+          fi
 
       - name: DEVELOP - Update Version and Changelog
         if: github.ref == 'refs/heads/develop'
@@ -62,6 +72,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Exportar token explicitamente
+          export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          
+          # Verificar se o token está disponível
+          echo "📋 Verificando GITHUB_TOKEN..."
+          if [ -n "$GITHUB_TOKEN" ]; then
+            echo "✅ GITHUB_TOKEN está disponível"
+          else
+            echo "❌ GITHUB_TOKEN não está disponível"
+            exit 1
+          fi
+          
+          # Usar configuração específica para homolog (sem alterar package.json)
           # Usar configuração específica para homolog (sem alterar package.json)
           cp .releaserc.homolog .releaserc
 
@@ -140,8 +163,9 @@ jobs:
           if [ -n "$LATEST_HOMOLOG_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
             echo "🚀 Criando GitHub Release para homolog..."
             
-            # Usar script para criar release com conteúdo da tag de develop
-            ./scripts/create-github-release.sh "$LATEST_HOMOLOG_TAG" "prerelease" "$LATEST_DEVELOP_TAG"
+            # Usar script simples que não depende de jq
+            echo "📋 Usando script simples..."
+            ./scripts/create-github-release-simple.sh "$LATEST_HOMOLOG_TAG" "prerelease" "$LATEST_DEVELOP_TAG"
             
             echo "✅ GitHub Release criado para $LATEST_HOMOLOG_TAG (pre-release)"
           fi
@@ -153,6 +177,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Exportar token explicitamente
+          export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          
+          # Verificar se o token está disponível
+          echo "📋 Verificando GITHUB_TOKEN..."
+          if [ -n "$GITHUB_TOKEN" ]; then
+            echo "✅ GITHUB_TOKEN está disponível"
+          else
+            echo "❌ GITHUB_TOKEN não está disponível"
+            exit 1
+          fi
+          
           # Usar configuração específica para main (sem alterar package.json)
           cp .releaserc.main .releaserc
 
@@ -213,8 +249,9 @@ jobs:
           if [ -n "$LATEST_MAIN_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
             echo "🚀 Criando GitHub Release para produção..."
             
-            # Usar script para criar release com conteúdo da tag de develop
-            ./scripts/create-github-release.sh "$LATEST_MAIN_TAG" "release" "$LATEST_DEVELOP_TAG"
+            # Usar script simples que não depende de jq
+            echo "📋 Usando script simples..."
+            ./scripts/create-github-release-simple.sh "$LATEST_MAIN_TAG" "release" "$LATEST_DEVELOP_TAG"
             
             echo "✅ GitHub Release criado para $LATEST_MAIN_TAG (release)"
           fi
