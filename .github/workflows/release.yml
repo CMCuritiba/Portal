@@ -25,11 +25,7 @@ jobs:
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
-      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
-
-      # Removido o step de semantic-release para develop, não haverá mais criação ou simulação de tags nessa branch.
-
-      - name: Bump Version for Develop (Dry Run + Manual Update)
+      - name: DEV - Update Version and Create Dev Tag
         if: github.ref == 'refs/heads/develop'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,12 +33,19 @@ jobs:
           # Usar configuração específica para develop (sem plugin GitHub)
           cp .releaserc.develop .releaserc
           
-          # Executar semantic-release em dry-run para capturar nova versão e changelog
+          # Executar semantic-release em dry-run para capturar nova versão e atualizar changelog
           OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
           echo "$OUTPUT"
           
-          # Capturar a nova versão do output do semantic-release
+          # Capturar a nova versão do output
           NEW_VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
+          
+          # Se não conseguiu capturar a versão, tentar executar semantic-release para atualizar changelog
+          if [ -z "$NEW_VERSION" ]; then
+            echo "No new version detected, but updating changelog..."
+            npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
+            NEW_VERSION=$(cat version.txt)
+          fi
           
           if [ -n "$NEW_VERSION" ]; then
             echo "New version detected: $NEW_VERSION"
@@ -71,46 +74,37 @@ jobs:
             fi
             
             echo "Updated all version files and changelog to: $NEW_VERSION"
-            
-            # Commit das mudanças
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-            git push
-            
-            # Criar tag v-dev
-            git tag v-dev
-            git push origin v-dev
-            echo "Created tag v-dev"
           else
-            echo "No version bump needed"
+            echo "No version bump needed, but updating changelog..."
+            # Executar apenas o plugin changelog para atualizar o CHANGELOG.md
+            npx semantic-release --dry-run --no-ci --plugins @semantic-release/changelog
+            NEW_VERSION=$(cat version.txt)
           fi
-        working-directory: ./
+          
+          # Sempre fazer commit das mudanças (versão ou changelog)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: update version and changelog [skip ci]"
+          git push
+          
+          # Criar tag v-dev (sem ser release)
+          git tag v-dev
+          git push origin v-dev
+          echo "Created tag v-dev"
 
-      - name: Create Homolog Release
+      - name: HML - Create Homolog Release
         if: github.ref == 'refs/heads/homolog'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Restaurar configuração original para homolog
-          cp .releaserc .releaserc.backup
-          
-          # Executar semantic-release em dry-run para pegar a versão
-          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
-          echo "$OUTPUT"
-          
-          # Capturar a versão do output
-          VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
-          
-          if [ -z "$VERSION" ]; then
-            # Se não conseguir pegar do semantic-release, tentar ler do version.txt
-            if [ -f "version.txt" ]; then
-              VERSION=$(cat version.txt)
-            else
-              echo "Error: Could not determine version"
-              exit 1
-            fi
+          # Ler versão do version.txt
+          if [ -f "version.txt" ]; then
+            VERSION=$(cat version.txt)
+            echo "Version from version.txt: $VERSION"
+          else
+            echo "Error: version.txt not found"
+            exit 1
           fi
           
           TAG_NAME="v${VERSION}-homolog"
@@ -127,29 +121,18 @@ jobs:
           
           echo "Release $TAG_NAME created successfully as pre-release"
 
-      - name: Create Production Release
+      - name: Main - Create Production Release
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Restaurar configuração original para main
-          cp .releaserc .releaserc.backup
-          
-          # Executar semantic-release em dry-run para pegar a versão
-          OUTPUT=$(npx semantic-release --dry-run --no-ci 2>&1)
-          echo "$OUTPUT"
-          
-          # Capturar a versão do output
-          VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | grep -o "[0-9]*\.[0-9]*\.[0-9]*" | head -1)
-          
-          if [ -z "$VERSION" ]; then
-            # Se não conseguir pegar do semantic-release, tentar ler do version.txt
-            if [ -f "version.txt" ]; then
-              VERSION=$(cat version.txt)
-            else
-              echo "Error: Could not determine version"
-              exit 1
-            fi
+          # Ler versão do version.txt
+          if [ -f "version.txt" ]; then
+            VERSION=$(cat version.txt)
+            echo "Version from version.txt: $VERSION"
+          else
+            echo "Error: version.txt not found"
+            exit 1
           fi
           
           # Remover sufixo -dev se existir

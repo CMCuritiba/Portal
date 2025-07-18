@@ -1,14 +1,6 @@
 {
   "branches": [
-    {
-      "name": "homolog",
-      "prerelease": "homolog",
-      "channel": "homolog"
-    },
-    {
-      "name": "main",
-      "channel": "latest"
-    }
+    "develop"
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
@@ -26,7 +18,6 @@
         "tarballDir": "dist"
       }
     ],
-    "@semantic-release/github",
     [
       "@semantic-release/git",
       {
@@ -42,4 +33,4 @@
       }
     ]
   ]
-}
+} 
