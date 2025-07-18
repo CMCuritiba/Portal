@@ -34,7 +34,7 @@
     [
       "semantic-release-exec",
       {
-        "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; const branch=process.env.GITHUB_REF_NAME; if(branch==='develop') { fs.writeFileSync('version.txt',version); console.log('Updated version.txt with new version:',version); } else if(branch==='homolog') { const currentVersion=fs.readFileSync('version.txt','utf8').trim(); const homologVersion=currentVersion+'-homolog'; fs.writeFileSync('version.txt',homologVersion); console.log('Updated version.txt with homolog version:',homologVersion); } else { fs.writeFileSync('version.txt',version); console.log('Updated version.txt with production version:',version); }\""
+        "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; const branch=process.env.GITHUB_REF_NAME; if(branch==='develop') { fs.writeFileSync('version.txt',version); console.log('Updated version.txt with new version:',version); } else if(branch==='homolog') { const currentVersion=fs.readFileSync('version.txt','utf8').trim(); const homologVersion=currentVersion+'-homolog'; fs.writeFileSync('version.txt',homologVersion); console.log('Updated version.txt with homolog version:',homologVersion); } else { const currentVersion=fs.readFileSync('version.txt','utf8').trim(); fs.writeFileSync('version.txt',currentVersion); console.log('Updated version.txt with production version:',currentVersion); }\""
       }
     ],
     [
