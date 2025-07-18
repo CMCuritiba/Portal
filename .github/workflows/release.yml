@@ -64,7 +64,7 @@ jobs:
             
             # Criar nova tag homolog
             git tag homolog $LATEST_HOMOLOG_TAG
-            git push origin homolog
+            git push origin refs/tags/homolog
             echo "Updated tag 'homolog' to point to $LATEST_HOMOLOG_TAG"
           fi
 
@@ -97,11 +97,11 @@ jobs:
             
             # Criar tag de produção
             git tag "$BASE_VERSION" "$LATEST_HOMOLOG_TAG"
-            git push origin "$BASE_VERSION"
+            git push origin "refs/tags/$BASE_VERSION"
             
             # Criar tag latest
             git tag latest "$BASE_VERSION"
-            git push origin latest
+            git push origin refs/tags/latest
             
             echo "✅ Versão $BASE_VERSION promovida de homolog para produção"
             echo "✅ Tag 'latest' atualizada para $BASE_VERSION"
@@ -121,7 +121,7 @@ jobs:
               
               # Criar nova tag latest
               git tag latest $LATEST_MAIN_TAG
-              git push origin latest
+              git push origin refs/tags/latest
               echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
             fi
           fi
@@ -148,7 +148,7 @@ jobs:
             
             # Criar nova tag latest
             git tag latest $LATEST_MAIN_TAG
-            git push origin latest
+            git push origin refs/tags/latest
             echo "Updated tag 'latest' to point to $LATEST_MAIN_TAG"
           fi
 
