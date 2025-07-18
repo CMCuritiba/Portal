@@ -1,0 +1,102 @@
+{
+  "repositoryUrl": "https://github.com/CMCuritiba/Portal.git",
+  "branches": [
+    "homolog"
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          {
+            "type": "feat",
+            "release": false
+          },
+          {
+            "type": "fix",
+            "release": false
+          },
+          {
+            "type": "refactor",
+            "release": false
+          },
+          {
+            "type": "perf",
+            "release": false
+          },
+          {
+            "type": "docs",
+            "release": false
+          },
+          {
+            "type": "style",
+            "release": false
+          },
+          {
+            "type": "test",
+            "release": false
+          },
+          {
+            "type": "chore",
+            "release": false
+          },
+          {
+            "type": "ci",
+            "release": false
+          },
+          {
+            "type": "build",
+            "release": false
+          },
+          {
+            "breaking": true,
+            "release": false
+          },
+          {
+            "type": "merge",
+            "release": false
+          },
+          {
+            "type": "Merge",
+            "release": false
+          }
+        ],
+        "parserOpts": {
+          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+        }
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/*.tgz",
+            "label": "Homolog Release ${nextRelease.version}"
+          }
+        ],
+        "successComment": false,
+        "failComment": false
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "pushStep": {
+          "auth": {
+            "token": "${GITHUB_TOKEN}"
+          }
+        }
+      }
+    ]
+  ]
+} 
