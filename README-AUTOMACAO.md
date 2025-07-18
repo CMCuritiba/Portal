@@ -31,6 +31,7 @@
 
 - **`scripts/create-hotfix.sh`**: Cria hotfixes seguindo a política
 - **`scripts/commit-helper.sh`**: Ajuda com commits convencionais
+- **`scripts/force-release.sh`**: Força criação de release quando necessário
 
 ### 4. **Documentação**
 
@@ -113,6 +114,7 @@ ghcr.io/cmcuritiba/portal/frontend:latest (apenas main)
 ghcr.io/cmcuritiba/portal/backend:<versão>
 ghcr.io/cmcuritiba/portal/backend:<sha>
 ghcr.io/cmcuritiba/portal/backend:<branch>
+ghcr.io/cmcuritiba/portal/backend:latest (apenas main)
 ```
 
 ## 📋 Tipos de Commit
@@ -154,6 +156,13 @@ git commit -m "fix(security): patch XSS vulnerability"
 
 # Push e criar PR
 git push origin hotfix/fix-security-vulnerability
+```
+
+### 3. Forçar Release (quando necessário)
+```bash
+# Quando o semantic-release não detecta mudanças
+./scripts/force-release.sh patch "Forçar release de homolog"
+git push origin homolog
 ```
 
 ### 3. Verificar status

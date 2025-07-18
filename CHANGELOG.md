@@ -1,3 +1,11 @@
+## [1.1.8](https://github.com/CMCuritiba/Portal/compare/v1.1.7...v1.1.8) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** ajusta tags homolog e latest em backend ([3fe4ed0](https://github.com/CMCuritiba/Portal/commit/3fe4ed07a739e2e9574f7f53ea76038566a9f194))
+* **versionamento:** ajusta tags homolog e latest em backend ([33390ad](https://github.com/CMCuritiba/Portal/commit/33390adfe49230bf9ecb39cad5dd6c67ae8800fb))
+
 ## [1.1.7](https://github.com/CMCuritiba/Portal/compare/v1.1.6...v1.1.7) (2025-07-18)
 
 
