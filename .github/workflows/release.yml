@@ -57,6 +57,10 @@ jobs:
           git tag -d homolog 2>/dev/null || true
           git push origin :refs/tags/homolog 2>/dev/null || true
 
+          # Encontrar a última tag de develop (sem sufixos)
+          LATEST_DEVELOP_TAG=$(git tag --list | grep -v "homolog" | grep -v "latest" | sort -V | tail -n1)
+          echo "Última tag de develop: $LATEST_DEVELOP_TAG"
+
           # Executar semantic-release para criar release de homolog
           npx semantic-release --no-ci
 
@@ -66,11 +70,9 @@ jobs:
             echo "✅ Semantic-release criou tag: $LATEST_HOMOLOG_TAG"
           else
             echo "⚠️  Semantic-release não criou tag, forçando criação..."
-            # Se não criou tag, forçar criação baseada na última versão
-            LATEST_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-            if [ -n "$LATEST_VERSION" ]; then
+            if [ -n "$LATEST_DEVELOP_TAG" ]; then
               # Extrair versão base e criar tag de homolog
-              BASE_VERSION=${LATEST_VERSION#v}
+              BASE_VERSION=${LATEST_DEVELOP_TAG#v}
               HOMOLOG_TAG="v${BASE_VERSION}-homolog"
               git tag $HOMOLOG_TAG
               git push origin refs/tags/$HOMOLOG_TAG
@@ -106,9 +108,9 @@ jobs:
           git tag -d latest 2>/dev/null || true
           git push origin :refs/tags/latest 2>/dev/null || true
 
-          # Verificar qual é a versão mais recente de develop
-          LATEST_DEVELOP_VERSION=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
-          echo "Versão mais recente de develop: $LATEST_DEVELOP_VERSION"
+          # Encontrar a última tag de develop (sem sufixos)
+          LATEST_DEVELOP_TAG=$(git tag --list | grep -v "homolog" | grep -v "latest" | sort -V | tail -n1)
+          echo "Última tag de develop: $LATEST_DEVELOP_TAG"
 
           # Executar semantic-release para criar release de produção
           npx semantic-release --no-ci
@@ -117,25 +119,11 @@ jobs:
           LATEST_MAIN_TAG=$(git tag --list | grep -v "homolog" | sort -V | tail -n1)
           if [ -n "$LATEST_MAIN_TAG" ]; then
             echo "✅ Semantic-release criou tag: $LATEST_MAIN_TAG"
-            
-            # Se semantic-release incrementou a versão, usar a versão de develop
-            if [ "$LATEST_MAIN_TAG" != "$LATEST_DEVELOP_VERSION" ]; then
-              echo "⚠️  Semantic-release incrementou versão, usando versão de develop..."
-              # Remover tag criada pelo semantic-release
-              git tag -d $LATEST_MAIN_TAG 2>/dev/null || true
-              git push origin ":refs/tags/$LATEST_MAIN_TAG" 2>/dev/null || true
-              
-              # Criar tag com versão de develop
-              git tag $LATEST_DEVELOP_VERSION
-              git push origin refs/tags/$LATEST_DEVELOP_VERSION
-              LATEST_MAIN_TAG=$LATEST_DEVELOP_VERSION
-              echo "✅ Tag corrigida para versão de develop: $LATEST_MAIN_TAG"
-            fi
           else
             echo "⚠️  Semantic-release não criou tag, forçando criação..."
-            if [ -n "$LATEST_DEVELOP_VERSION" ]; then
+            if [ -n "$LATEST_DEVELOP_TAG" ]; then
               # Usar a versão mais recente de develop como tag de produção
-              PRODUCTION_TAG=$LATEST_DEVELOP_VERSION
+              PRODUCTION_TAG=$LATEST_DEVELOP_TAG
               git tag $PRODUCTION_TAG
               git push origin refs/tags/$PRODUCTION_TAG
               LATEST_MAIN_TAG=$PRODUCTION_TAG
