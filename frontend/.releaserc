@@ -1,6 +1,5 @@
 {
   "branches": [
-    "develop",
     {
       "name": "homolog",
       "prerelease": "homolog",
