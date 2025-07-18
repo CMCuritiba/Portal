@@ -65,11 +65,7 @@ jobs:
           # Se não há commits relevantes, criar um commit de força
           if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
             echo "Nenhum commit relevante detectado. Criando commit de força..."
-            git commit --allow-empty -m "chore: force homolog release
-
-Forçar criação de release de homolog devido a merges de PRs.
-
-[skip ci]"
+            git commit --allow-empty -m "chore: force homolog release - Forçar criação de release de homolog devido a merges de PRs [skip ci]"
             git push origin homolog
           fi
 
@@ -112,11 +108,7 @@ Forçar criação de release de homolog devido a merges de PRs.
           # Se não há commits relevantes, criar um commit de força
           if [ "$COMMITS_SINCE_LAST" -eq 0 ]; then
             echo "Nenhum commit relevante detectado. Criando commit de força..."
-            git commit --allow-empty -m "chore: force production release
-
-Forçar criação de release de produção devido a merges de PRs.
-
-[skip ci]"
+            git commit --allow-empty -m "chore: force production release - Forçar criação de release de produção devido a merges de PRs [skip ci]"
             git push origin main
           fi
 
