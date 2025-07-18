@@ -1,3 +1,10 @@
+## [1.1.12](https://github.com/CMCuritiba/Portal/compare/v1.1.11...v1.1.12) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** homolog conflito ([e24909e](https://github.com/CMCuritiba/Portal/commit/e24909ef9c6c95af30e14a729f0c6d456639fdb6))
+
 ## [1.1.11](https://github.com/CMCuritiba/Portal/compare/v1.1.10...v1.1.11) (2025-07-18)
 
 
