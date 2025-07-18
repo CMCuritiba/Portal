@@ -1,3 +1,14 @@
+## [1.1.7](https://github.com/CMCuritiba/Portal/compare/v1.1.6...v1.1.7) (2025-07-18)
+
+
+### Bug Fixes
+
+* **noticias:** 20 noticias por página ([7f9c576](https://github.com/CMCuritiba/Portal/commit/7f9c5762e6638ba6c5ff862240909bdcd74ff750))
+* **noticias:** ajusta layout conforme figma ([72e1d1c](https://github.com/CMCuritiba/Portal/commit/72e1d1ced9b33a8341b438fa14dd4cb8c8dd5c20))
+* **noticias:** ajusta layout conforme figma (20 noticias por página) ([caef390](https://github.com/CMCuritiba/Portal/commit/caef39062396e036db198debf1e4d663dc046854))
+* **noticias:** link das notícias internas não estavam abrindo ([9bc4388](https://github.com/CMCuritiba/Portal/commit/9bc43883013bc4e1e482f584ec8f76f85c835ff1))
+* paginacao de todas as noticias, ordem de publicacao e status. ([d747c15](https://github.com/CMCuritiba/Portal/commit/d747c15660933f088eb895d0fa7fcd7a02ce894f))
+
 ## [1.1.6](https://github.com/CMCuritiba/Portal/compare/v1.1.5...v1.1.6) (2025-07-18)
 
 
