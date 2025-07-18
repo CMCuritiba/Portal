@@ -11,6 +11,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code
@@ -30,6 +34,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Configurar autenticação para semantic-release
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: DEVELOP - Update Version and Changelog
         if: github.ref == 'refs/heads/develop'
@@ -157,6 +164,9 @@ jobs:
   build-image:
     needs: release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Checkout code

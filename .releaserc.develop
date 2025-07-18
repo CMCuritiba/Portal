@@ -1,4 +1,5 @@
 {
+  "repositoryUrl": "https://github.com/CMCuritiba/Portal.git",
   "branches": [
     "develop"
   ],
@@ -92,7 +93,12 @@
           "frontend/src/addons/*/CHANGELOG.md",
           "backend/src/camara_de_curitiba/setup.py"
         ],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "pushStep": {
+          "auth": {
+            "token": "${GITHUB_TOKEN}"
+          }
+        }
       }
     ]
   ]
