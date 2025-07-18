@@ -41,13 +41,14 @@ echo "📋 Obtendo conteúdo do changelog da tag base..."
 if [ -f "CHANGELOG.md" ]; then
     echo "📋 Verificando se $BASE_TAG existe no changelog..."
     
-    # Verificar se a versão existe no changelog
-    if grep -q "^## \[$BASE_TAG\]" CHANGELOG.md; then
-        echo "✅ Versão $BASE_TAG encontrada no changelog"
+    # Verificar se a versão existe no changelog (com formato com data)
+    BASE_VERSION_NUM=${BASE_TAG#v}  # Remove o 'v' do início
+    if grep -q "^## \[$BASE_VERSION_NUM\]" CHANGELOG.md; then
+        echo "✅ Versão $BASE_VERSION_NUM encontrada no changelog"
         
         # Extrair seção do changelog para a versão base
-        CHANGELOG_CONTENT=$(awk -v version="$BASE_TAG" '
-            /^## \['"$BASE_TAG"'\]/ { 
+        CHANGELOG_CONTENT=$(awk -v version="$BASE_VERSION_NUM" '
+            /^## \['"$BASE_VERSION_NUM"'\]/ { 
                 in_section = 1
                 print
                 next
@@ -69,12 +70,12 @@ if [ -f "CHANGELOG.md" ]; then
             RELEASE_NOTES="Release $TAG_NAME based on $BASE_TAG"
         fi
     else
-        echo "⚠️  Versão $BASE_TAG não encontrada no changelog"
+        echo "⚠️  Versão $BASE_VERSION_NUM não encontrada no changelog"
         echo "📋 Versões disponíveis no changelog:"
-        grep "^## \[v" CHANGELOG.md | head -5
+        grep "^## \[[0-9]" CHANGELOG.md | head -5
         
         # Tentar usar a versão mais recente do changelog
-        LATEST_CHANGELOG_VERSION=$(grep "^## \[v" CHANGELOG.md | head -1 | sed 's/^## \[\([^]]*\)\].*/\1/')
+        LATEST_CHANGELOG_VERSION=$(grep "^## \[[0-9]" CHANGELOG.md | head -1 | sed 's/^## \[\([^]]*\)\].*/\1/')
         if [ -n "$LATEST_CHANGELOG_VERSION" ]; then
             echo "📋 Usando versão mais recente do changelog: $LATEST_CHANGELOG_VERSION"
             
