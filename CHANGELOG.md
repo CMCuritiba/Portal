@@ -1,3 +1,5 @@
+## [1.1.22](https://github.com/CMCuritiba/Portal/compare/v1.1.21...v1.1.22) (2025-07-18)
+
 ## [1.1.21](https://github.com/CMCuritiba/Portal/compare/v1.1.20...v1.1.21) (2025-07-18)
 
 
