@@ -1,5 +1,6 @@
 {
   "branches": [
+    "develop",
     {
       "name": "homolog",
       "prerelease": "homolog",
@@ -32,7 +33,9 @@
       {
         "assets": [
           "package.json",
-          "CHANGELOG.md"
+          "CHANGELOG.md",
+          "version.txt",
+          "frontend/version.txt"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
