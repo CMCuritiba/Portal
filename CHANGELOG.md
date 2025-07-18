@@ -1,3 +1,13 @@
+# [1.1.0-homolog.6](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.5...v1.1.0-homolog.6) (2025-07-18)
+
+
+### Bug Fixes
+
+* **versionamento:** altera versao da tag, remove auto-pr. ([28b5291](https://github.com/CMCuritiba/Portal/commit/28b52912b49c9042e879c67af625a7eaccaac173))
+* **versionamento:** auto pr and approve ([d2e0172](https://github.com/CMCuritiba/Portal/commit/d2e01721de542fe3da9869201cb6cfa3beb5a883))
+* **versionamento:** auto pr and approve ([c6aa85a](https://github.com/CMCuritiba/Portal/commit/c6aa85a86fa7c1a733f98a325a172f4ce6b63f87))
+* **versionamento:** auto pr and approve ([c9a9997](https://github.com/CMCuritiba/Portal/commit/c9a999764451721f83701469d753907b19a77389))
+
 # [1.1.0-homolog.5](https://github.com/CMCuritiba/Portal/compare/v1.1.0-homolog.4...v1.1.0-homolog.5) (2025-07-17)
 
 
