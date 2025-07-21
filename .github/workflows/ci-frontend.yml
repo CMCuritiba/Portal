@@ -130,14 +130,14 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           TIMESTAMP=$(date +"%Y%m%d%H%M%S")
           BUILD_NUMBER="001"
-          
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-          
+
           if [[ "${{ env.BRANCH }}" == "homolog" ]]; then
-            echo "tag_with_build=${VERSION}-homolog+${BUILD_NUMBER}" >> $GITHUB_OUTPUT
-            echo "tag_with_timestamp=${VERSION}-homolog+${TIMESTAMP}" >> $GITHUB_OUTPUT
+            echo "tag_with_build=${VERSION}-homolog-${BUILD_NUMBER}" >> $GITHUB_OUTPUT
+            echo "tag_with_timestamp=${VERSION}-homolog-${TIMESTAMP}" >> $GITHUB_OUTPUT
           else
             echo "tag_with_build=${VERSION}" >> $GITHUB_OUTPUT
             echo "tag_with_timestamp=${VERSION}" >> $GITHUB_OUTPUT
