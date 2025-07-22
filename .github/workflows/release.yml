@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
@@ -36,15 +39,10 @@ jobs:
 
       - name: Setup GitHub CLI
         run: |
-          # GitHub CLI já está disponível no ambiente do GitHub Actions
           gh --version
           echo "✅ GitHub CLI está disponível"
-
-          # Configurar autenticação para o GitHub CLI
           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
           echo "✅ GitHub CLI autenticado"
-
-          # Verificar se o token está disponível
           echo "📋 Verificando GITHUB_TOKEN..."
           if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
             echo "✅ GITHUB_TOKEN está disponível"
@@ -300,12 +298,9 @@ jobs:
           fi
       - name: Release Addon volto-camara-de-curitiba
         if: steps.changes_volto_camara.outputs.changed == 'true'
-        working-directory: frontend/src/addons/volto-camara-de-curitiba
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm install
-          npx semantic-release --no-ci
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-camara-de-curitiba/.releaserc
 
       - name: Check changes in partidos-addon
         id: changes_partidos
@@ -317,12 +312,9 @@ jobs:
           fi
       - name: Release Addon partidos-addon
         if: steps.changes_partidos.outputs.changed == 'true'
-        working-directory: frontend/src/addons/partidos-addon
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm install
-          npx semantic-release --no-ci
+        run: npx semantic-release --no-ci --extends frontend/src/addons/partidos-addon/.releaserc
 
       - name: Check changes in volto-mui-blocks
         id: changes_mui_blocks
@@ -334,12 +326,9 @@ jobs:
           fi
       - name: Release Addon volto-mui-blocks
         if: steps.changes_mui_blocks.outputs.changed == 'true'
-        working-directory: frontend/src/addons/volto-mui-blocks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm install
-          npx semantic-release --no-ci
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-mui-blocks/.releaserc
 
       - name: Check changes in volto-slider-banner
         id: changes_slider_banner
@@ -351,12 +340,9 @@ jobs:
           fi
       - name: Release Addon volto-slider-banner
         if: steps.changes_slider_banner.outputs.changed == 'true'
-        working-directory: frontend/src/addons/volto-slider-banner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm install
-          npx semantic-release --no-ci
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-slider-banner/.releaserc
 
       - name: Check changes in frontend
         id: changes_frontend
@@ -368,12 +354,9 @@ jobs:
           fi
       - name: Release Frontend
         if: steps.changes_frontend.outputs.changed == 'true'
-        working-directory: frontend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm install
-          npx semantic-release --no-ci
+        run: npx semantic-release --no-ci --extends frontend/.releaserc
 
       - name: Check changes in backend
         id: changes_backend
