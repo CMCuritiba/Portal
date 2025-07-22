@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
       - name: Install semantic-release
         run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/npm @semantic-release/github
 
@@ -36,15 +39,10 @@ jobs:
 
       - name: Setup GitHub CLI
         run: |
-          # GitHub CLI já está disponível no ambiente do GitHub Actions
           gh --version
           echo "✅ GitHub CLI está disponível"
-          
-          # Configurar autenticação para o GitHub CLI
           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
           echo "✅ GitHub CLI autenticado"
-          
-          # Verificar se o token está disponível
           echo "📋 Verificando GITHUB_TOKEN..."
           if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
             echo "✅ GITHUB_TOKEN está disponível"
@@ -74,7 +72,7 @@ jobs:
         run: |
           # Exportar token explicitamente
           export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          
+
           # Verificar se o token está disponível
           echo "📋 Verificando GITHUB_TOKEN..."
           if [ -n "$GITHUB_TOKEN" ]; then
@@ -83,7 +81,7 @@ jobs:
             echo "❌ GITHUB_TOKEN não está disponível"
             exit 1
           fi
-          
+
           # Usar configuração específica para homolog (sem alterar package.json)
           # Usar configuração específica para homolog (sem alterar package.json)
           cp .releaserc.homolog .releaserc
@@ -98,10 +96,10 @@ jobs:
           echo "🔍 Buscando última tag de develop..."
           echo "Todas as tags:"
           git tag --list | sort -V
-          
+
           LATEST_DEVELOP_TAG=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V | tail -n1)
           echo "Última tag de develop encontrada: $LATEST_DEVELOP_TAG"
-          
+
           # Verificar se há tags mais recentes que podem ter sido perdidas
           ALL_VERSION_TAGS=$(git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "homolog" | sort -V)
           echo "Todas as tags de versão:"
@@ -111,9 +109,9 @@ jobs:
             # Extrair versão base
             BASE_VERSION=${LATEST_DEVELOP_TAG#v}
             POTENTIAL_HOMOLOG_TAG="v${BASE_VERSION}-homolog"
-            
+
             echo "Tag potencial de homolog: $POTENTIAL_HOMOLOG_TAG"
-            
+
             # Verificar se a tag potencial já existe
             if git tag --list | grep -q "^$POTENTIAL_HOMOLOG_TAG$"; then
               echo "⚠️  Tag $POTENTIAL_HOMOLOG_TAG já existe. Removendo..."
@@ -132,18 +130,18 @@ jobs:
           if [ -n "$LATEST_DEVELOP_TAG" ]; then
             BASE_VERSION=${LATEST_DEVELOP_TAG#v}
             HOMOLOG_TAG="v${BASE_VERSION}-homolog"
-            
+
             echo "🔄 Criando tag de homolog baseada na versão de develop: $HOMOLOG_TAG"
-            
+
             # Remover tag se já existir
             git tag -d "$HOMOLOG_TAG" 2>/dev/null || true
             git push origin ":refs/tags/$HOMOLOG_TAG" 2>/dev/null || true
-            
+
             # Criar nova tag
             git tag "$HOMOLOG_TAG"
             git push origin "refs/tags/$HOMOLOG_TAG"
             echo "✅ Tag criada: $HOMOLOG_TAG"
-            
+
             # Definir como tag de homolog mais recente
             LATEST_HOMOLOG_TAG="$HOMOLOG_TAG"
           else
@@ -162,11 +160,11 @@ jobs:
           # Criar GitHub Release para homolog (pre-release)
           if [ -n "$LATEST_HOMOLOG_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
             echo "🚀 Criando GitHub Release para homolog..."
-            
+
             # Usar script simples que não depende de jq
             echo "📋 Usando script simples..."
             ./scripts/create-github-release-simple.sh "$LATEST_HOMOLOG_TAG" "prerelease" "$LATEST_DEVELOP_TAG"
-            
+
             echo "✅ GitHub Release criado para $LATEST_HOMOLOG_TAG (pre-release)"
           fi
 
@@ -179,7 +177,7 @@ jobs:
         run: |
           # Exportar token explicitamente
           export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          
+
           # Verificar se o token está disponível
           echo "📋 Verificando GITHUB_TOKEN..."
           if [ -n "$GITHUB_TOKEN" ]; then
@@ -188,7 +186,7 @@ jobs:
             echo "❌ GITHUB_TOKEN não está disponível"
             exit 1
           fi
-          
+
           # Usar configuração específica para main (sem alterar package.json)
           cp .releaserc.main .releaserc
 
@@ -220,7 +218,7 @@ jobs:
           # Promover versão de develop para produção
           if [ -n "$LATEST_DEVELOP_TAG" ]; then
             echo "🔄 Promovendo versão de develop para produção: $LATEST_DEVELOP_TAG"
-            
+
             # Verificar se a tag já existe como tag de produção
             if git tag --list | grep -q "^$LATEST_DEVELOP_TAG$"; then
               echo "✅ Tag de produção já existe: $LATEST_DEVELOP_TAG"
@@ -248,11 +246,11 @@ jobs:
           # Criar GitHub Release para produção (release)
           if [ -n "$LATEST_MAIN_TAG" ] && [ -n "$LATEST_DEVELOP_TAG" ]; then
             echo "🚀 Criando GitHub Release para produção..."
-            
+
             # Usar script simples que não depende de jq
             echo "📋 Usando script simples..."
             ./scripts/create-github-release-simple.sh "$LATEST_MAIN_TAG" "release" "$LATEST_DEVELOP_TAG"
-            
+
             echo "✅ GitHub Release criado para $LATEST_MAIN_TAG (release)"
           fi
 
@@ -288,3 +286,177 @@ jobs:
           fi
 
           echo "Hotfix release created successfully"
+
+      # Checar alterações e rodar semantic-release nos addons e pacotes
+      - name: Check changes in volto-camara-de-curitiba
+        id: changes_volto_camara
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^frontend/src/addons/volto-camara-de-curitiba/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Addon volto-camara-de-curitiba
+        if: steps.changes_volto_camara.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-camara-de-curitiba/.releaserc
+
+      - name: Check changes in partidos-addon
+        id: changes_partidos
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^frontend/src/addons/partidos-addon/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Addon partidos-addon
+        if: steps.changes_partidos.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --no-ci --extends frontend/src/addons/partidos-addon/.releaserc
+
+      - name: Check changes in volto-mui-blocks
+        id: changes_mui_blocks
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^frontend/src/addons/volto-mui-blocks/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Addon volto-mui-blocks
+        if: steps.changes_mui_blocks.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-mui-blocks/.releaserc
+
+      - name: Check changes in volto-slider-banner
+        id: changes_slider_banner
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^frontend/src/addons/volto-slider-banner/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Addon volto-slider-banner
+        if: steps.changes_slider_banner.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --no-ci --extends frontend/src/addons/volto-slider-banner/.releaserc
+
+      - name: Check changes in frontend
+        id: changes_frontend
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^frontend/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Frontend
+        if: steps.changes_frontend.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release --no-ci --extends frontend/.releaserc
+
+      - name: Check changes in backend
+        id: changes_backend
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^backend/src/camara_de_curitiba/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Release Backend
+        if: steps.changes_backend.outputs.changed == 'true'
+        working-directory: backend/src/camara_de_curitiba
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install -r requirements.txt || true
+          npx semantic-release --no-ci
+
+  build-image:
+    needs: release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/homolog' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/hotfix/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get version for tagging
+        id: version
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ] || [[ "${{ github.ref_name }}" == hotfix/* ]]; then
+            # Para main e hotfix, pega a última tag de produção (que NÃO contém 'homolog')
+            LATEST_TAG=$(git tag --list | grep -v 'homolog' | sort -V | tail -n1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="latest"
+            fi
+          else
+            # Para homolog, pega a última tag de homolog
+            LATEST_TAG=$(git tag --list "*homolog*" | sort -V | tail -n1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="homolog"
+            fi
+          fi
+
+          # Para homolog, garantir que o sufixo -homolog esteja presente
+          if [ "${{ github.ref_name }}" = "homolog" ]; then
+            if [[ "$LATEST_TAG" != *"-homolog"* ]]; then
+              LATEST_TAG="${LATEST_TAG}-homolog"
+            fi
+          fi
+
+          # Remover sufixos como +001, +build, etc. para compatibilidade com Docker
+          CLEAN_TAG=$(echo $LATEST_TAG | sed 's/+[^+]*$//')
+
+          echo "version=$CLEAN_TAG" >> $GITHUB_OUTPUT
+          echo "Using version: $CLEAN_TAG (cleaned from $LATEST_TAG)"
+
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ghcr.io/cmcuritiba/portal/frontend:${{ steps.version.outputs.version }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.sha }}
+            ghcr.io/cmcuritiba/portal/frontend:${{ github.ref_name }}
+            ${{ github.ref_name == 'main' && 'ghcr.io/cmcuritiba/portal/frontend:latest' || '' }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push Backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ghcr.io/cmcuritiba/portal/backend:${{ steps.version.outputs.version }}
+            ghcr.io/cmcuritiba/portal/backend:${{ github.sha }}
+            ghcr.io/cmcuritiba/portal/backend:${{ github.ref_name }}
+            ${{ github.ref_name == 'main' && 'ghcr.io/cmcuritiba/portal/backend:latest' || '' }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

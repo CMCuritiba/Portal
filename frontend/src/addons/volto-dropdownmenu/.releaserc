@@ -1,0 +1,92 @@
+{
+  "branches": [
+    {
+      "name": "develop",
+      "channel": "develop"
+    },
+    {
+      "name": "homolog",
+      "prerelease": "homolog",
+      "channel": "homolog"
+    },
+    {
+      "name": "main",
+      "channel": "latest"
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false,
+        "tarballDir": "dist"
+      }
+    ],
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; const branch=process.env.GITHUB_REF_NAME; if(branch==='develop') { fs.writeFileSync('version.txt',version); console.log('Updated version.txt with new version:',version); } else if(branch==='homolog') { const currentVersion=fs.readFileSync('version.txt','utf8').trim(); const homologVersion=currentVersion+'-homolog'; fs.writeFileSync('version.txt',homologVersion); console.log('Updated version.txt with homolog version:',homologVersion); } else { fs.writeFileSync('version.txt',version); console.log('Updated version.txt with production version:',version); }\""
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "package.json",
+          "CHANGELOG.md",
+          "version.txt",
+          "frontend/version.txt"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ],
+  "overrides": [
+    {
+      "branches": ["develop"],
+      "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+          "@semantic-release/changelog",
+          {
+            "changelogFile": "CHANGELOG.md"
+          }
+        ],
+        [
+          "@semantic-release/npm",
+          {
+            "npmPublish": false,
+            "tarballDir": "dist"
+          }
+        ],
+        [
+          "@semantic-release/exec",
+          {
+            "prepareCmd": "node -e \"const fs=require('fs'); const version=process.env.NEXT_RELEASE_VERSION; fs.writeFileSync('version.txt',version); console.log('Updated version.txt with:',version);\""
+          }
+        ],
+        [
+          "@semantic-release/git",
+          {
+            "assets": [
+              "package.json",
+              "CHANGELOG.md",
+              "version.txt"
+            ],
+            "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+          }
+        ]
+      ]
+    }
+  ]
+}
