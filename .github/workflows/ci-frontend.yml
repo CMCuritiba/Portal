@@ -9,6 +9,11 @@ on:
       - "homolog"
     paths:
       - "frontend/**"
+  push:
+    branches:
+      - "homolog"
+    paths:
+      - "frontend/package.json"
 
 env:
   REGISTRY: ghcr.io
@@ -76,13 +81,15 @@ jobs:
       changed: ${{ steps.result.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check for version change
+      - name: Check for package.json change
         id: version_check
-        uses: EndBug/version-check@v2
+        uses: dorny/paths-filter@v3
         with:
-          file-name: ./frontend/package.json
+          filters: |
+            frontend:
+              - './frontend/package.json'
       - id: result
-        run: echo "changed=${{ steps.version_check.outputs.changed }}" >> $GITHUB_OUTPUT
+        run: echo "changed=${{ steps.version_check.outputs.frontend }}" >> $GITHUB_OUTPUT
 
   build-and-push:
     if: needs.check-version.outputs.changed == 'true'
@@ -123,14 +130,14 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           TIMESTAMP=$(date +"%Y%m%d%H%M%S")
           BUILD_NUMBER="001"
-          
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-          
+
           if [[ "${{ env.BRANCH }}" == "homolog" ]]; then
-            echo "tag_with_build=${VERSION}-homolog+${BUILD_NUMBER}" >> $GITHUB_OUTPUT
-            echo "tag_with_timestamp=${VERSION}-homolog+${TIMESTAMP}" >> $GITHUB_OUTPUT
+            echo "tag_with_build=${VERSION}-homolog-${BUILD_NUMBER}" >> $GITHUB_OUTPUT
+            echo "tag_with_timestamp=${VERSION}-homolog-${TIMESTAMP}" >> $GITHUB_OUTPUT
           else
             echo "tag_with_build=${VERSION}" >> $GITHUB_OUTPUT
             echo "tag_with_timestamp=${VERSION}" >> $GITHUB_OUTPUT
