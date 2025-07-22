@@ -46,7 +46,7 @@ console.log("termosPoliticas", termosPoliticas)
               <Typography>© 2025</Typography>
                 <div>
                     {
-                        termosPoliticas.map((menu, index) => (
+                        termosPoliticas?.map((menu, index) => (
                             <div key={index}>
                                 {
                                     menu?.mode === 'simpleLink' &&
@@ -103,7 +103,7 @@ console.log("termosPoliticas", termosPoliticas)
             </Stack>
             <div className="grid-col-4 gap-18 gap-y-24 flex-column-mb flex-mb">
                 {
-                    footerMenu.map((menu, index) => (
+                    footerMenu?.map((menu, index) => (
                         <Stack className="column a-menus" sx={{ gap: '6px' }} key={index}>
                             <h3 className="fs-16 fw-700 text-white">{menu?.title}</h3>
                             {
