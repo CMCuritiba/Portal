@@ -107,7 +107,7 @@ console.log("termosPoliticas", termosPoliticas)
                         <Stack className="column a-menus" sx={{ gap: '6px' }} key={index}>
                             <h3 className="fs-16 fw-700 text-white">{menu?.title}</h3>
                             {
-                                   menu?.submenu.map((submenu, index) => (
+                                   menu?.submenu?.map((submenu, index) => (
                                        <>
                                            {
                                                submenu?.mode === 'simpleLink' &&
