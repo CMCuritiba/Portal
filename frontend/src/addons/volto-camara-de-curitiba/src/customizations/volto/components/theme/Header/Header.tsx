@@ -116,7 +116,7 @@ const Header = (props) => {
                         <div className="links-menu row align-items-center gap-8 d-mb-none stack">
                             <p className="fs-16 fw-600 text-white mb-0">Destaques:</p>
                             {
-                                menuDestaques.map((z, i) => (
+                                menuDestaques?.map((z, i) => (
                                     <>
                                         {
                                             i != 0 && <svg width="2" height="13" viewBox="0 0 2 13" fill="none"
@@ -179,7 +179,7 @@ const Header = (props) => {
                             <div className="flex gap-10 mt-10">
                                 <div className="col-1">
                                     <ul className="menu-ul">
-                                        {menuHeader.map((menu, index) => (
+                                        {menuHeader?.map((menu, index) => (
                                             <li key={index}
                                                 className={menu?.title === activeMenuMobile?.title ? "active" : ""}>
                                                 {
@@ -316,7 +316,7 @@ const Header = (props) => {
                                     </h2>
                                     <ul className="mais-acessadas">
                                         {
-                                            maisAcessados.map((item, index) => (
+                                            maisAcessados?.map((item, index) => (
                                                 <li key={index}>
                                                     {
                                                         item?.mode === 'simpleLink' &&
