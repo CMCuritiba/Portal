@@ -21,6 +21,7 @@ const applyConfig = (config) => {
   };
 
   config.addonRoutes = [
+    ...config.addonRoutes,
     {
       path: '/vereadores/conheca-os-vereadores', // URL onde a página será acessível
       component: VereadoresListView,
