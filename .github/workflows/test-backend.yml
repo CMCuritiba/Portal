@@ -50,7 +50,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --disable-warnings src/camara_de_curitiba/tests
+          pytest --disable-warnings src/cmcuritiba/tests
 
   build-and-push:
     runs-on: ubuntu-latest
