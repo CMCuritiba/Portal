@@ -18,30 +18,7 @@ defaults:
     working-directory: ./frontend
 
 jobs:
-  code-analysis:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codebase
-        uses: actions/checkout@v4
 
-      - name: Update Global Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@stable --activate
-
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-          cache-dependency-path: 'frontend/yarn.lock'
-
-#      - name: Prettier
-#        id: prettier
-#        run: npx prettier@3.0.3 --single-quote --check 'src/**/*.{js,jsx,ts,tsx,css,scss}' --config=package.json
-#
-      - name: Install packages
-        run: make install
 #
 #      - name: ESLint
 #        id: eslint
@@ -73,7 +50,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs:
-      - code-analysis
     permissions:
       contents: read
       packages: write
