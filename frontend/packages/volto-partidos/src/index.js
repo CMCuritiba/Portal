@@ -26,14 +26,16 @@ export default function applyConfig(config) {
   config.addonRoutes = [
     ...config.addonRoutes,
     {
-      path: '/controlpanel/legislaturas',
+      path: '/controlpanels/legislaturas',
       component: LegislaturasControlPanel,
     },
     {
-      path: '/controlpanel/partidos',
+      path: '/controlpanels/partidos',
       component: PartidosControlPanel,
     },
   ];
+
+  console.log("config.addonRoutes");
 
   config.widgets.widget.object_list_title = ObjectListWithTitleWidget;
   return config;

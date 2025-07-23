@@ -37,9 +37,9 @@
     "@kitconcept/volto-separator-block",
     "@kitconcept/volto-slider-block",
     "@kitconcept/volto-light-theme",
-    "volto-partidos",
     "volto-cmcuritiba",
-    "volto-mui-blocks"
+    "volto-mui-blocks",
+    "volto-partidos"
   ],
   "dependencies": {
     "@eeacms/volto-accordion-block": "^11.0.4",
