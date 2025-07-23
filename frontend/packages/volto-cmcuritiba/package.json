@@ -39,9 +39,11 @@
     "@kitconcept/volto-light-theme",
     "volto-cmcuritiba",
     "volto-mui-blocks",
-    "volto-partidos"
+    "volto-partidos",
+    "@plone-collective/volto-authomatic"
   ],
   "dependencies": {
+    "@plone-collective/volto-authomatic": "^2.0.0",
     "@eeacms/volto-accordion-block": "^11.0.4",
     "@eeacms/volto-columns-block": "*",
     "@eeacms/volto-embed": "^10.1.3",
