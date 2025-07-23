@@ -68,16 +68,8 @@ jobs:
           tags: |
             type=raw,value=test
             type=raw,value=${{ needs.version.outputs.version }}
-            ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}
           labels: |
             org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:test
-            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}:${{ inputs.base-tag }}
-          flavor:
-            latest=false
-          tags: |
-            type=ref,event=branch
-            type=sha
-            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
