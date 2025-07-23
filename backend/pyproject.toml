@@ -27,6 +27,8 @@ dependencies = [
     "plone.api",
     "plone.restapi",
     "plone.volto",
+    "pas.plugins.oidc",
+    "pas.plugins.keycloakgroups",
 ]
 
 [project.optional-dependencies]

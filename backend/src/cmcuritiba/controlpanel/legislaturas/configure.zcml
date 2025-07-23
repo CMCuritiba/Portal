@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="cmcuritiba"
+    >
+
+  <include package="plone.app.registry" />
+
+  <browser:page
+      name="legislaturas-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.LegislaturasControlPanelView"
+      permission="cmf.ManagePortal"
+      layer="cmcuritiba.interfaces.ICamaraDeCuritibaLayer"
+      />
+
+  <include package="plone.restapi" />
+  <adapter
+      factory=".controlpanel.LegislaturasConfigletPanel"
+      name="legislaturas"
+      />
+
+  <utility
+      provides="zope.interface.Interface"
+      name="cmcuritiba.controlpanel.legislaturas.ILegislaturasSettings.legislaturas"
+      component=".controlpanel.ILegislaturasSettings"
+      />
+
+</configure>

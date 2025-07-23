@@ -4,237 +4,210 @@
   "UID": "plone_site_root",
   "allow_discussion": null,
   "blocks": {
-    "47c92ffe-c201-493c-97c9-a2d4e0beab69": {
+    "banner-principal": {
       "@type": "slate",
-      "plaintext": "Plone is a powerful content management system built on a rock-solid application stack written in the Python and JavaScript programming languages.",
+      "plaintext": "Câmara de Curitiba - Portal de Desenvolvimento",
       "value": [
         {
           "children": [
             {
-              "text": "Plone is a powerful content management system built on a rock-solid application stack written in the "
+              "text": ""
             },
             {
               "children": [
                 {
-                  "text": "Python"
+                  "text": "Câmara de Curitiba - Portal de Desenvolvimento"
                 }
               ],
-              "type": "em"
-            },
-            {
-              "text": " and "
-            },
-            {
-              "children": [
-                {
-                  "text": "JavaScript"
-                }
-              ],
-              "type": "em"
-            },
-            {
-              "text": " programming languages."
+              "type": "h1"
             }
           ],
           "type": "p"
         }
       ]
     },
-    "5f31e9e4-173f-4ec1-ab48-64e9e2789b76": {
-      "@type": "title"
-    },
-    "68357972-bd25-47e2-a098-c7932a923182": {
-      "@type": "image",
-      "alt": "Plone Foundation Logo",
-      "href": [
-        {
-          "@id": "https://plone.org/foundation",
-          "title": "plone.org/foundation"
-        }
-      ],
-      "image_field": "image",
-      "url": "resolveuid/a58ccead718140c1baa98d43595fc3e6"
-    },
-    "ae41d44d-c4b1-426c-acf6-2e28cb9a97a0": {
+    "sobre-projeto": {
       "@type": "slate",
-      "plaintext": "Find out more about Plone",
+      "plaintext": "Este é o portal de desenvolvimento da Câmara Municipal de Curitiba, construído com Plone 6 e Volto.",
       "value": [
         {
           "children": [
             {
-              "text": "Find out more about Plone"
+              "text": "Este é o portal de desenvolvimento da Câmara Municipal de Curitiba, construído com Plone 6 e Volto."
             }
           ],
-          "type": "h3"
+          "type": "p"
         }
       ]
     },
-    "d9707a27-2565-4d7d-9daa-6c61d60ce8fd": {
+    "tecnologias": {
       "@type": "slate",
-      "plaintext": " The features of Plone   Plone Documentation   Plone Training   Plone Community Forum   Add-ons for Plone (backend)   Add-ons for Volto (frontend) ",
+      "plaintext": "Tecnologias Utilizadas",
       "value": [
         {
           "children": [
             {
-              "children": [
-                {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "The features of Plone"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://plone.org/why-plone/features"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
-                }
-              ],
-              "type": "li"
+              "text": ""
             },
             {
               "children": [
                 {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "Plone Documentation"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://docs.plone.org/"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
+                  "text": "Tecnologias Utilizadas"
                 }
               ],
-              "type": "li"
-            },
-            {
-              "children": [
-                {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "Plone Training"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://training.plone.org/"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
-                }
-              ],
-              "type": "li"
-            },
-            {
-              "children": [
-                {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "Plone Community Forum"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://community.plone.org/"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
-                }
-              ],
-              "type": "li"
-            },
-            {
-              "children": [
-                {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "Add-ons for Plone (backend)"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://github.com/collective/awesome-plone#readme"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
-                }
-              ],
-              "type": "li"
-            },
-            {
-              "children": [
-                {
-                  "text": ""
-                },
-                {
-                  "children": [
-                    {
-                      "text": "Add-ons for Volto (frontend)"
-                    }
-                  ],
-                  "data": {
-                    "url": "https://github.com/collective/awesome-volto#readme"
-                  },
-                  "type": "link"
-                },
-                {
-                  "text": ""
-                }
-              ],
-              "type": "li"
+              "type": "h2"
             }
           ],
-          "type": "ul"
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "• Backend: Plone 6 (Python)\n• Frontend: Volto (React)\n• Banco de Dados: PostgreSQL\n• Cache: Varnish\n• Container: Docker"
+            }
+          ],
+          "type": "p"
         }
       ]
     },
-    "e5ace182-3746-472c-ad81-696425a2b161": {
+    "documentacao": {
       "@type": "slate",
-      "plaintext": "Welcome to your new Plone site!",
+      "plaintext": "Documentação",
       "value": [
         {
           "children": [
             {
-              "text": "Welcome to your new Plone site!"
+              "text": ""
+            },
+            {
+              "children": [
+                {
+                  "text": "Documentação"
+                }
+              ],
+              "type": "h2"
             }
           ],
-          "type": "h2"
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Documentação do Plone"
+                }
+              ],
+              "data": {
+                "url": "https://6.docs.plone.org"
+              },
+              "type": "link"
+            },
+            {
+              "text": "\n• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Documentação do Volto"
+                }
+              ],
+              "data": {
+                "url": "https://6.docs.plone.org/volto"
+              },
+              "type": "link"
+            },
+            {
+              "text": "\n• "
+            },
+            {
+              "children": [
+                {
+                  "text": "Repositório no GitHub"
+                }
+              ],
+              "data": {
+                "url": "https://github.com/collective/camara-de-curitiba"
+              },
+              "type": "link"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "desenvolvimento": {
+      "@type": "slate",
+      "plaintext": "Como Desenvolver",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "children": [
+                {
+                  "text": "Como Desenvolver"
+                }
+              ],
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "1. Clone o repositório\n2. Instale as dependências\n3. Execute o ambiente de desenvolvimento\n4. Acesse o portal em http://localhost:3000"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "contato": {
+      "@type": "slate",
+      "plaintext": "Contato",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            },
+            {
+              "children": [
+                {
+                  "text": "Contato"
+                }
+              ],
+              "type": "h2"
+            }
+          ],
+          "type": "p"
+        },
+        {
+          "children": [
+            {
+              "text": "Para mais informações sobre o desenvolvimento, entre em contato com a equipe técnica."
+            }
+          ],
+          "type": "p"
         }
       ]
     }
   },
   "blocks_layout": {
     "items": [
-      "5f31e9e4-173f-4ec1-ab48-64e9e2789b76",
-      "e5ace182-3746-472c-ad81-696425a2b161",
-      "ae41d44d-c4b1-426c-acf6-2e28cb9a97a0",
-      "47c92ffe-c201-493c-97c9-a2d4e0beab69",
-      "d9707a27-2565-4d7d-9daa-6c61d60ce8fd",
-      "68357972-bd25-47e2-a098-c7932a923182"
+      "banner-principal",
+      "sobre-projeto",
+      "tecnologias",
+      "documentacao",
+      "desenvolvimento",
+      "contato"
     ]
   },
   "contributors": [],

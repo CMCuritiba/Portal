@@ -2,5 +2,33 @@
 <rolemap>
   <permissions>
     <!-- -*- extra stuff goes here -*- -->
+    <permission acquire="True"
+                name="cmcuritiba: Add Editoria"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+    </permission>
+
+
+    <permission acquire="True"
+                name="cmcuritiba: Add Vereador"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+    </permission>
+
+
+    <permission acquire="True"
+                name="cmcuritiba: Add Vereador"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+    </permission>
+
   </permissions>
 </rolemap>

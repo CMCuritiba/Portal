@@ -36,7 +36,8 @@
     "@plone/volto": "workspace:*",
     "@plone/registry": "workspace:*",
     "volto-cmcuritiba": "workspace:*",
-    "volto-mui-blocks": "workspace:*"
+    "volto-mui-blocks": "workspace:*",
+    "volto-partidos": "workspace:*"
   },
   "devDependencies": {
     "mrs-developer": "^2.2.0"

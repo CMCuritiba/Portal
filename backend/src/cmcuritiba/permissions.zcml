@@ -1,9 +1,24 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="cmcuritiba"
     >
 
-  <!-- -*- extra stuff goes here -*- -->
+  <configure zcml:condition="installed AccessControl.security">
+    <!-- -*- extra stuff goes here -*- -->
+
+    <permission
+        id="cmcuritiba.AddEditoria"
+        title="cmcuritiba: Add Editoria"
+        />
+
+
+    <permission
+        id="cmcuritiba.AddVereador"
+        title="cmcuritiba: Add Vereador"
+        />
+
+
+  </configure>
 
 </configure>

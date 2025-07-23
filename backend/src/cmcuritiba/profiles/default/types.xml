@@ -7,4 +7,16 @@
           name="MyType"
   />
 -->
+  <object meta_type="Dexterity FTI"
+          name="vereador"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Plone Site"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Folder"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Editoria"
+  />
 </object>

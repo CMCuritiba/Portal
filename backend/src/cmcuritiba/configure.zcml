@@ -16,10 +16,37 @@
   <include file="profiles.zcml" />
   <include file="permissions.zcml" />
 
+  <include package=".content" file="configure.zcml"/>
+  <include package=".services" file="configure.zcml"/>
   <include package=".controlpanel" />
+  <include package=".browser" />
   <include package=".indexers" />
   <include package=".serializers" />
   <include package=".vocabularies" />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="cmcuritiba.partidos"
+      component="cmcuritiba.content.vocabularies.partidos_vocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="cmcuritiba.legislaturas"
+      component="cmcuritiba.content.vocabularies.legislaturas_vocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="cmcuritiba.cargos_mesa_diretora"
+      component="cmcuritiba.content.vocabularies.cargos_mesa_diretora_vocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="cmcuritiba.cargos_corregedoria"
+      component="cmcuritiba.content.vocabularies.cargos_corregedoria_vocabulary"
+      />
 
   <!-- -*- extra stuff goes here -*- -->
 

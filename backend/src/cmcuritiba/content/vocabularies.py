@@ -1,5 +1,5 @@
-from ..controlpanels.legislaturas.controlpanel import ILegislaturasSettings
-from ..controlpanels.partidos import IPartidosSettings
+from ..controlpanel.legislaturas.controlpanel import ILegislaturasSettings
+from ..controlpanel.partidos import IPartidosSettings
 from cmcuritiba import _
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName

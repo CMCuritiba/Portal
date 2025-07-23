@@ -7,4 +7,11 @@
       name="cmcuritiba.summary_serializer_metadata"
       />
 
+  <adapter
+      factory=".parent.ParentSerializer"
+      provides="plone.restapi.interfaces.ISerializeToJson"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      name="parent"
+      />
+
 </configure>
