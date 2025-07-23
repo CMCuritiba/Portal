@@ -1,0 +1,37 @@
+[repository]
+name = "cmcuritiba"
+managed_by_uv = false
+changelog = "CHANGELOG.md"
+version = "version.txt"
+compose = "docker-compose.yml"
+
+[repository.towncrier]
+section = "Project"
+settings = "towncrier.toml"
+
+[backend]
+path = "backend"
+
+[backend.package]
+name = "cmcuritiba"
+path = "backend"
+changelog = "backend/CHANGELOG.md"
+towncrier_settings = "backend/pyproject.toml"
+base_package = "Products.CMFPlone"
+publish = false
+
+[frontend]
+path = "frontend"
+
+[frontend.package]
+name = "volto-cmcuritiba"
+path = "frontend/packages/volto-cmcuritiba"
+changelog = "frontend/packages/volto-cmcuritiba/CHANGELOG.md"
+towncrier_settings = "frontend/packages/volto-cmcuritiba/towncrier.toml"
+base_package = "@plone/volto"
+publish = false
+
+[cookieplone]
+template = "project"
+template_version = "4d55553d61416df56b3360914b398d675b3f72a6"
+generated_date = "2025-07-23 17:58:44"

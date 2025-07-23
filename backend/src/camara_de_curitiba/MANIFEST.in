@@ -1,8 +1,0 @@
-graft src/collective
-graft docs
-include *.rst
-recursive-include src *.zcml *.pt *.xml *.po *.mo *.gif *.png *.jpg *.jpeg *.svg *.json
-exclude tox.ini
-exclude *.txt
-exclude .gitlab-ci.yml
-global-exclude *.pyc

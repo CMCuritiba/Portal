@@ -1,8 +1,3 @@
-src/**/CHANGELOG.md
-src/**/README.md
-!src/addons/volto-camara-de-curitiba
-!src/addons/volto-slider-banner
-!src/addons/volto-columns-block
-!src/addons/volto-mui-blocks
-!src/addons/volto-mui-banners
-!src/addons/partidos-addon
+.storybook
+CHANGELOG.md
+README.md

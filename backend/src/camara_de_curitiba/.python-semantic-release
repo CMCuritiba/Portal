@@ -1,6 +1,0 @@
-[semantic_release]
-version_variable = backend/src/camara_de_curitiba/setup.py:version
-branch = develop,homolog,main
-upload_to_pypi = false
-build_command =
-prerelease_channels = homolog 

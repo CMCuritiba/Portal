@@ -1,8 +1,0 @@
--c constraints.txt
-
-zope.testrunner
-flake8-pyproject
-plone.restapi[jwt]
-collective.volto.dropdownmenu
-pas.plugins.keycloakgroups
-pas.plugins.oidc

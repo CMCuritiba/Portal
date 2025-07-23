@@ -1,51 +1,181 @@
+[project]
+name = "cmcuritiba"
+dynamic = ["version"]
+description = "Câmara de Curitiba em Plone"
+readme = "README.md"
+license = "GPL-2.0-only"
+requires-python = ">=3.12"
+authors = [
+    { name = "Digigroup e DTIC", email = "vinicius@digigroup.com.br" },
+]
+keywords = [
+    "CMS",
+    "Plone",
+    "Python",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: Plone","Framework :: Plone :: 6.1",
+    "Framework :: Plone :: Addon",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python","Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "Products.CMFPlone==6.1.2",
+    "plone.api",
+    "plone.restapi",
+    "plone.volto",
+]
+
+[project.optional-dependencies]
+test = [
+    "horse-with-no-namespace",
+    "plone.app.testing",
+    "plone.restapi[test]",
+    "pytest",
+    "pytest-cov",
+    "pytest-plone>=0.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cmcuritiba/cmcuritiba"
+PyPI = "https://pypi.org/project/cmcuritiba"
+Source = "https://github.com/cmcuritiba/cmcuritiba"
+Tracker = "https://github.com/cmcuritiba/cmcuritiba/issues"
+
+
+[project.entry-points."plone.autoinclude.plugin"]
+target = "plone"
+
+[tool.uv]
+managed = false
+
+[tool.hatch.version]
+path = "src/cmcuritiba/__init__.py"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+strict-naming = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cmcuritiba"]
+
+[tool.towncrier]
+directory = "news/"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+title_format = "## {version} ({project_date})"
+template = "news/.changelog_template.jinja"
+issue_format = "[#{issue}](https://github.com/cmcuritiba/cmcuritiba/issues/{issue})"
+underlines = ["", "", ""]
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking changes:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "New features:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug fixes:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "internal"
+name = "Internal:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "documentation"
+name = "Documentation:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "tests"
+name = "Tests"
+showcontent = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+fix = true
+lint.select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+]
+lint.ignore = [
+    # DoNotAssignLambda
+    "E731",
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = false
+no-sections = true
+force-single-line = true
+from-first = true
+lines-after-imports = 2
+lines-between-types = 1
+order-by-type = false
+
+[tool.ruff.format]
+preview = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501", "RUF001", "S101"]
+
+[tool.check-manifest]
+ignore = [
+    ".editorconfig",
+    ".flake8",
+    "dependabot.yml",
+    "mx.ini",
+]
 
 [tool.pytest.ini_options]
-addopts = "--cov-report term --cov=camara_de_curitiba"
-[tool.black]
-line-length = 88
-target-version = ['py38']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-)
-'''
+testpaths = ["tests"]
 
-[tool.isort]
-profile = "black"
-force_alphabetical_sort = true
-force_single_line = true
-lines_after_imports = 2
-line_length = 88
-
-[tool.flakeheaven]
-format="grouped"
-max_line_length=88
-show_source=true
-max-complexity=25
-
-[tool.flakeheaven.plugins]
-pycodestyle = ["+*"]
-pyflakes = ["+*"]
-"flake8-*" = ["+*"]
-
-[tool.flake8]
-format="grouped"
-max-line-length=88
-show_source=true
-max-complexity=25
-
-[tool.plone-code-analysis]
-paths = "src/camara_de_curitiba/setup.py src/camara_de_curitiba/src/ scripts/"
-paths_pyroma = "src/camara_de_curitiba"
+[tool.coverage.run]
+source_pkgs = ["cmcuritiba", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/cmcuritiba/locales/*.py",
+]

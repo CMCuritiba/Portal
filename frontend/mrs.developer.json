@@ -1,20 +1,10 @@
 {
-  "volto-camara-de-curitiba": {
-    "local": "addons/volto-camara-de-curitiba/src"
-  },
-  "volto-slider-banner": {
-    "local": "addons/volto-slider-banner/src"
-  },
-  "volto-columns-block": {
-    "local": "addons/volto-columns-block/src"
-  },
-  "volto-mui-blocks": {
-    "local": "addons/volto-mui-blocks/src"
-  },
-  "volto-mui-banners": {
-    "local": "addons/volto-mui-banners/src"
-  },
-  "partidos-addon": {
-    "local": "addons/partidos-addon/src"
+  "core": {
+    "output": "./",
+    "package": "@plone/volto",
+    "url": "git@github.com:plone/volto.git",
+    "https": "https://github.com/plone/volto.git",
+    "tag": "18.23.0",
+    "filterBlobs": true
   }
 }

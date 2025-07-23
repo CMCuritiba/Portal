@@ -1,64 +1,35 @@
 # syntax=docker/dockerfile:1
-FROM node:20-slim as base
-FROM base as builder
+ARG VOLTO_VERSION
+FROM plone/frontend-builder:${VOLTO_VERSION} AS builder
 
-RUN <<EOT
+COPY --chown=node packages/volto-cmcuritiba /app/packages/volto-cmcuritiba
+COPY --chown=node volto.config.js /app/
+COPY --chown=node package.json /app/package.json.temp
+COPY --chown=node mrs.developer.json /app/
+COPY --chown=node pnpm-workspace.yaml /app/
+
+RUN --mount=type=cache,id=pnpm,target=/app/.pnpm-store,uid=1000 <<EOT
     set -e
-    apt update
-    apt install -y --no-install-recommends python3 build-essential
-    mkdir /app
-    chown -R node:node /app
-    rm -rf /var/lib/apt/lists/*
+    python3 -c "import json; orig_data = json.load(open('package.json.temp')); orig_deps = orig_data['dependencies']; data = json.load(open('package.json')); data['dependencies'].update(orig_deps); json.dump(data, open('package.json', 'w'), indent=2)"
+    rm package.json.temp
+    pnpm dlx mrs-developer missdev --no-config --fetch-https
+    pnpm install && pnpm build:deps
+    pnpm build
+    pnpm install --prod
 EOT
 
+FROM plone/frontend-prod-config:${VOLTO_VERSION}
 
-COPY --chown=node . /build/
-RUN corepack enable
-
-USER node
-WORKDIR /build
-RUN <<EOT
-    set -e
-    make install
-    yarn build
-EOT
-
-FROM base
-
-LABEL maintainer="Plone Foundation <collective@plone.org>" \
-      org.label-schema.name="camara-de-curitiba-frontend" \
+LABEL maintainer="Digigroup e DTIC <vinicius@digigroup.com.br>" \
+      org.label-schema.name="cmcuritiba-frontend" \
       org.label-schema.description="Câmara de Curitiba frontend image." \
-      org.label-schema.vendor="Plone Foundation" \
-      org.opencontainers.image.source="https://github.com/cmcuritiba/portal"
+      org.label-schema.vendor="Digigroup e DTIC"
 
-# Install busybox and wget
+COPY --from=builder /app/ /app/
+
 RUN <<EOT
     set -e
-    apt update
-    apt install -y --no-install-recommends busybox wget
-    busybox --install -s
-    rm -rf /var/lib/apt/lists/*
-    mkdir /app
-    chown -R node:node /app
+    npm i -g corepack@latest && corepack enable pnpm
+    corepack use pnpm@9.1.1
+    corepack prepare pnpm@9.1.1 --activate
 EOT
-
-# Run the image with user node
-USER node
-
-# Copy
-COPY --from=builder /build/ /app/
-
-# Set working directory to /app
-WORKDIR /app
-
-# Expose default Express port
-EXPOSE 3000
-
-# Set healthcheck to port 3000
-HEALTHCHECK --interval=10s --timeout=5s --start-period=30s CMD [ -n "$LISTEN_PORT" ] || LISTEN_PORT=3000 ; wget -q http://127.0.0.1:"$LISTEN_PORT" -O - || exit 1
-
-# Entrypoint would be yarn
-ENTRYPOINT [ "yarn" ]
-
-# And the image will run in production mode
-CMD ["start:prod"]

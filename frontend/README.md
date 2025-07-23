@@ -1,73 +1,195 @@
-## Documentation
+# Câmara de Curitiba (volto-cmcuritiba)
 
-[Volto Hands-On](https://training.plone.org/voltohandson/index.html) is a training on how to create your own website.
+Câmara de Curitiba em Plone
 
-## Quick Start
+[![npm](https://img.shields.io/npm/v/volto-cmcuritiba)](https://www.npmjs.com/package/volto-cmcuritiba)
+[![](https://img.shields.io/badge/-Storybook-ff4785?logo=Storybook&logoColor=white&style=flat-square)](https://cmcuritiba.github.io/volto-cmcuritiba/)
+[![CI](https://github.com/cmcuritiba/cmcuritiba/actions/workflows/main.yml/badge.svg)](https://github.com/cmcuritiba/cmcuritiba/actions/workflows/main.yml)
 
 
-Below is a list of commands you will probably find useful.
+## Features
 
-### `make install`
+<!-- List your awesome features here -->
 
-Installs and checkouts the `mrs-developer` directives (`make develop`), creates a shortcut to the Volto source code (`omelette` folder), then triggers the install of the frontend environment.
+## Installation
 
-### `yarn start`
+To install your project, you must choose the method appropriate to your version of Volto.
 
-Runs the project in development mode.
-You can view your application at `http://localhost:3000`
 
-The page will reload if you make edits.
+### Volto 18 and later
 
-### `yarn build`
+Add `volto-cmcuritiba` to your `package.json`.
 
-Builds the app for production to the build folder.
-
-The build is minified and the filenames include the hashes.
-Your app is ready to be deployed!
-
-### `yarn start:prod`
-
-Runs the compiled app in production.
-
-You can again view your application at `http://localhost:3000`
-
-### `yarn test`
-
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
-
-### `yarn i18n`
-
-Runs the test i18n runner which extracts all the translation strings and
-generates the needed files.
-
-### mrs-developer
-
-[mrs-developer](https://github.com/collective/mrs-developer) is a great tool
-for developing multiple packages at the same time.
-
-mrs-developer should work with this project by running the configured shortcut script:
-
-```bash
-make develop
+```json
+"dependencies": {
+    "volto-cmcuritiba": "*"
+}
 ```
 
-Volto's latest razzle config will pay attention to your tsconfig.json (or jsconfig.json) file for any customizations.
+Add `volto-cmcuritiba` to your `volto.config.js`.
 
-In case you don't want (or can't) install mrs-developer globally, you can install it in this project by running:
-
-```bash
-yarn add -W mrs-developer
+```javascript
+const addons = ['volto-cmcuritiba'];
 ```
 
-## Acceptance tests
+If this package provides a Volto theme, and you want to activate it, then add the following to your `volto.config.js`.
 
-In order to run localy (while developing) the project acceptance tests (Cypress), there are some `Makefile` commands in place (in the repo root). Run them in order:
+```javascript
+const theme = 'volto-cmcuritiba';
+```
 
-`start-test-acceptance-server`: Start server fixture in docker (previous build required)
+### Volto 17 and earlier
 
-`start-test-acceptance-frontend`: Start the Core Acceptance Frontend Fixture in dev mode
+Create a new Volto project.
+You can skip this step if you already have one.
 
-`test-acceptance`: Start Core Cypress Acceptance Tests in dev mode
+```
+npm install -g yo @plone/generator-volto
+yo @plone/volto my-volto-project --addon volto-cmcuritiba
+cd my-volto-project
+```
 
-`full-test-acceptance`: Start the whole suite (backend + frontend + headless tests) Cypress Acceptance Tests in headless (CI) mode
+Add `volto-cmcuritiba` to your `package.json`.
+
+```JSON
+"addons": [
+    "volto-cmcuritiba"
+],
+
+"dependencies": {
+    "volto-cmcuritiba": "*"
+}
+```
+
+Download and install the new add-on.
+
+```
+yarn install
+```
+
+Start Volto.
+
+```
+yarn start
+```
+
+## Test installation
+
+Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
+
+
+## Development
+
+The development of this add-on is done in isolation using pnpm workspaces, the latest `mrs-developer`, and other Volto core improvements.
+For these reasons, it only works with pnpm and Volto 18.
+
+
+### Prerequisites ✅
+
+-   An [operating system](https://6.docs.plone.org/install/create-project-cookieplone.html#prerequisites-for-installation) that runs all the requirements mentioned.
+-   [nvm](https://6.docs.plone.org/install/create-project-cookieplone.html#nvm)
+-   [Node.js and pnpm](https://6.docs.plone.org/install/create-project.html#node-js) 22
+-   [Make](https://6.docs.plone.org/install/create-project-cookieplone.html#make)
+-   [Git](https://6.docs.plone.org/install/create-project-cookieplone.html#git)
+-   [Docker](https://docs.docker.com/get-started/get-docker/) (optional)
+
+### Installation 🔧
+
+1.  Clone this repository, then change your working directory.
+
+    ```shell
+    git clone git@github.com:cmcuritiba/cmcuritiba.git
+    cd cmcuritiba/frontend
+    ```
+
+2.  Install this code base.
+
+    ```shell
+    make install
+    ```
+
+
+### Make convenience commands
+
+Run `make help` to list the available Make commands.
+
+
+### Set up development environment
+
+Install package requirements.
+
+```shell
+make install
+```
+
+### Start developing
+
+Start the backend.
+
+```shell
+make backend-docker-start
+```
+
+In a separate terminal session, start the frontend.
+
+```shell
+make start
+```
+
+### Lint code
+
+Run ESlint, Prettier, and Stylelint in analyze mode.
+
+```shell
+make lint
+```
+
+### Format code
+
+Run ESlint, Prettier, and Stylelint in fix mode.
+
+```shell
+make format
+```
+
+### i18n
+
+Extract the i18n messages to locales.
+
+```shell
+make i18n
+```
+
+### Unit tests
+
+Run unit tests.
+
+```shell
+make test
+```
+
+### Run Cypress tests
+
+Run each of these steps in separate terminal sessions.
+
+In the first session, start the frontend in development mode.
+
+```shell
+make acceptance-frontend-dev-start
+```
+
+In the second session, start the backend acceptance server.
+
+```shell
+make acceptance-backend-start
+```
+
+In the third session, start the Cypress interactive test runner.
+
+```shell
+make acceptance-test
+```
+
+## License
+
+The project is licensed under the MIT license.
