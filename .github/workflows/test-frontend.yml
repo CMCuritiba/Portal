@@ -64,8 +64,13 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
+            ghcr.io/${{ github.repository }}/frontend
+          tags: |
+            type=raw,value=test
+            type=raw,value=${{ needs.version.outputs.version }}
             ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}
           labels: |
+            org.label-schema.docker.cmd=docker run -d -p 3000:3000 ghcr.io/${{ github.repository }}/frontend:test
             org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}:${{ inputs.base-tag }}
           flavor:
             latest=false
@@ -93,7 +98,7 @@ jobs:
           platforms: linux/amd64
           context: frontend/
           file: frontend/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
