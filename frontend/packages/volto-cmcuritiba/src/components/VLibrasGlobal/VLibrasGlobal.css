@@ -1,0 +1,76 @@
+/* Estilos para VLibras Global */
+
+/* Container principal do VLibras */
+[vw] {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 999999 !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Botão de acesso do VLibras */
+[vw-access-button] {
+    background-color: #1351b4 !important;
+    border-radius: 50% !important;
+    width: 60px !important;
+    height: 60px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+[vw-access-button]:hover {
+    background-color: #0d47a1 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Estados de visibilidade */
+[vw].enabled {
+    display: block !important;
+}
+
+[vw]:not(.enabled) {
+    display: none !important;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+    [vw] {
+        bottom: 10px !important;
+        right: 10px !important;
+    }
+    
+    [vw-access-button] {
+        width: 50px !important;
+        height: 50px !important;
+    }
+}
+
+/* Alto contraste para VLibras */
+body.high-contrast [vw-access-button] {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+
+body.high-contrast [vw-access-button]:hover {
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+}
+
+/* Focus para acessibilidade */
+[vw-access-button]:focus {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 2px !important;
+}
+
+body.high-contrast [vw-access-button]:focus {
+    outline: 3px solid #ffffff !important;
+} 

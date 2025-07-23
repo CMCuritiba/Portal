@@ -1,0 +1,183 @@
+/* Estilos de Acessibilidade para o Header */
+
+/* Skip Links - Links de Pular Conteúdo */
+.skip-links {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: 10000;
+    width: 100%;
+}
+
+.skip-link {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0 0 4px 4px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.skip-link:focus {
+    position: static;
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    outline: 3px solid #ffff00;
+    outline-offset: 2px;
+    z-index: 10001;
+}
+
+body.high-contrast .skip-link {
+    background-color: #ffff00;
+    color: #000000;
+}
+
+body.high-contrast .skip-link:focus {
+    background-color: #000000;
+    color: #ffff00;
+    outline: 3px solid #ffffff;
+}
+
+/* Botões de acessibilidade ativos - mantém estilo original mas adiciona indicação */
+.header-top .active-accessibility {
+    position: relative;
+}
+
+.header-top .active-accessibility::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background-color: #ffff00;
+    border-radius: 1px;
+}
+
+/* Funcionalidades removidas - não precisamos mais do indicador de fonte */
+
+/* Estilos de alto contraste */
+body.high-contrast {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast * {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+body.high-contrast a,
+body.high-contrast button {
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffffff !important;
+    text-decoration: underline !important;
+}
+
+body.high-contrast a:hover,
+body.high-contrast button:hover,
+body.high-contrast a:focus,
+body.high-contrast button:focus {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+
+body.high-contrast img {
+    filter: invert(1) contrast(1.2);
+}
+
+body.high-contrast .header-top,
+body.high-contrast .background-primary {
+    background-color: #000000 !important;
+}
+
+/* Melhorias de foco para navegação por teclado - específico para header */
+.header-top button:focus,
+.header-top a:focus,
+.header-top .link-flex:focus {
+    outline: 2px solid #005fcc !important;
+    outline-offset: 1px !important;
+}
+
+body.high-contrast .header-top button:focus,
+body.high-contrast .header-top a:focus,
+body.high-contrast .header-top .link-flex:focus {
+    outline: 2px solid #ffff00 !important;
+    outline-offset: 1px !important;
+}
+
+/* Botões desabilitados */
+button:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+
+/* Estilos responsivos para acessibilidade */
+@media (max-width: 768px) {
+    .font-size-indicator {
+        font-size: 10px;
+        padding: 2px 4px;
+        min-width: 30px;
+    }
+}
+
+/* Contraste melhorado para textos - específico para header */
+.header-top .link-flex {
+    transition: opacity 0.3s ease;
+}
+
+.header-top .link-flex:hover {
+    opacity: 0.8;
+}
+
+/* Tooltips com melhor contraste */
+.MuiTooltip-tooltip {
+    background-color: #333 !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    border: 1px solid #fff !important;
+}
+
+body.high-contrast .MuiTooltip-tooltip {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+
+/* VLibras específico */
+[vw] {
+    position: fixed !important;
+    z-index: 9999 !important;
+}
+
+[vw].enabled {
+    display: block !important;
+}
+
+[vw]:not(.enabled) {
+    display: none !important;
+}
+
+/* Animações reduzidas para usuários sensíveis */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+} 

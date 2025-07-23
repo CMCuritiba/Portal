@@ -1,0 +1,112 @@
+.navigation.navigation-dropdownmenu {
+  position: relative;
+}
+
+.dropdown-menu-wrapper {
+  position: fixed !important;
+  z-index: 1;
+  top: 92px;
+  left: 0;
+  display: none;
+  overflow: hidden;
+  width: 100%;
+}
+
+@media (max-width: 766px) {
+  .dropdown-menu-wrapper {
+    position: static !important;
+  }
+
+  .dropdown-menu-wrapper .ui.grid .column.column {
+    width: 100% !important;
+  }
+}
+
+.dropdown-menu-wrapper.open {
+  z-index: 2;
+  display: block;
+  border-top: 1px solid rgba(199, 213, 216, 0.4);
+}
+
+.dropdown-menu-wrapper > .ui.segment {
+  position: relative;
+  width: 100%;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+body.has-toolbar.has-sidebar .dropdown-menu-wrapper {
+  left: 80px;
+  width: calc(100% - 375px - 80px);
+}
+
+body.has-toolbar-collapsed.has-sidebar .dropdown-menu-wrapper {
+  left: 20px;
+  width: calc(100% - 375px - 20px);
+}
+
+body.has-toolbar-collapsed.has-sidebar-collapsed .dropdown-menu-wrapper {
+  left: 20px;
+  width: calc(100% - 20px - 20px);
+}
+
+body.has-toolbar.has-sidebar-collapsed .dropdown-menu-wrapper {
+  left: 80px;
+  width: calc(100% - 20px - 80px);
+}
+
+body.has-toolbar:not(.has-sidebar):not(.has-sidebar-collapsed)
+  .dropdown-menu-wrapper {
+  left: 80px;
+  width: calc(100% - 80px);
+}
+
+body.has-toolbar-collapsed:not(.has-sidebar):not(.has-sidebar-collapsed)
+  .dropdown-menu-wrapper {
+  left: 20px;
+  width: calc(100% - 20px);
+}
+
+.dropdownmenu-close-button-wrapper {
+  text-align: right;
+}
+
+.ui.basic.button.dropdown-close-button {
+  color: inherit !important;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 766px) {
+  .ui.basic.button.dropdown-close-button {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+.dropdown-menu-wrapper .dropdownmenu-footer {
+  padding: 1em;
+  text-align: right;
+}
+
+@media (min-width: 767px) {
+  .dropdown-menu-wrapper .dropdownmenu-footer {
+    margin-top: 1em;
+  }
+}
+
+.ui.menu > .ui.button.item.dropdownmenu-item.active.open,
+.ui.menu > .ui.button.item.dropdownmenu-item.active.open:hover {
+  border-color: #c7d5d8;
+}
+
+.ui.menu > .ui.button.item.dropdownmenu-item i.dropdown.icon {
+  margin-left: 0.5rem;
+}

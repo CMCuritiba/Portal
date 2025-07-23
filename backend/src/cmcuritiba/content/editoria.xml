@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model xmlns="http://namespaces.plone.org/supermodel/schema"
+       xmlns:form="http://namespaces.plone.org/supermodel/form"
+       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+       xmlns:security="http://namespaces.plone.org/supermodel/security"
+       i18n:domain="cmcuritiba"
+>
+  <schema>
+    <field i18n:description="Selecione as notícias que devem aparecer como mais lidas"
+           i18n:title="Notícias mais lidas"
+           name="noticias_mais_lidas"
+           type="zope.schema.List"
+    >
+      <description>Selecione as notícias que devem aparecer como mais lidas</description>
+      <value_type type="zope.schema.Choice">
+        <vocabulary>cmcuritiba.noticias_filhas</vocabulary>
+      </value_type>
+    </field>
+  </schema>
+</model>

@@ -1,0 +1,209 @@
+.options-vereador {
+  display: flex;
+
+  span {
+    cursor: pointer;
+    padding: 14px 32px;
+    color: var(--Primary, #3e8a8e);
+    text-align: center;
+
+    /* Button & Link/Text Medium */
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    text-decoration: none;
+    border-radius: 0px;
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
+    transition: all ease-in-out 300ms;
+
+    &:hover,
+    &.active {
+      background: var(--Primary, #3e8a8e);
+      color: white;
+    }
+  }
+
+  span:first-child {
+    border-radius: 8px 0px 0px 8px;
+  }
+
+  span + span {
+    border-left: 0px;
+  }
+
+  span:last-child {
+    border-radius: 0px 8px 8px 0px;
+  }
+}
+
+.partidos {
+  display: flex;
+  gap: 16px;
+
+  button {
+    border-radius: 8px;
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
+    color: var(--Primary, #3e8a8e);
+    text-align: center;
+
+    /* Button & Link/Text Small */
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 133.333% */
+    padding: 8px 24px;
+
+    &.act {
+      background-color: var(--Primary, #3e8a8e);
+      color: white;
+    }
+  }
+}
+
+.section-conheca-os-vereadores {
+  .ui.basic.segment.content-area {
+    padding-top: 0px !important;
+    margin-bottom: 0px;
+  }
+}
+
+.fs-montserrat {
+  font-family: Montserrat, sans-serif;
+}
+.aspect-ratio-1-1 {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.border-rounded {
+  border-radius: 50%;
+}
+
+.item-vereador {
+  .context {
+    a {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      color: #000;
+      font-family: Lato, sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 135.938%; /* 16.313px */
+      svg,
+      img {
+        min-width: 16px;
+      }
+    }
+  }
+}
+
+.aspect-ratio-161-179 {
+  aspect-ratio: 161 / 179 !important;
+  object-fit: cover !important;
+  height: 100% !important;
+}
+
+.button-vereador {
+  color: var(--Primary, #3e8a8e) !important;
+  text-align: center !important;
+
+  /* Button & Link/Text Small */
+  font-family: Montserrat, sans-serif;
+  font-size: 0.75rem !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 1rem !important; /* 133.333% */
+  padding: 8px 24px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--Primary, #3e8a8e) !important;
+  background: var(--Neutral-White, #fff) !important;
+}
+
+.max-w-161 {
+  max-width: 141px;
+}
+
+.min-w-161 {
+  min-width: 141px;
+}
+
+.h-auto {
+  height: auto !important;
+}
+.grid-vereador {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+}
+
+//single
+
+.contenttype-vereadores {
+  .card-default:hover {
+    cursor: default;
+  }
+  .ui.basic.segment.content-area {
+    padding-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.options-vereador-single {
+  display: flex;
+  a {
+    flex: 1;
+  }
+
+  a {
+    padding: 14px 32px;
+    color: var(--Primary, #3e8a8e);
+    text-align: center;
+
+    /* Button & Link/Text Medium */
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    text-decoration: none;
+    border-radius: 0px;
+    border: 1px solid var(--Primary, #3e8a8e);
+    background: var(--Neutral-White, #fff);
+    transition: all ease-in-out 300ms;
+
+    &:hover,
+    &.active {
+      background: var(--Primary, #3e8a8e);
+      color: white;
+    }
+  }
+
+  a:first-child {
+    border-radius: 8px 0px 0px 8px;
+  }
+
+  a + a {
+    border-left: 0px;
+  }
+
+  a:last-child {
+    border-radius: 0px 8px 8px 0px;
+  }
+}
+
+.documentFirstHeading {
+  margin-top: 0px;
+}
+.documentFirstHeading + p {
+  font-size: 18px !important;
+  margin-top: 16px !important;
+}
+.fs-public-sans {
+  font-family: 'Public Sans', sans-serif !important;
+}

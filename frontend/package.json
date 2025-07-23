@@ -35,7 +35,8 @@
   "dependencies": {
     "@plone/volto": "workspace:*",
     "@plone/registry": "workspace:*",
-    "volto-cmcuritiba": "workspace:*"
+    "volto-cmcuritiba": "workspace:*",
+    "volto-mui-blocks": "workspace:*"
   },
   "devDependencies": {
     "mrs-developer": "^2.2.0"
