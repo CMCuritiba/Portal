@@ -3,6 +3,9 @@ name: Docker Build and Push Backend for testing
 on:
   push:
     branches: ["test" ]
+    paths:
+      - "backend/**"
+      - ".github/workflows/test-backend.yml"
   workflow_dispatch:
 
 env:
