@@ -6,12 +6,12 @@ FROM plone/frontend-builder:18.23.0 AS builder
 COPY --chown=node package.json /app/
 COPY --chown=node pnpm-workspace.yaml /app/
 COPY --chown=node volto.config.js /app/
-COPY --chown=node razzle.config.js /app/
 
 # Copiar addons locais
 COPY --chown=node packages/volto-cmcuritiba /app/packages/volto-cmcuritiba
 COPY --chown=node packages/volto-partidos /app/packages/volto-partidos
 COPY --chown=node packages/volto-mui-blocks /app/packages/volto-mui-blocks
+COPY --chown=node packages/volto-dropdownmenu /app/packages/volto-dropdownmenu
 
 RUN --mount=type=cache,id=pnpm,target=/app/.pnpm-store,uid=1000 <<EOT
     set -e
