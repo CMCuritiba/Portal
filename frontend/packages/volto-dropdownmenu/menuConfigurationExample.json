@@ -1,0 +1,219 @@
+[
+  {
+    "rootPath": "/menu-principal",
+    "title": "Menu Principal",
+    "items": [
+      {
+        "title": "Início",
+        "visible": true,
+        "mode": "simpleLink",
+        "linkUrl": ["/inicio"],
+        "submenu": []
+      },
+      {
+        "title": "Institucional",
+        "visible": true,
+        "mode": "dropdown",
+        "navigationRoot": ["/institucional"],
+        "clickableNavigationRoots": true,
+        "showMoreLink": ["/institucional"],
+        "showMoreText": "Ver mais sobre a instituição",
+        "additionalClasses": "institutional-menu",
+        "blocks": {
+          "intro-block": {
+            "@type": "text",
+            "text": {
+              "blocks": [
+                {
+                  "key": "intro",
+                  "text": "Conheça nossa história e valores",
+                  "type": "unstyled",
+                  "depth": 0,
+                  "inlineStyleRanges": [],
+                  "entityRanges": []
+                }
+              ],
+              "entityMap": {}
+            }
+          }
+        },
+        "blocks_layout": {
+          "items": ["intro-block"]
+        },
+        "submenu": [
+          {
+            "title": "História",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/institucional/historia"]
+          },
+          {
+            "title": "Missão e Valores",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/institucional/missao-valores"]
+          },
+          {
+            "title": "Estrutura Organizacional",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/institucional/estrutura"]
+          },
+          {
+            "title": "Site Externo",
+            "visible": true,
+            "mode": "linkExternal",
+            "link_external": "https://example.com"
+          }
+        ]
+      },
+      {
+        "title": "Serviços",
+        "visible": true,
+        "mode": "dropdown",
+        "navigationRoot": ["/servicos"],
+        "clickableNavigationRoots": false,
+        "showMoreLink": ["/servicos"],
+        "showMoreText": "Ver todos os serviços",
+        "additionalClasses": "services-menu",
+        "blocks": {
+          "services-intro": {
+            "@type": "text",
+            "text": {
+              "blocks": [
+                {
+                  "key": "services",
+                  "text": "Nossos principais serviços para a comunidade",
+                  "type": "unstyled",
+                  "depth": 0,
+                  "inlineStyleRanges": [],
+                  "entityRanges": []
+                }
+              ],
+              "entityMap": {}
+            }
+          },
+          "services-list": {
+            "@type": "listing",
+            "title": "Serviços em Destaque",
+            "variation": "default"
+          }
+        },
+        "blocks_layout": {
+          "items": ["services-intro", "services-list"]
+        },
+        "submenu": [
+          {
+            "title": "Atendimento ao Cidadão",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/servicos/atendimento"]
+          },
+          {
+            "title": "Licenças e Permissões",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/servicos/licencas"]
+          },
+          {
+            "title": "Transparência",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/servicos/transparencia"]
+          }
+        ]
+      },
+      {
+        "title": "Notícias",
+        "visible": true,
+        "mode": "simpleLink",
+        "linkUrl": ["/noticias"],
+        "submenu": []
+      },
+      {
+        "title": "Contato",
+        "visible": true,
+        "mode": "simpleLink",
+        "linkUrl": ["/contato"],
+        "submenu": []
+      }
+    ]
+  },
+  {
+    "rootPath": "/menu-secundario",
+    "title": "Menu Secundário",
+    "items": [
+      {
+        "title": "Acesso Rápido",
+        "visible": true,
+        "mode": "dropdown",
+        "navigationRoot": ["/acesso-rapido"],
+        "clickableNavigationRoots": true,
+        "showMoreLink": [],
+        "showMoreText": "",
+        "additionalClasses": "quick-access-menu",
+        "blocks": {
+          "quick-links": {
+            "@type": "text",
+            "text": {
+              "blocks": [
+                {
+                  "key": "quick",
+                  "text": "Links de acesso rápido para serviços essenciais",
+                  "type": "unstyled",
+                  "depth": 0,
+                  "inlineStyleRanges": [],
+                  "entityRanges": []
+                }
+              ],
+              "entityMap": {}
+            }
+          }
+        },
+        "blocks_layout": {
+          "items": ["quick-links"]
+        },
+        "submenu": [
+          {
+            "title": "Portal do Cidadão",
+            "visible": true,
+            "mode": "linkExternal",
+            "link_external": "https://portal.cidadania.gov.br"
+          },
+          {
+            "title": "Ouvidoria",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/ouvidoria"]
+          },
+          {
+            "title": "Denúncias",
+            "visible": true,
+            "mode": "simpleLink",
+            "linkUrl": ["/denuncias"]
+          }
+        ]
+      },
+      {
+        "title": "Área Restrita",
+        "visible": true,
+        "mode": "linkExternal",
+        "link_external": "https://intranet.example.com",
+        "submenu": []
+      }
+    ]
+  },
+  {
+    "rootPath": "/menu-mobile",
+    "title": "Menu Mobile",
+    "items": [
+      {
+        "title": "Menu Principal",
+        "visible": true,
+        "mode": "simpleLink",
+        "linkUrl": ["/"],
+        "submenu": []
+      }
+    ]
+  }
+]

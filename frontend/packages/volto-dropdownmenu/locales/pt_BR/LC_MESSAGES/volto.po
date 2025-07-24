@@ -1,0 +1,182 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#: components/DropdownMenu
+# defaultMessage: Unknown Block {block}
+msgid "Unknown Block"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Add menu path
+msgid "dropdownmenu-add-rootpath"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Additional classes
+msgid "dropdownmenu-additionalClasses"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Additional classes for the item to apply specific styles, accordingly to site layout.
+msgid "dropdownmenu-additionalClassesDescription"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Add menu item
+msgid "dropdownmenu-addmenuitem"
+msgstr "Adicionar item"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Add submenu item
+msgid "dropdownmenu-add-submenu-item"
+msgstr "Adicionar submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Blocks
+msgid "dropdownmenu-blocks"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Add some blocks to show in dropdown menu.
+msgid "dropdownmenu-blocks-description"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Clickable navigation roots
+msgid "dropdownmenu-clickableNavigationRoots"
+msgstr ""
+
+#: components/DropdownMenu
+# defaultMessage: Close menu
+msgid "dropdownmenu-close-menu-button"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Delete
+msgid "dropdownmenu-delete-button"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Delete menu path
+msgid "dropdownmenu-delete-menupath"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Delete menu item
+msgid "dropdownmenu-deletemenuitem"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Delete menu item
+msgid "dropdownmenu-deletemenuitem-button"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Delete submenu item
+msgid "dropdownmenu-delete-submenu-item"
+msgstr "Excluir item de submenu"
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Select a menu item
+msgid "dropdownmenu-emptyActiveMenuItem"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Select a menu path
+msgid "dropdownmenu-emptyActiveMenuPath"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Link
+msgid "dropdownmenu-linkUrl"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Menu items
+msgid "dropdownmenu-menuitems-header"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Mode
+msgid "dropdownmenu-mode"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Dropdown
+msgid "dropdownmenu-mode-dropdown"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Simple link
+msgid "dropdownmenu-mode-simpleLink"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Move menu item down
+msgid "dropdownmenu-move-menuitem-down"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Move menu item up
+msgid "dropdownmenu-move-menuitem-up"
+msgstr "Mover para cima"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Navigation root
+msgid "dropdownmenu-navigationRoot"
+msgstr ""
+
+#: widget/MenuConfigurationWidget
+# defaultMessage: Root path
+msgid "dropdownmenu-rootpath"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: "Show more" link
+msgid "dropdownmenu-showMoreLink"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: "Show more" link text
+msgid "dropdownmenu-showMoreText"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu
+msgid "dropdownmenu-submenu"
+msgstr "Submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Configure level 2 submenu items
+msgid "dropdownmenu-submenu-description"
+msgstr "Configurar itens de submenu de nível 2"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item title
+msgid "dropdownmenu-submenu-item-title"
+msgstr "Título do item de submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Submenu item link
+msgid "dropdownmenu-submenu-item-link"
+msgstr "Link do item de submenu"
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Title
+msgid "dropdownmenu-title"
+msgstr ""
+
+#: widget/MenuConfigurationForm
+# defaultMessage: Visible
+msgid "dropdownmenu-visible"
+msgstr ""

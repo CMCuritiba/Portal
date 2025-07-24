@@ -21,5 +21,10 @@
     "output": "./packages/volto-mui-blocks",
     "package": "volto-mui-blocks",
     "url": "file://./packages/volto-mui-blocks"
+  },
+  "volto-dropdownmenu": {
+    "output": "./packages/volto-dropdownmenu",
+    "package": "volto-dropdownmenu",
+    "url": "file://./packages/volto-dropdownmenu"
   }
 }

@@ -37,6 +37,10 @@
     "@kitconcept/volto-separator-block",
     "@kitconcept/volto-slider-block",
     "@kitconcept/volto-light-theme",
+    "volto-cmcuritiba",
+    "volto-mui-blocks",
+    "volto-partidos",
+    "volto-dropdownmenu",
     "@plone-collective/volto-authomatic"
   ],
   "dependencies": {

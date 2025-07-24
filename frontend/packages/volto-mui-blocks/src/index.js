@@ -42,6 +42,9 @@ import AgendaListBlockEdit from "./components/AgendaListBlock/Edit";
 import NewsThumbnailView from "./components/NewsThumbnail/View";
 import NewsThumbnailEdit from "./components/NewsThumbnail/Edit";
 
+import CarouselBlockView from "./components/CarouselBlock/View";
+import CarouselBlockEdit from "./components/CarouselBlock/Edit";
+
 import NewsAuthorPostDateView from "./components/NewsAuthorPostDate/View";
 import NewsAuthorPostDateEdit from "./components/NewsAuthorPostDate/Edit";
 
@@ -62,7 +65,7 @@ const blockDefinitions = {
   noticiasCategoriaBlock: { title: "Todas as notícias da categoria", view: TodasNoticiasCategoriaBlockView, edit: TodasNoticiasCategoriaBlockEdit },
   cardsSubHomeBlock: { title: "Cards da SubHomes", view: CardsSubHomesBlockView, edit: CardsSubHomesBlockEdit },
   cadsIconsBlock: { title: "Cards com ícones", view: CadsIconsBlockView, edit: CadsIconsBlockEdit },
-  //carouselBlock: { title: "Carousel", view: CarouselBlockView, edit: CarouselBlockEdit },
+  carouselBlock: { title: "Carousel", view: CarouselBlockView, edit: CarouselBlockEdit },
   homeNewsBlock: { title: "Notícias da Home", view: HomeNewsBlockView, edit: HomeNewsBlockEdit },
   agendaListBlock: { title: "Listagem agenda", view: AgendaListBlockView, edit: AgendaListBlockEdit },
   newsThumbnailBlock: { title: "Thumbnail News", view: NewsThumbnailView, edit: NewsThumbnailEdit },

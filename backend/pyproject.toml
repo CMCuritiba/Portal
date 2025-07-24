@@ -29,6 +29,7 @@ dependencies = [
     "plone.volto",
     "pas.plugins.oidc",
     "pas.plugins.keycloakgroups",
+    "collective.volto.dropdownmenu",
 ]
 
 [project.optional-dependencies]

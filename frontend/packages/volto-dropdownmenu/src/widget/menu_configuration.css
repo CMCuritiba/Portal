@@ -1,0 +1,859 @@
+/* WordPress-style Menu Widget */
+
+.wordpress-menu-widget {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* Header */
+.menu-widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #ddd;
+  background: #f9f9f9;
+}
+
+.menu-widget-title h2 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #23282d;
+}
+
+.menu-widget-title .description {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.menu-widget-actions .ui.button {
+  background: #0073aa;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.menu-widget-actions .ui.button:hover {
+  background: #005a87;
+}
+
+/* Main Content */
+.menu-widget-content {
+  display: flex;
+  min-height: 600px;
+}
+
+/* Left Panel - Menu Structure */
+.menu-structure-panel {
+  flex: 0 0 280px;
+  border-right: 1px solid #eee;
+  background: #fafbfc;
+}
+
+.panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #23282d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-list {
+  padding: 0;
+}
+
+.menu-group {
+  margin: 0;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-header.active {
+  background: #e6f0fa;
+  color: #0073aa;
+  justify-content: space-between;
+}
+
+.menu-header.active .menu-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-actions {
+  pointer-events: none;
+}
+
+.menu-header .ui.icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.menu-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* Ocultar ações por padrão */
+.menu-actions,
+.item-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.submenu-item:hover .item-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Remover opacity padrão de .submenu-item .item-actions */
+.submenu-item .item-actions {
+  opacity: 0;
+}
+
+/* Garantir que regras antigas não afetam o novo padrão */
+.submenu-item-actions,
+.wordpress-style-submenu .submenu-item-actions {
+  opacity: 1 !important;
+  display: none !important;
+}
+
+.menu-actions .ui.button,
+.item-actions .ui.button {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 4px;
+  font-size: 15px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #444 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu-actions .ui.button:hover,
+.item-actions .ui.button:hover {
+  background: #e6f0fa !important;
+  color: #0073aa !important;
+}
+
+.menu-actions .ui.button.negative,
+.item-actions .ui.button.negative {
+  color: #c00 !important;
+}
+.menu-actions .ui.button.negative:hover,
+.item-actions .ui.button.negative:hover {
+  background: #ffeaea !important;
+  color: #c00 !important;
+}
+
+.menu-items {
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+}
+
+.menu-item, .submenu-item {
+  /* display: flex; */
+  margin-bottom: 0px;
+  align-items: center;
+  padding: 7px 16px 7px 24px;
+  background: #fff;
+  border-bottom: 1px solid #f4f4f4;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.menu-item.active, .submenu-item.active {
+  background: #f0f6fa;
+  color: #0073aa;
+}
+
+.menu-item .item-content, .submenu-item .item-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 6px;
+}
+
+.menu-item .item-title, .submenu-item .item-title {
+  font-weight: 500;
+  color: #222;
+}
+
+.item-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.add-item-button {
+  margin: 8px 0 0 0 !important;
+  background: #f8fafd !important;
+  border: 1px dashed #c7d5d8 !important;
+  color: #0073aa !important;
+  font-size: 13px !important;
+  padding: 7px 0 !important;
+  border-radius: 3px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.add-item-button:hover {
+  background: #e6f0fa !important;
+  color: #005a87 !important;
+}
+
+.add-item-button svg {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Right Panel - Settings */
+.menu-settings-panel {
+  flex: 1;
+  background: #fff;
+  padding: 0;
+}
+
+.settings-content {
+  padding: 24px;
+}
+
+.settings-section {
+  margin-bottom: 32px;
+}
+
+.settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.settings-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #23282d;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.settings-form {
+  background: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #23282d;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #0073aa;
+  box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  text-align: center;
+  color: #666;
+}
+
+.empty-state .ui.icon {
+  margin-bottom: 16px;
+  color: #ddd;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .menu-widget-content {
+    flex-direction: column;
+  }
+
+  .menu-structure-panel {
+    flex: none;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .menu-settings-panel {
+    flex: none;
+  }
+
+  .menu-widget-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .menu-widget-actions {
+    align-self: stretch;
+  }
+
+  .menu-widget-actions .ui.button {
+    width: 100%;
+  }
+}
+
+/* WordPress-style Form Elements */
+.wordpress-menu-widget .ui.form .field {
+  margin-bottom: 16px;
+}
+
+.wordpress-menu-widget .ui.form .field label {
+  font-weight: 500;
+  color: #23282d;
+  margin-bottom: 6px;
+}
+
+.wordpress-menu-widget .ui.form .field input,
+.wordpress-menu-widget .ui.form .field select,
+.wordpress-menu-widget .ui.form .field textarea {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.wordpress-menu-widget .ui.form .field input:focus,
+.wordpress-menu-widget .ui.form .field select:focus,
+.wordpress-menu-widget .ui.form .field textarea:focus {
+  outline: none;
+  border-color: #0073aa;
+  box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* WordPress-style Buttons */
+.wordpress-menu-widget .ui.button {
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: all 0.2s;
+}
+
+.wordpress-menu-widget .ui.button.primary {
+  background: #0073aa;
+  color: #fff;
+  border: none;
+}
+
+.wordpress-menu-widget .ui.button.primary:hover {
+  background: #005a87;
+}
+
+.wordpress-menu-widget .ui.button.negative {
+  background: #a00;
+  color: #fff;
+  border: none;
+}
+
+.wordpress-menu-widget .ui.button.negative:hover {
+  background: #8a0000;
+}
+
+/* WordPress-style Menu Form */
+.wordpress-menu-form {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.wordpress-menu-form .form-section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.wordpress-menu-form .form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.wordpress-menu-form .form-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #23282d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wordpress-menu-form .form-fields {
+  background: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.wordpress-menu-form .help {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.wordpress-menu-form .ui.form .field {
+  margin-bottom: 16px;
+}
+
+.wordpress-menu-form .ui.form .field:last-child {
+  margin-bottom: 0;
+}
+
+.wordpress-menu-form .ui.form .field label {
+  font-weight: 500;
+  color: #23282d;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.wordpress-menu-form .ui.form .field input,
+.wordpress-menu-form .ui.form .field select,
+.wordpress-menu-form .ui.form .field textarea {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.wordpress-menu-form .ui.form .field input:focus,
+.wordpress-menu-form .ui.form .field select:focus,
+.wordpress-menu-form .ui.form .field textarea:focus {
+  outline: none;
+  border-color: #0073aa;
+  box-shadow: 0 0 0 1px #0073aa;
+}
+
+.wordpress-menu-form .ui.checkbox {
+  font-size: 13px;
+}
+
+.wordpress-menu-form .ui.checkbox label {
+  color: #23282d;
+  font-weight: 500;
+}
+
+.wordpress-menu-form .ui.radio.checkbox {
+  margin-bottom: 8px;
+}
+
+.wordpress-menu-form .ui.radio.checkbox:last-child {
+  margin-bottom: 0;
+}
+
+/* Menu Blocks Container */
+.wordpress-menu-form .menu-blocks-container {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+/* Submenu Styles (mantidos do original) */
+.submenu-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.submenu-header {
+  margin-bottom: 0.5rem !important;
+  color: #333;
+}
+
+.submenu-items-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu-item-form {
+  width: 100%;
+  margin: 0 0 1.2rem 0;
+  box-sizing: border-box;
+  background: #fafbfc;
+  padding: 1.2rem 1.2rem 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid #ececec;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.submenu-item-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.submenu-item-field {
+  width: 100%;
+  margin-bottom: 0.1rem;
+}
+
+.submenu-item-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 90px;
+}
+
+.submenu-item-actions .ui.button {
+  background: #fff !important;
+  color: #e6007a !important;
+  border: 1px solid #e6007a !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+.submenu-item-actions .ui.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.submenu-item-actions .ui.button:not(:disabled):hover {
+  background: #e6007a !important;
+  color: #fff !important;
+}
+
+.submenu-item-form label {
+  font-size: 0.97em;
+  color: #666;
+  margin-bottom: 0.2em;
+  font-weight: 500;
+}
+
+.submenu-item-form input,
+.submenu-item-form select {
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #ececec;
+  font-size: 1em;
+  padding: 0.6em 0.8em;
+  box-shadow: none;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.submenu-item-form input:focus,
+.submenu-item-form select:focus {
+  border: 1.5px solid #e6007a;
+}
+
+.add-submenu-item-button {
+  background: #0073aa !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 500;
+  transition: background 0.2s;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-item .item-title {
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;      /* Limita a 2 linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.add-submenu-item-button {
+
+}
+
+.submenu-section .ui.header.submenu-header {
+  color: #e6007a !important;
+  font-size: 1.18em !important;
+  margin-bottom: 0.5em !important;
+  font-weight: 700;
+}
+
+.submenu-section .help {
+  color: #888;
+  margin-bottom: 1em;
+  font-size: 0.98em;
+}
+
+.item-actions {
+  opacity: 0;
+}
+@media (max-width: 899px) {
+  .submenu-item-header-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}
+
+.wordpress-style-submenu {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  padding: 18px 18px 12px 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.wordpress-style-submenu .submenu-item-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.wordpress-style-submenu .submenu-item-field {
+  margin-bottom: 0.2rem;
+}
+
+.wordpress-style-submenu .submenu-item-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 90px;
+}
+
+.wordpress-style-submenu .submenu-item-actions .ui.button {
+  background: #fff;
+  color: #e6007a;
+  border: 1.5px solid #e6007a;
+  border-radius: 6px;
+  box-shadow: none;
+  padding: 4px 8px;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.wordpress-style-submenu .submenu-item-actions .ui.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.wordpress-style-submenu .submenu-item-actions .ui.button:not(:disabled):hover {
+  background: #e6007a;
+  color: #fff;
+  border-color: #e6007a;
+}
+
+.wordpress-style-submenu .submenu-item-actions .ui.button.negative {
+  border-color: #a00;
+  color: #a00;
+}
+
+.wordpress-style-submenu .submenu-item-actions .ui.button.negative:hover {
+  background: #a00;
+  color: #fff;
+  border-color: #a00;
+}
+
+.wordpress-style-submenu label {
+  font-size: 13px;
+  color: #23282d;
+  font-weight: 500;
+  margin-bottom: 0.2em;
+}
+
+.wordpress-style-submenu input,
+.wordpress-style-submenu select {
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #ececec;
+  font-size: 1em;
+  padding: 0.6em 0.8em;
+  box-shadow: none;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.wordpress-style-submenu input:focus,
+.wordpress-style-submenu select:focus {
+  border: 1.5px solid #0073aa;
+}
+
+@media (max-width: 899px) {
+  .wordpress-style-submenu .submenu-item-header-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}
+
+/* Submenu Items */
+.submenu-items {
+  border-left: 2px solid #e0e7ef;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.menu-item.active .item-flex > .item-actions, .submenu-item.active > .item-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.title-flex {
+  display: flex;
+  align-items: center;
+  gap:16px;
+}
+.item-flex {
+  display:flex;
+  align-items: center;
+  gap:16px;
+  justify-content: space-between;
+  width: 100%;
+}
+.submenu-item {
+  margin-bottom: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  background: #f7fafd;
+  border: none;
+  display: flex;
+  gap: 16px;
+  padding: 8px;
+}
+
+.submenu-item:hover {
+  background: #e6f0fa;
+}
+
+.submenu-item .item-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 5px;
+}
+
+.submenu-indent {
+  width: 10px;
+  height: 1px;
+  background: #b3d4fc;
+  margin-right: 6px;
+}
+
+.submenu-item .item-title {
+  color: #444;
+  font-weight: 400;
+}
+
+.submenu-item .item-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.submenu-item:hover .item-actions {
+  opacity: 1;
+}
+
+.submenu-item .ui.button.mini {
+  padding: 0 4px;
+  font-size: 13px;
+  min-width: 24px;
+  height: 24px;
+}
+
+/* Botão de adicionar submenu mais flat */
+.menu-item .item-actions button:first-child {
+  color: #28a745 !important;
+  background: none !important;
+  border: none !important;
+}
+.menu-item .item-actions button:first-child:hover {
+  background: #eafbe7 !important;
+  color: #218838 !important;
+}

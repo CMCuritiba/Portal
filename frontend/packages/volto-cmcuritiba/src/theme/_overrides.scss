@@ -159,7 +159,6 @@ html {
 }
 
 body {
-  background: var(--Gray-50, #F9FAFB);
 }
 
 .button-primary {
@@ -1505,4 +1504,8 @@ blockquote {
   background-size: cover !important;
   width: 64px;
   height: 64px;
+}
+
+body #page-document {
+  background:transparent;
 }

@@ -22,6 +22,7 @@
     "release-rc": "release-it --preRelease=rc"
   },
   "dependencies": {
+    "react-multi-carousel": "^2.8.6",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@material-ui/core": "next",
