@@ -61,10 +61,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: |
-            ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
-            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ inputs.image-name-prefix }}-${{ inputs.image-name-suffix }}:${{ inputs.base-tag }}
+            org.label-schema.docker.cmd=docker run -d -p 8080:8080 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
           flavor:
             latest=false
           tags: |
