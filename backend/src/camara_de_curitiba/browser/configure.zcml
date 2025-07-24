@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="camara_de_curitiba"
+    >
+
+  <!-- Publish static files -->
+  <plone:static
+      directory="static"
+      name="camara_de_curitiba"
+      type="plone"
+      />
+</configure>

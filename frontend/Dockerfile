@@ -1,24 +1,26 @@
 # syntax=docker/dockerfile:1
-ARG VOLTO_VERSION
-FROM plone/frontend-builder:${VOLTO_VERSION} AS builder
+ARG VOLTO_VERSION=18.23.0
+FROM plone/frontend-builder:18.23.0 AS builder
 
-COPY --chown=node packages/volto-cmcuritiba /app/packages/volto-cmcuritiba
-COPY --chown=node volto.config.js /app/
-COPY --chown=node package.json /app/package.json.temp
-COPY --chown=node mrs.developer.json /app/
+# Copiar todos os arquivos necessários primeiro
+COPY --chown=node package.json /app/
 COPY --chown=node pnpm-workspace.yaml /app/
+COPY --chown=node volto.config.js /app/
+COPY --chown=node razzle.config.js /app/
+
+# Copiar addons locais
+COPY --chown=node packages/volto-cmcuritiba /app/packages/volto-cmcuritiba
+COPY --chown=node packages/volto-partidos /app/packages/volto-partidos
+COPY --chown=node packages/volto-mui-blocks /app/packages/volto-mui-blocks
 
 RUN --mount=type=cache,id=pnpm,target=/app/.pnpm-store,uid=1000 <<EOT
     set -e
-    python3 -c "import json; orig_data = json.load(open('package.json.temp')); orig_deps = orig_data['dependencies']; data = json.load(open('package.json')); data['dependencies'].update(orig_deps); json.dump(data, open('package.json', 'w'), indent=2)"
-    rm package.json.temp
-    pnpm dlx mrs-developer missdev --no-config --fetch-https
     pnpm install && pnpm build:deps
     pnpm build
     pnpm install --prod
 EOT
 
-FROM plone/frontend-prod-config:${VOLTO_VERSION}
+FROM plone/frontend-prod-config:18.23.0
 
 LABEL maintainer="Digigroup e DTIC <vinicius@digigroup.com.br>" \
       org.label-schema.name="cmcuritiba-frontend" \

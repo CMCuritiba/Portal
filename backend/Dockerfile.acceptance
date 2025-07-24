@@ -25,12 +25,12 @@ EOT
 FROM plone/server-acceptance:${PLONE_VERSION}
 
 LABEL maintainer="Digigroup e DTIC <vinicius@digigroup.com.br>" \
-      org.label-schema.name="cmcuritiba-acceptance" \
+      org.label-schema.name="camara_de_curitiba-acceptance" \
       org.label-schema.description="Câmara de Curitiba backend acceptance image." \
       org.label-schema.vendor="Digigroup e DTIC"
 
-ENV CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,cmcuritiba"
-ENV APPLY_PROFILES="cmcuritiba:default"
+ENV CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,camara_de_curitiba"
+ENV APPLY_PROFILES="camara_de_curitiba:default"
 
 # Copy /app from builder
 COPY --from=builder /app /app

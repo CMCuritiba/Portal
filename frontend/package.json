@@ -1,5 +1,5 @@
 {
-  "name": "volto-cmcuritiba-dev",
+  "name": "volto-cmcuritiba",
   "version": "1.0.0-alpha.5",
   "description": "Câmara de Curitiba em Plone",
   "author": "Digigroup e DTIC",
@@ -35,9 +35,9 @@
   "dependencies": {
     "@plone/volto": "workspace:*",
     "@plone/registry": "workspace:*",
-    "volto-cmcuritiba": "workspace:*",
-    "volto-mui-blocks": "workspace:*",
-    "volto-partidos": "workspace:*"
+    "volto-cmcuritiba": "file:./packages/volto-cmcuritiba",
+    "volto-partidos": "file:./packages/volto-partidos",
+    "volto-mui-blocks": "file:./packages/volto-mui-blocks"
   },
   "devDependencies": {
     "mrs-developer": "^2.2.0"

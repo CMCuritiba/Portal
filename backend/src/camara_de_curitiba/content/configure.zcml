@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n:domain="camara_de_curitiba"
+    >
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Vereador"
+      description="Instala o tipo de conteúdo Vereador"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      />
+
+  <adapter
+      factory=".vereador.NameFromTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
+      for=".vereador.IVereador"
+      />
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.vereador_added"
+      />
+
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.event_added"
+      />
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.editoria_added"
+      />
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".events.noticia_added_modified"
+      />
+
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".events.noticia_added_modified"
+      />
+
+  <adapter
+      factory=".adapters.PartidoRedirect"
+      provides=".adapters.IPartidoRedirect"
+      for="plone.dexterity.interfaces.IDexterityFTI
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      name="partido"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.editorias"
+      component=".behaviors.EditoriasVocabulary"
+      />
+
+  <plone:behavior
+      name="camara_de_curitiba.editoria"
+      title="Editoria"
+      description="Permite vincular uma notícia a uma editoria"
+      provides=".behaviors.IEditoriaBehavior"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <utility
+      provides="plone.app.dexterity.interfaces.ITypeSettings"
+      name="vereador"
+      component=".vereador.IVereador"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.partidos"
+      component=".vocabularies.partidos_vocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.news_items"
+      component=".vocabularies.NewsItemsVocabularyFactory"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.cores"
+      component=".vocabularies.CoresVocabulary"
+      />
+
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="camara_de_curitiba.noticias_filhas"
+      component=".editoria.NoticiasFilhasVocabulary"
+      />
+
+  <browser:page
+      name="vereador"
+      for=".vereador.IVereador"
+      class="plone.dexterity.browser.view.DefaultView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="add"
+      for="*"
+      class=".views.AddPartidoView"
+      permission="cmf.AddPortalContent"
+      layer="zope.interface.Interface"
+      />
+
+</configure>

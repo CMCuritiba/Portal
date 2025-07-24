@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <records interface="camara_de_curitiba.controlpanel.legislaturas.controlpanel.ILegislaturasSettings" />
+</registry>

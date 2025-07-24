@@ -1,6 +1,6 @@
-from cmcuritiba.testing import ACCEPTANCE_TESTING
-from cmcuritiba.testing import FUNCTIONAL_TESTING
-from cmcuritiba.testing import INTEGRATION_TESTING
+from camara_de_curitiba.testing import ACCEPTANCE_TESTING
+from camara_de_curitiba.testing import FUNCTIONAL_TESTING
+from camara_de_curitiba.testing import INTEGRATION_TESTING
 from pytest_plone import fixtures_factory
 
 

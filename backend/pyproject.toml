@@ -1,5 +1,5 @@
 [project]
-name = "cmcuritiba"
+name = "camara_de_curitiba"
 dynamic = ["version"]
 description = "Câmara de Curitiba em Plone"
 readme = "README.md"
@@ -42,10 +42,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/cmcuritiba/cmcuritiba"
-PyPI = "https://pypi.org/project/cmcuritiba"
-Source = "https://github.com/cmcuritiba/cmcuritiba"
-Tracker = "https://github.com/cmcuritiba/cmcuritiba/issues"
+Homepage = "https://github.com/camara_de_curitiba/camara_de_curitiba"
+PyPI = "https://pypi.org/project/camara_de_curitiba"
+Source = "https://github.com/camara_de_curitiba/camara_de_curitiba"
+Tracker = "https://github.com/camara_de_curitiba/camara_de_curitiba/issues"
 
 
 [project.entry-points."plone.autoinclude.plugin"]
@@ -55,7 +55,7 @@ target = "plone"
 managed = false
 
 [tool.hatch.version]
-path = "src/cmcuritiba/__init__.py"
+path = "src/camara_de_curitiba/__init__.py"
 
 [build-system]
 requires = ["hatchling"]
@@ -70,7 +70,7 @@ exclude = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/cmcuritiba"]
+packages = ["src/camara_de_curitiba"]
 
 [tool.towncrier]
 directory = "news/"
@@ -78,7 +78,7 @@ filename = "CHANGELOG.md"
 start_string = "<!-- towncrier release notes start -->\n"
 title_format = "## {version} ({project_date})"
 template = "news/.changelog_template.jinja"
-issue_format = "[#{issue}](https://github.com/cmcuritiba/cmcuritiba/issues/{issue})"
+issue_format = "[#{issue}](https://github.com/camara_de_curitiba/Portal/issues/{issue})"
 underlines = ["", "", ""]
 
 [[tool.towncrier.type]]
@@ -175,9 +175,9 @@ ignore = [
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source_pkgs = ["cmcuritiba", "tests"]
+source_pkgs = ["camara_de_curitiba", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/cmcuritiba/locales/*.py",
+  "src/camara_de_curitiba/locales/*.py",
 ]

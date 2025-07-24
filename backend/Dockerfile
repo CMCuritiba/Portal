@@ -25,7 +25,7 @@ EOT
 FROM plone/server-prod-config:${PLONE_VERSION}
 
 LABEL maintainer="Digigroup e DTIC <vinicius@digigroup.com.br>" \
-      org.label-schema.name="cmcuritiba-backend" \
+      org.label-schema.name="camara_de_curitiba-backend" \
       org.label-schema.description="Câmara de Curitiba backend image." \
       org.label-schema.vendor="Digigroup e DTIC"
 

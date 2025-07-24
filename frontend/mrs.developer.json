@@ -6,5 +6,20 @@
     "https": "https://github.com/plone/volto.git",
     "tag": "18.23.0",
     "filterBlobs": true
+  },
+  "volto-cmcuritiba": {
+    "output": "./packages/volto-cmcuritiba",
+    "package": "volto-cmcuritiba",
+    "url": "file://./packages/volto-cmcuritiba"
+  },
+  "volto-partidos": {
+    "output": "./packages/volto-partidos",
+    "package": "volto-partidos",
+    "url": "file://./packages/volto-partidos"
+  },
+  "volto-mui-blocks": {
+    "output": "./packages/volto-mui-blocks",
+    "package": "volto-mui-blocks",
+    "url": "file://./packages/volto-mui-blocks"
   }
 }

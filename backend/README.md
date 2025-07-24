@@ -1,4 +1,4 @@
-# cmcuritiba
+# camara_de_curitiba
 
 Câmara de Curitiba em Plone
 
@@ -8,10 +8,10 @@ TODO: List our awesome features
 
 ## Installation
 
-Install cmcuritiba with uv.
+Install camara_de_curitiba with uv.
 
 ```shell
-uv add cmcuritiba
+uv add camara_de_curitiba
 ```
 
 Create the Plone site.
@@ -22,8 +22,8 @@ make create-site
 
 ## Contribute
 
-- [Issue tracker](https://github.com/cmcuritiba/cmcuritiba/issues)
-- [Source code](https://github.com/cmcuritiba/cmcuritiba/)
+- [Issue tracker](https://github.com/camara_de_curitiba/camara_de_curitiba/issues)
+- [Source code](https://github.com/camara_de_curitiba/camara_de_curitiba/)
 
 ### Prerequisites ✅
 
@@ -38,8 +38,8 @@ make create-site
 1.  Clone this repository.
 
     ```shell
-    git clone git@github.com:cmcuritiba/cmcuritiba.git
-    cd cmcuritiba/backend
+    git clone git@github.com:camara_de_curitiba/camara_de_curitiba.git
+    cd camara_de_curitiba/backend
     ```
 
 2.  Install this code base.

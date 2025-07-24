@@ -15,7 +15,7 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
-IMAGE_NAME_PREFIX=ghcr.io/cmcuritiba/cmcuritiba
+IMAGE_NAME_PREFIX=ghcr.io/camara_de_curitiba/camara_de_curitiba
 IMAGE_TAG=latest
 
 # Python checks
@@ -29,7 +29,7 @@ endif
 PLONE_SITE_ID=Plone
 BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 PLONE_VERSION=$(shell cat $(BACKEND_FOLDER)/version.txt)
-EXAMPLE_CONTENT_FOLDER=${BACKEND_FOLDER}/src/cmcuritiba/setuphandlers/examplecontent
+EXAMPLE_CONTENT_FOLDER=${BACKEND_FOLDER}/src/camara_de_curitiba/setuphandlers/examplecontent
 
 VENV_FOLDER=$(BACKEND_FOLDER)/.venv
 export VIRTUAL_ENV=$(VENV_FOLDER)
@@ -121,7 +121,7 @@ format: ## Check and fix code base according to Plone standards
 .PHONY: i18n
 i18n: $(VENV_FOLDER) ## Update locales
 	@echo "$(GREEN)==> Updating locales$(RESET)"
-	@$(BIN_FOLDER)/python -m cmcuritiba.locales
+	@$(BIN_FOLDER)/python -m camara_de_curitiba.locales
 
 # Tests
 .PHONY: test
@@ -130,7 +130,7 @@ test: $(VENV_FOLDER) ## run tests
 
 .PHONY: test-coverage
 test-coverage: $(VENV_FOLDER) ## run tests with coverage
-	@$(BIN_FOLDER)/pytest --cov=cmcuritiba --cov-report term-missing
+	@$(BIN_FOLDER)/pytest --cov=camara_de_curitiba --cov-report term-missing
 
 # Build Docker images
 .PHONY: build-image
@@ -140,7 +140,7 @@ build-image:  ## Build Docker Images
 # Acceptance tests
 .PHONY: acceptance-backend-start
 acceptance-backend-start: ## Start backend acceptance server
-	ZSERVER_HOST=0.0.0.0 ZSERVER_PORT=55001 LISTEN_PORT=55001 APPLY_PROFILES="cmcuritiba:default" CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,cmcuritiba" $(BIN_FOLDER)/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+	ZSERVER_HOST=0.0.0.0 ZSERVER_PORT=55001 LISTEN_PORT=55001 APPLY_PROFILES="camara_de_curitiba:default" CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,camara_de_curitiba" $(BIN_FOLDER)/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
 
 .PHONY: acceptance-image-build
 acceptance-image-build:  ## Build Docker Images

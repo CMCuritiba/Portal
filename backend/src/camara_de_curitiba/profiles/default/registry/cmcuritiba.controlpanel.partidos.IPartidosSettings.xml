@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <records interface="camara_de_curitiba.controlpanel.partidos.IPartidosSettings"
+           prefix="camara_de_curitiba.partidos"
+  >
+    <value key="partidos"
+           purge="false"
+    >
+      <!-- Inicialmente vazio -->
+    </value>
+  </records>
+</registry>

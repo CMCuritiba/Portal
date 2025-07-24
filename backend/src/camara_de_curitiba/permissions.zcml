@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="camara_de_curitiba"
+    >
+
+  <configure zcml:condition="installed AccessControl.security">
+    <!-- -*- extra stuff goes here -*- -->
+
+    <permission
+        id="camara_de_curitiba.AddEditoria"
+        title="camara_de_curitiba: Add Editoria"
+        />
+
+
+    <permission
+        id="camara_de_curitiba.AddVereador"
+        title="camara_de_curitiba: Add Vereador"
+        />
+
+
+  </configure>
+
+</configure>
