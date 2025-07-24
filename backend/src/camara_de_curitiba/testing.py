@@ -8,7 +8,6 @@ from plone.testing.zope import WSGI_SERVER_FIXTURE
 
 import camara_de_curitiba
 
-
 class Layer(PloneSandboxLayer):
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 

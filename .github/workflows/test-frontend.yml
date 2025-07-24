@@ -9,10 +9,9 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME_PREFIX: ${{ github.repository }}/frontend
   IMAGE_NAME_SUFFIX: test
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/backend
+  IMAGE_NAME: ${{ github.repository }}/frontend
   NODE_VERSION: 20.x
 
 defaults:
