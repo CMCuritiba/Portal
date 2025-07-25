@@ -20,12 +20,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -277,20 +271,6 @@ jobs:
           else
             echo "⚠️ Changelog não encontrado!"
           fi
-          
-          echo "🔍 Verificando se Node.js/npm está disponível..."
-          node --version || echo "⚠️ Node.js não encontrado"
-          npm --version || echo "⚠️ npm não encontrado"
-          
-          echo "🔍 Verificando arquivos de lock..."
-          ls -la package-lock.json || echo "⚠️ package-lock.json não encontrado"
-          ls -la frontend/pnpm-lock.yaml || echo "⚠️ pnpm-lock.yaml não encontrado"
-          ls -la frontend/package-lock.json || echo "⚠️ frontend/package-lock.json não encontrado"
-          
-          echo "🔍 Verificando diretório de trabalho..."
-          echo "PWD: $(pwd)"
-          echo "Conteúdo do diretório:"
-          ls -la | head -10
           
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
