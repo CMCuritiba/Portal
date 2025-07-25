@@ -196,19 +196,27 @@ jobs:
           echo "📋 Fragments criados:"
           find news -name "*.md" -type f
 
-      - name: Generate changelog
+      - name: Generate changelog with RepoPlone
         run: |
-          echo "📝 Gerando changelog..."
+          echo "📝 Gerando changelog com RepoPlone..."
           
           # Verificar se há fragments antes de gerar changelog
           if [ -d "news" ] && [ "$(ls -A news)" ]; then
             echo "✅ Fragments encontrados, gerando changelog..."
             uvx repoplone changelog
+            echo "✅ Changelog gerado com sucesso!"
           else
             echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
             mkdir -p news/feature
-            echo "Nova funcionalidade adicionada" > news/feature/001-test-feature.md
+            echo "Atualização de versão automática" > news/feature/001-version-update.md
             uvx repoplone changelog
+            echo "✅ Changelog gerado com fragment padrão!"
+          fi
+          
+          # Mostrar o changelog gerado
+          echo "📋 Conteúdo do changelog:"
+          if [ -f "CHANGELOG.md" ]; then
+            tail -20 CHANGELOG.md
           fi
 
       - name: Create release with RepoPlone
@@ -242,15 +250,13 @@ jobs:
           # Debug: mostrar comando completo
           echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
           
-          # Verificar se há fragments de notícias
-          echo "🔍 Verificando fragments de notícias..."
-          if [ -d "news" ] && [ "$(ls -A news)" ]; then
-            echo "✅ Fragments encontrados:"
-            find news -name "*.md" -type f
+          # Verificar se o changelog foi gerado
+          echo "🔍 Verificando changelog gerado..."
+          if [ -f "CHANGELOG.md" ]; then
+            echo "✅ Changelog encontrado:"
+            tail -5 CHANGELOG.md
           else
-            echo "⚠️ Nenhum fragment encontrado, criando um..."
-            mkdir -p news/feature
-            echo "Nova funcionalidade adicionada" > news/feature/001-test-feature.md
+            echo "⚠️ Changelog não encontrado!"
           fi
           
           # Criar release usando RepoPlone com segmento
