@@ -42,12 +42,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Setup GitHub CLI
+      - name: Setup GitHub Token
         run: |
-          gh --version
-          echo "✅ GitHub CLI está disponível"
-          echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
-          echo "✅ GitHub CLI autenticado"
+          echo "🔑 Configurando GitHub Token..."
+          echo "GH_TOKEN configurado: ${GH_TOKEN:0:10}..."
+          echo "✅ GitHub Token configurado"
 
       - name: Check current versions (RepoPlone style)
         run: |
@@ -221,12 +220,18 @@ jobs:
           # Ler changelog
           CHANGELOG_CONTENT=$(cat CHANGELOG.md)
           
-          # Criar release no GitHub
-          gh release create "$TAG_NAME" \
-            --title "Release $TAG_NAME (Test)" \
-            --notes "$CHANGELOG_CONTENT" \
-            --target test \
-            --prerelease
+          # Criar release usando API do GitHub
+          curl -X POST \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/releases \
+            -d "{
+              \"tag_name\": \"$TAG_NAME\",
+              \"name\": \"Release $TAG_NAME (Test)\",
+              \"body\": \"$CHANGELOG_CONTENT\",
+              \"target_commitish\": \"test\",
+              \"prerelease\": true
+            }"
           
           echo "✅ GitHub Release criado: $TAG_NAME"
 
