@@ -30,83 +30,20 @@ jobs:
           uvx repoplone --version
           pip install towncrier
 
-      - name: Create lock file for RepoPlone
-        run: |
-          echo "📦 Criando arquivo de lock para satisfazer RepoPlone..."
-          echo "🔍 Diretório atual: $(pwd)"
-          echo "🔍 Conteúdo do diretório:"
-          ls -la
-          
-          # Criar package-lock.json no diretório raiz
-          echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
-          echo "✅ package-lock.json criado no raiz"
-          
-          # Também criar no frontend se necessário
-          echo '{"lockfileVersion": 1, "dependencies": {}}' > frontend/package-lock.json
-          echo "✅ package-lock.json criado no frontend"
-          
-          echo "🔍 Verificando arquivos criados:"
-          ls -la package-lock.json
-          ls -la frontend/package-lock.json
-
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Analyze commits for version bump
-        run: |
-          echo "🔍 Analisando commits para determinar tipo de incremento..."
-          echo "📋 Tipos de Conventional Commits suportados:"
-          echo "   • feat: Nova funcionalidade (MINOR)"
-          echo "   • fix: Correção de bug (PATCH)"
-          echo "   • refactor: Refatoração sem mudança de comportamento (PATCH)"
-          echo "   • perf: Melhoria de performance (PATCH)"
-          echo "   • build: Alterações no build (PATCH)"
-          echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
-          echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
-
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          if [ -n "$LAST_TAG" ]; then
-            echo "Última tag: $LAST_TAG"
-            COMMITS=$(git log --oneline $LAST_TAG..HEAD)
-          else
-            echo "Nenhuma tag encontrada, analisando todos os commits"
-            COMMITS=$(git log --oneline)
-          fi
-          echo "Commits analisados:"
-          echo "$COMMITS"
-          echo "🔍 Analisando padrões nos commits..."
-          echo "Commits com 'fix:': $(echo "$COMMITS" | grep -c "fix:")"
-          echo "Commits com 'feat:': $(echo "$COMMITS" | grep -c "feat:")"
-          echo "Commits com 'refactor:': $(echo "$COMMITS" | grep -c "refactor:")"
-          echo "Commits com 'perf:': $(echo "$COMMITS" | grep -c "perf:")"
-          echo "Commits com 'build:': $(echo "$COMMITS" | grep -c "build:")"
-          echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
-
-          VERSION_BUMP="patch"
-          if echo "$COMMITS" | grep -q "BREAKING CHANGE\|!:"; then
-            VERSION_BUMP="major"
-            echo "🔴 Breaking change detectado - MAJOR increment"
-          elif echo "$COMMITS" | grep -q "feat:"; then
-            VERSION_BUMP="minor"
-            echo "🟡 Feature detectada - MINOR increment"
-          elif echo "$COMMITS" | grep -q "fix:\|refactor:\|perf:"; then
-            VERSION_BUMP="patch"
-            echo "🟢 Fix/Refactor/Perf detectado - PATCH increment"
-          elif echo "$COMMITS" | grep -q "build:"; then
-            VERSION_BUMP="patch"
-            echo "🔧 Build detectado - PATCH increment (pode afetar versão de build)"
-          else
-            echo "⚪ Nenhum tipo específico detectado - PATCH increment (padrão)"
-          fi
-          echo "Tipo de incremento: $VERSION_BUMP"
-          echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
-          echo "✅ VERSION_BUMP exportado: $VERSION_BUMP"
-
       - name: Create news fragments with towncrier create
         run: |
           echo "📝 Criando fragments usando towncrier create..."
+          
+          # Criar diretórios para fragments
+          mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
+          mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
+          
+          # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -n "$LAST_TAG" ]; then
             echo "Última tag: $LAST_TAG"
@@ -115,194 +52,48 @@ jobs:
             echo "Nenhuma tag encontrada, analisando todos os commits"
             COMMITS=$(git log --oneline)
           fi
-
-          # Criar diretórios para fragments
-          mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
-          mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
-
+          
           # Processar cada commit e criar fragments usando towncrier create
           echo "$COMMITS" | while IFS= read -r commit; do
-            COMMIT_HASH=$(echo "$commit" | cut -d' ' -f1)
             COMMIT_MSG=$(echo "$commit" | cut -d' ' -f2-)
-
+            
             echo "📝 Processando commit: $commit"
-
+            
             # Determinar tipo de fragment baseado na mensagem do commit
             if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE\|!:"; then
               FRAGMENT_TYPE="breaking"
-              echo "🔴 Criando fragment breaking para: $COMMIT_MSG"
             elif echo "$COMMIT_MSG" | grep -q "feat:"; then
               FRAGMENT_TYPE="feature"
-              echo "🟡 Criando fragment feature para: $COMMIT_MSG"
             elif echo "$COMMIT_MSG" | grep -q "fix:"; then
               FRAGMENT_TYPE="bugfix"
-              echo "🟢 Criando fragment bugfix para: $COMMIT_MSG"
             elif echo "$COMMIT_MSG" | grep -q "refactor:\|perf:\|build:"; then
               FRAGMENT_TYPE="internal"
-              echo "🔧 Criando fragment internal para: $COMMIT_MSG"
             elif echo "$COMMIT_MSG" | grep -q "docs:"; then
               FRAGMENT_TYPE="documentation"
-              echo "📚 Criando fragment documentation para: $COMMIT_MSG"
             else
               FRAGMENT_TYPE="feature"
-              echo "⚪ Criando fragment feature padrão para: $COMMIT_MSG"
             fi
-
+            
             # Criar fragment no backend
             cd backend
             echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
-              echo "⚠️ towncrier create falhou no backend, criando manualmente..."
               echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
             }
             cd ..
-
+            
             # Criar fragment no repositório base
             echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
-              echo "⚠️ towncrier create falhou no repositório base, criando manualmente..."
               echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
             }
           done
 
-          # Se não criou nenhum fragment, criar um padrão
-          if [ ! -f "backend/news/feature/001-feature.md" ] && [ ! -f "backend/news/bugfix/001-bugfix.md" ] && [ ! -f "backend/news/breaking/001-breaking.md" ] && [ ! -f "backend/news/internal/001-internal.md" ] && [ ! -f "backend/news/documentation/001-documentation.md" ]; then
-            echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
-            cd backend
-            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
-              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
-            }
-            cd ..
-            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
-              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
-            }
-          fi
-
-          echo "📋 Fragments criados no backend:"
-          find backend/news -name "*.md" -type f
-          echo "📋 Fragments criados no repositório base:"
-          find news -name "*.md" -type f
-
-      - name: Generate changelog with RepoPlone
-        run: |
-          echo "📝 Gerando changelog com RepoPlone..."
-          echo "🔍 Verificando fragments antes de gerar changelog..."
-          echo "Backend news existe: $([ -d "backend/news" ] && echo "sim" || echo "não")"
-          echo "Backend news tem conteúdo: $([ -d "backend/news" ] && [ "$(ls -A backend/news)" ] && echo "sim" || echo "não")"
-          echo "Repositório news existe: $([ -d "news" ] && echo "sim" || echo "não")"
-          echo "Repositório news tem conteúdo: $([ -d "news" ] && [ "$(ls -A news)" ] && echo "sim" || echo "não")"
-
-          if [ -d "backend/news" ] && [ "$(ls -A backend/news)" ]; then
-            echo "✅ Fragments encontrados no backend, gerando changelog..."
-            uvx repoplone changelog
-            echo "✅ Changelog gerado com sucesso!"
-          elif [ -d "news" ] && [ "$(ls -A news)" ]; then
-            echo "✅ Fragments encontrados no repositório, gerando changelog..."
-            uvx repoplone changelog
-            echo "✅ Changelog gerado com sucesso!"
-          else
-            echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
-            cd backend
-            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
-              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
-            }
-            cd ..
-            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
-              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
-            }
-            uvx repoplone changelog
-            echo "✅ Changelog gerado com fragment padrão!"
-          fi
-          echo "📋 Conteúdo do changelog:"
-          if [ -f "CHANGELOG.md" ]; then
-            tail -20 CHANGELOG.md
-          fi
-
-      - name: Create release with RepoPlone
+      - name: Run RepoPlone
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          echo "🚀 Criando release com RepoPlone..."
-          
-          # Garantir que estamos no diretório correto
-          echo "🔍 Verificando diretório de trabalho..."
-          echo "PWD: $(pwd)"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          
-          if [ "$(pwd)" != "$GITHUB_WORKSPACE" ]; then
-            echo "⚠️ Mudando para GITHUB_WORKSPACE..."
-            cd "$GITHUB_WORKSPACE"
-            echo "Novo PWD: $(pwd)"
-          fi
-          
-          # Verificar se os arquivos de lock existem
-          echo "🔍 Verificando arquivos de lock..."
-          if [ ! -f "package-lock.json" ]; then
-            echo "⚠️ package-lock.json não encontrado, criando..."
-            echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
-          fi
-          if [ ! -f "yarn.lock" ]; then
-            echo "⚠️ yarn.lock não encontrado, criando..."
-            echo '{"lockfileVersion": 1, "dependencies": {}}' > yarn.lock
-          fi
-          
-          ls -la package-lock.json yarn.lock
-          
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Versão atual: $CURRENT_VERSION"
-          echo "Tipo de incremento: $VERSION_BUMP"
-          echo "DEBUG: Verificando variável VERSION_BUMP..."
-          echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
-          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-          
-          if [ -z "$VERSION_BUMP" ]; then
-            echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
-            VERSION_BUMP="patch"
-          fi
-          if [ "$VERSION_BUMP" != "major" ] && [ "$VERSION_BUMP" != "minor" ] && [ "$VERSION_BUMP" != "patch" ]; then
-            echo "❌ VERSION_BUMP tem valor inválido: '$VERSION_BUMP', usando patch como padrão"
-            VERSION_BUMP="patch"
-          fi
-          echo "Usando segmento: $VERSION_BUMP"
-          echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
-          
-          echo "🔍 Verificando changelog gerado..."
-          if [ -f "CHANGELOG.md" ]; then
-            echo "✅ Changelog encontrado:"
-            tail -5 CHANGELOG.md
-          else
-            echo "⚠️ Changelog não encontrado!"
-          fi
-          
-          echo "Tentando release com segmento: $VERSION_BUMP"
-          echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
-          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-          echo "Tentativa 1: uvx repoplone release $VERSION_BUMP --dry-run"
-          uvx repoplone release "$VERSION_BUMP" --dry-run || {
-            echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
-            yes | uvx repoplone release "$VERSION_BUMP" 2>&1 | tee release.log || {
-              echo "⚠️ Release falhou, verificando se foi no frontend..."
-              if grep -q "Frontend release failed\|npm.*not found\|Cannot find module\|Dependencies lock file is not found" release.log; then
-                echo "🔧 Frontend falhou (npm/Node.js/lock files), mas backend foi liberado com sucesso"
-                echo "✅ Continuando workflow (frontend pode ser configurado depois)"
-                echo "📋 Log do erro do frontend:"
-                grep -A 5 -B 5 "Frontend\|npm\|Cannot find module\|Dependencies lock file" release.log || echo "Nenhum erro específico encontrado"
-              else
-                echo "Tentativa 3: uvx repoplone release --help"
-                uvx repoplone release --help
-                echo "❌ Comando release não funcionou, pulando..."
-              fi
-            }
-          }
-          echo "✅ Release criado com sucesso"
-          if [ -f "release.log" ]; then
-            echo "📋 Log do release:"
-            cat release.log
-            if grep -q "Released cmcuritiba:" release.log; then
-              echo "✅ Backend liberado com sucesso!"
-            fi
-            if grep -q "Released volto-cmcuritiba:" release.log; then
-              echo "✅ Frontend liberado com sucesso!"
-            fi
-          fi
+          echo "🚀 Executando RepoPlone..."
+          uvx repoplone changelog
+          yes | uvx repoplone release patch
 
       - name: Cleanup news fragments
         run: |
