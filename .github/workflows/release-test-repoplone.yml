@@ -42,18 +42,41 @@ jobs:
           echo "🔍 Diretório atual: $(pwd)"
           echo "🔍 Conteúdo do diretório:"
           ls -la
-
+          
           # Criar package-lock.json no diretório raiz
           echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
           echo "✅ package-lock.json criado no raiz"
-
+          
           # Também criar no frontend se necessário
           echo '{"lockfileVersion": 1, "dependencies": {}}' > frontend/package-lock.json
           echo "✅ package-lock.json criado no frontend"
-
+          
           echo "🔍 Verificando arquivos criados:"
           ls -la package-lock.json
           ls -la frontend/package-lock.json
+
+      - name: Verify working directory and lock files
+        run: |
+          echo "🔍 Verificando diretório de trabalho e arquivos de lock..."
+          echo "PWD: $(pwd)"
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          
+          # Verificar se estamos no diretório correto
+          if [ "$(pwd)" != "$GITHUB_WORKSPACE" ]; then
+            echo "⚠️ Mudando para GITHUB_WORKSPACE..."
+            cd "$GITHUB_WORKSPACE"
+            echo "Novo PWD: $(pwd)"
+          fi
+          
+          # Criar lock files novamente no diretório correto
+          echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
+          echo '{"lockfileVersion": 1, "dependencies": {}}' > yarn.lock
+          
+          echo "🔍 Verificando arquivos de lock no diretório atual:"
+          ls -la package-lock.json yarn.lock || echo "⚠️ Arquivos de lock não encontrados"
+          
+          echo "🔍 Conteúdo do diretório atual:"
+          ls -la | grep -E "(package|yarn|lock)" || echo "Nenhum arquivo de lock encontrado"
 
       - name: Configure Git
         run: |
@@ -227,13 +250,38 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "🚀 Criando release com RepoPlone..."
+          
+          # Garantir que estamos no diretório correto
+          echo "🔍 Verificando diretório de trabalho..."
+          echo "PWD: $(pwd)"
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          
+          if [ "$(pwd)" != "$GITHUB_WORKSPACE" ]; then
+            echo "⚠️ Mudando para GITHUB_WORKSPACE..."
+            cd "$GITHUB_WORKSPACE"
+            echo "Novo PWD: $(pwd)"
+          fi
+          
+          # Verificar se os arquivos de lock existem
+          echo "🔍 Verificando arquivos de lock..."
+          if [ ! -f "package-lock.json" ]; then
+            echo "⚠️ package-lock.json não encontrado, criando..."
+            echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
+          fi
+          if [ ! -f "yarn.lock" ]; then
+            echo "⚠️ yarn.lock não encontrado, criando..."
+            echo '{"lockfileVersion": 1, "dependencies": {}}' > yarn.lock
+          fi
+          
+          ls -la package-lock.json yarn.lock
+          
           CURRENT_VERSION=$(cat version.txt)
           echo "Versão atual: $CURRENT_VERSION"
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "DEBUG: Verificando variável VERSION_BUMP..."
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-
+          
           if [ -z "$VERSION_BUMP" ]; then
             echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
             VERSION_BUMP="patch"
@@ -244,7 +292,7 @@ jobs:
           fi
           echo "Usando segmento: $VERSION_BUMP"
           echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
-
+          
           echo "🔍 Verificando changelog gerado..."
           if [ -f "CHANGELOG.md" ]; then
             echo "✅ Changelog encontrado:"
@@ -252,21 +300,21 @@ jobs:
           else
             echo "⚠️ Changelog não encontrado!"
           fi
-
+          
           echo "🔍 Verificando se Node.js/npm está disponível..."
           node --version || echo "⚠️ Node.js não encontrado"
           npm --version || echo "⚠️ npm não encontrado"
-
+          
           echo "🔍 Verificando arquivos de lock..."
           ls -la package-lock.json || echo "⚠️ package-lock.json não encontrado"
           ls -la frontend/pnpm-lock.yaml || echo "⚠️ pnpm-lock.yaml não encontrado"
           ls -la frontend/package-lock.json || echo "⚠️ frontend/package-lock.json não encontrado"
-
+          
           echo "🔍 Verificando diretório de trabalho..."
           echo "PWD: $(pwd)"
           echo "Conteúdo do diretório:"
           ls -la | head -10
-
+          
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
