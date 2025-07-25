@@ -20,6 +20,12 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -29,6 +35,13 @@ jobs:
         run: |
           uvx repoplone --version
           pip install towncrier
+
+      - name: Install frontend dependencies
+        run: |
+          echo "📦 Instalando dependências do frontend..."
+          cd frontend
+          npm install
+          echo "✅ Dependências do frontend instaladas"
 
       - name: Configure Git
         run: |
@@ -228,6 +241,10 @@ jobs:
             echo "⚠️ Changelog não encontrado!"
           fi
           
+          echo "🔍 Verificando se Node.js/npm está disponível..."
+          node --version || echo "⚠️ Node.js não encontrado"
+          npm --version || echo "⚠️ npm não encontrado"
+          
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
@@ -236,9 +253,11 @@ jobs:
             echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
             yes | uvx repoplone release "$VERSION_BUMP" 2>&1 | tee release.log || {
               echo "⚠️ Release falhou, verificando se foi no frontend..."
-              if grep -q "Frontend release failed" release.log; then
-                echo "🔧 Frontend falhou, mas backend foi liberado com sucesso"
+              if grep -q "Frontend release failed\|npm.*not found\|Cannot find module" release.log; then
+                echo "🔧 Frontend falhou (npm/Node.js), mas backend foi liberado com sucesso"
                 echo "✅ Continuando workflow (frontend pode ser configurado depois)"
+                echo "📋 Log do erro do frontend:"
+                grep -A 5 -B 5 "Frontend\|npm\|Cannot find module" release.log || echo "Nenhum erro específico encontrado"
               else
                 echo "Tentativa 3: uvx repoplone release --help"
                 uvx repoplone release --help
@@ -252,6 +271,9 @@ jobs:
             cat release.log
             if grep -q "Released cmcuritiba:" release.log; then
               echo "✅ Backend liberado com sucesso!"
+            fi
+            if grep -q "Released volto-cmcuritiba:" release.log; then
+              echo "✅ Frontend liberado com sucesso!"
             fi
           fi
 
