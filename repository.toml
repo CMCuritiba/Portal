@@ -3,6 +3,7 @@ name = "cmcuritiba"
 managed_by_uv = false
 changelog = "CHANGELOG.md"
 version = "version.txt"
+version_format = "semver"
 compose = "docker-compose.yml"
 
 [repository.towncrier]

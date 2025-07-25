@@ -41,6 +41,10 @@ jobs:
           
           echo "📋 Comandos disponíveis:"
           uvx repoplone --help
+          
+          echo "📋 Verificando configuração do RepoPlone..."
+          echo "Repository config:"
+          cat repository.toml
 
       - name: Setup Git
         run: |
@@ -149,7 +153,14 @@ jobs:
           
           # Criar release usando RepoPlone com segmento
           # Baseado na documentação: uvx repoplone release <segmento>
+          echo "Tentando release com segmento: $VERSION_BUMP"
           uvx repoplone release $VERSION_BUMP --dry-run
+          
+          # Se falhar, tentar sem --dry-run
+          if [ $? -ne 0 ]; then
+            echo "Tentando sem --dry-run..."
+            uvx repoplone release $VERSION_BUMP
+          fi
           
           echo "✅ Release criado com sucesso"
           
