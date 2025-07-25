@@ -67,8 +67,8 @@ jobs:
           CURRENT_VERSION=$(cat version.txt)
           echo "Versão atual: $CURRENT_VERSION"
           
-          # Gerar changelog
-          towncrier build --yes
+          # Gerar changelog com versão especificada
+          towncrier build --yes --version "$CURRENT_VERSION"
           
           echo "✅ Changelog gerado com sucesso"
 
