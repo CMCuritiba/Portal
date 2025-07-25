@@ -7,6 +7,8 @@ import {getQueryStringResults} from "@plone/volto/actions";
 import {formatarDataParaAgenda, formatarIntervaloHorario} from "../../utils/Utils";
 import {flattenToAppURL} from "@plone/volto/helpers";
 
+
+
 const AgendaItemView = (Props) => {
   console.log(Props.content);
   const dispatch = useDispatch();
