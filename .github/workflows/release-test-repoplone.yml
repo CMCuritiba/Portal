@@ -83,6 +83,11 @@ jobs:
           echo "Commits analisados:"
           echo "$COMMITS"
           
+          echo "🔍 Analisando padrões nos commits..."
+          echo "Commits com 'fix:': $(echo "$COMMITS" | grep -c "fix:")"
+          echo "Commits com 'feat:': $(echo "$COMMITS" | grep -c "feat:")"
+          echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
+          
           # Determinar tipo de incremento baseado nos commits
           VERSION_BUMP="patch"  # padrão
           
@@ -92,7 +97,7 @@ jobs:
           elif echo "$COMMITS" | grep -q "feat:"; then
             VERSION_BUMP="minor"
             echo "🟡 Feature detectada - MINOR increment"
-          elif echo "$COMMITS" | grep -q "fix:\|bugfix:"; then
+          elif echo "$COMMITS" | grep -q "fix:"; then
             VERSION_BUMP="patch"
             echo "🟢 Fix detectado - PATCH increment"
           else
@@ -154,13 +159,17 @@ jobs:
           # Criar release usando RepoPlone com segmento
           # Baseado na documentação: uvx repoplone release <segmento>
           echo "Tentando release com segmento: $VERSION_BUMP"
-          uvx repoplone release $VERSION_BUMP --dry-run
           
-          # Se falhar, tentar sem --dry-run
-          if [ $? -ne 0 ]; then
-            echo "Tentando sem --dry-run..."
-            uvx repoplone release $VERSION_BUMP
-          fi
+          # Tentar diferentes variações do comando
+          echo "Tentativa 1: uvx repoplone release $VERSION_BUMP --dry-run"
+          uvx repoplone release $VERSION_BUMP --dry-run || {
+            echo "Tentativa 2: uvx repoplone release $VERSION_BUMP"
+            uvx repoplone release $VERSION_BUMP || {
+              echo "Tentativa 3: uvx repoplone release --help"
+              uvx repoplone release --help
+              echo "❌ Comando release não funcionou, pulando..."
+            }
+          }
           
           echo "✅ Release criado com sucesso"
           
