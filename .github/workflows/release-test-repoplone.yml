@@ -33,9 +33,11 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
-      - name: Install Towncrier
+      - name: Install RepoPlone via uvx
         run: |
-          pip install towncrier
+          echo "📦 Instalando RepoPlone via uvx..."
+          uvx repoplone --version
+          echo "✅ RepoPlone disponível via uvx"
 
       - name: Setup Git
         run: |
@@ -48,25 +50,10 @@ jobs:
           echo "GH_TOKEN configurado: ${GH_TOKEN:0:10}..."
           echo "✅ GitHub Token configurado"
 
-      - name: Check current versions (RepoPlone style)
+      - name: Check current versions
         run: |
-          echo "📋 Verificando versões atuais (estilo RepoPlone)..."
-          
-          echo "=== Repository ==="
-          echo "Version: $(cat version.txt)"
-          echo "Changelog: CHANGELOG.md"
-          
-          echo "=== Backend Package ==="
-          if [ -f "backend/CHANGELOG.md" ]; then
-            echo "Path: backend"
-            echo "Changelog: backend/CHANGELOG.md"
-          fi
-          
-          echo "=== Frontend Package ==="
-          if [ -f "frontend/packages/volto-cmcuritiba/CHANGELOG.md" ]; then
-            echo "Path: frontend/packages/volto-cmcuritiba"
-            echo "Changelog: frontend/packages/volto-cmcuritiba/CHANGELOG.md"
-          fi
+          echo "📋 Verificando versões atuais..."
+          uvx repoplone versions current
 
       - name: Analyze commits for version bump
         run: |
@@ -105,169 +92,37 @@ jobs:
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
 
-      - name: Check for news fragments
+      - name: Generate changelog
         run: |
-          echo "🔍 Verificando fragments de notícias..."
-          if [ -d "news" ] && [ "$(ls -A news)" ]; then
-            echo "✅ Fragments encontrados:"
-            find news -name "*.md" -type f
-          else
-            echo "⚠️ Nenhum fragment de notícia encontrado"
-            echo "Criando fragment baseado no tipo de commit..."
-            case $VERSION_BUMP in
-              "major")
-                mkdir -p news/breaking
-                echo "Breaking change detectado" > news/breaking/001-breaking-change.md
-                ;;
-              "minor")
-                mkdir -p news/feature
-                echo "Nova funcionalidade adicionada" > news/feature/001-new-feature.md
-                ;;
-              "patch")
-                mkdir -p news/bugfix
-                echo "Correção de bug" > news/bugfix/001-bugfix.md
-                ;;
-            esac
-          fi
+          echo "📝 Gerando changelog..."
+          uvx repoplone changelog
 
-      - name: Generate changelog (RepoPlone style)
-        run: |
-          echo "📝 Gerando changelog (estilo RepoPlone)..."
-          
-          # Ler versão atual
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Versão atual: $CURRENT_VERSION"
-          
-          # Gerar changelog com towncrier
-          towncrier build --yes --version "$CURRENT_VERSION"
-          
-          echo "✅ Changelog gerado com sucesso"
-
-      - name: Update version based on commit analysis
-        run: |
-          echo "🔄 Atualizando versão baseado na análise de commits..."
-          
-          # Ler versão atual
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Versão atual: $CURRENT_VERSION"
-          
-          # Extrair números da versão
-          if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
-            MAJOR=${BASH_REMATCH[1]}
-            MINOR=${BASH_REMATCH[2]}
-            PATCH=${BASH_REMATCH[3]}
-            
-            # Incrementar baseado no tipo de commit (estilo RepoPlone)
-            case $VERSION_BUMP in
-              "major")
-                NEW_MAJOR=$((MAJOR + 1))
-                NEW_VERSION="${NEW_MAJOR}.0.0"
-                echo "🔴 MAJOR increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              "minor")
-                NEW_MINOR=$((MINOR + 1))
-                NEW_VERSION="${MAJOR}.${NEW_MINOR}.0"
-                echo "🟡 MINOR increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              "patch")
-                NEW_PATCH=$((PATCH + 1))
-                NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
-                echo "🟢 PATCH increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              *)
-                echo "❌ Tipo de incremento inválido: $VERSION_BUMP"
-                exit 1
-                ;;
-            esac
-            
-            echo "Nova versão: $NEW_VERSION"
-            echo "$NEW_VERSION" > version.txt
-            
-            echo "✅ Versão atualizada para: $NEW_VERSION"
-          else
-            echo "❌ Formato de versão inválido: $CURRENT_VERSION"
-            exit 1
-          fi
-
-      - name: Create and push tag
-        run: |
-          echo "🏷️ Criando tag de release..."
-          
-          # Obter nova versão do version.txt
-          NEW_VERSION=$(cat version.txt)
-          TAG_NAME="${NEW_VERSION}-test"
-          
-          echo "Criando tag: $TAG_NAME"
-          
-          # Criar tag
-          git tag -a "$TAG_NAME" -m "Release $TAG_NAME for test branch"
-          
-          # Push da tag
-          git push origin "$TAG_NAME"
-          
-          echo "✅ Tag $TAG_NAME criada e enviada"
-
-      - name: Create GitHub Release
+      - name: Create release with RepoPlone
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          echo "📦 Criando GitHub Release..."
+          echo "🚀 Criando release com RepoPlone..."
           
-          # Ler versão
-          VERSION=$(cat version.txt)
-          TAG_NAME="${VERSION}-test"
+          # Criar release usando RepoPlone
+          uvx repoplone release $VERSION_BUMP --dry-run
           
-          # Ler changelog
-          CHANGELOG_CONTENT=$(cat CHANGELOG.md)
-          
-          # Criar release usando API do GitHub
-          curl -X POST \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/releases \
-            -d "{
-              \"tag_name\": \"$TAG_NAME\",
-              \"name\": \"Release $TAG_NAME (Test)\",
-              \"body\": \"$CHANGELOG_CONTENT\",
-              \"target_commitish\": \"test\",
-              \"prerelease\": true
-            }"
-          
-          echo "✅ GitHub Release criado: $TAG_NAME"
+          echo "✅ Release criado com sucesso"
 
-      - name: Commit changes
+      - name: Commit and push changes
         run: |
-          echo "💾 Commitando alterações..."
+          echo "💾 Commitando e enviando alterações..."
           
-          # Adicionar arquivos modificados
-          git add version.txt CHANGELOG.md
+          # Adicionar todos os arquivos modificados
+          git add .
           
           # Verificar se há mudanças
           if git diff --staged --quiet; then
             echo "⚠️ Nenhuma mudança para commitar"
           else
             # Commit das alterações
-            git commit -m "chore: bump version for test branch [skip ci]"
+            git commit -m "chore: release version bump [skip ci]"
             
             # Push das alterações
             git push origin test
             echo "✅ Alterações enviadas para branch test"
-          fi
-
-      - name: Cleanup news fragments
-        run: |
-          echo "🧹 Limpando fragments de notícias..."
-          
-          # Remover fragments processados
-          if [ -d "news" ]; then
-            find news -name "*.md" -type f -delete
-            echo "✅ Fragments removidos"
-          fi
-          
-          # Commit da limpeza
-          git add news/
-          if ! git diff --staged --quiet; then
-            git commit -m "chore: cleanup news fragments after release [skip ci]"
-            git push origin test
-            echo "✅ Limpeza commitada"
           fi 
