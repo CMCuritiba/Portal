@@ -77,11 +77,11 @@ jobs:
 
             # Criar fragment no backend
             cd backend
-            echo "$COMMIT_MSG" > "news/$(date +%s)-$FRAGMENT_TYPE.md"
+            echo "$COMMIT_MSG" > "news/72.$FRAGMENT_TYPE.md"
             cd ..
 
             # Criar fragment no repositório base
-            echo "$COMMIT_MSG" > "news/$(date +%s)-$FRAGMENT_TYPE.md"
+            echo "$COMMIT_MSG" > "news/72.$FRAGMENT_TYPE.md"
           done
 
           echo "📋 Fragments criados:"
