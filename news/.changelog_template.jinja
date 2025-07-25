@@ -1,0 +1,14 @@
+{% for section in sections %}
+{% set section_name = sections[section] %}
+{% if sections[section] %}
+
+### {{ section_name }}
+
+{% for category in sections[section] %}
+{% for text, issues in sections[section][category] %}
+- {{ text }}{% if issues %} ({% for issue in issues %}{{ issue }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}
+{% endfor %}
+{% endfor %}
+
+{% endif %}
+{% endfor %} 
