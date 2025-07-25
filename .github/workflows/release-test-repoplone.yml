@@ -187,7 +187,8 @@ jobs:
           echo "Tentativa 1: uvx repoplone release $VERSION_BUMP --dry-run"
           uvx repoplone release "$VERSION_BUMP" --dry-run || {
             echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
-            echo "y" | uvx repoplone release "$VERSION_BUMP" || {
+            # Usar yes para confirmar automaticamente todos os prompts
+            yes | uvx repoplone release "$VERSION_BUMP" || {
               echo "Tentativa 3: uvx repoplone release --help"
               uvx repoplone release --help
               echo "❌ Comando release não funcionou, pulando..."
