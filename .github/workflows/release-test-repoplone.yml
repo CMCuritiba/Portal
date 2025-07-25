@@ -25,9 +25,10 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install RepoPlone
+      - name: Install RepoPlone and Towncrier
         run: |
           uvx repoplone --version
+          pip install towncrier
 
       - name: Configure Git
         run: |
@@ -84,9 +85,9 @@ jobs:
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
           echo "✅ VERSION_BUMP exportado: $VERSION_BUMP"
 
-      - name: Create news fragments from commits
+      - name: Create news fragments with towncrier create
         run: |
-          echo "📝 Criando fragments baseado nos commits..."
+          echo "📝 Criando fragments usando towncrier create..."
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -n "$LAST_TAG" ]; then
             echo "Última tag: $LAST_TAG"
@@ -96,50 +97,66 @@ jobs:
             COMMITS=$(git log --oneline)
           fi
           
-          # Criar diretórios para fragments baseado na configuração do Towncrier
-          # RepoPlone usa o backend como principal, então criamos fragments lá
+          # Criar diretórios para fragments
           mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
-          
-          # Também criar fragments para o repositório base (monorepo)
           mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
           
-          FRAGMENT_COUNT=1
+          # Processar cada commit e criar fragments usando towncrier create
           echo "$COMMITS" | while IFS= read -r commit; do
-            if echo "$commit" | grep -q "BREAKING CHANGE\|!:"; then
-              echo "🔴 Criando fragment para breaking: $commit"
-              echo "$commit" > "backend/news/breaking/$(printf "%03d" $FRAGMENT_COUNT)-breaking.md"
-              echo "$commit" > "news/breaking/$(printf "%03d" $FRAGMENT_COUNT)-breaking.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "feat:"; then
-              echo "🟡 Criando fragment para feature: $commit"
-              echo "$commit" > "backend/news/feature/$(printf "%03d" $FRAGMENT_COUNT)-feature.md"
-              echo "$commit" > "news/feature/$(printf "%03d" $FRAGMENT_COUNT)-feature.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "fix:"; then
-              echo "🟢 Criando fragment para bugfix: $commit"
-              echo "$commit" > "backend/news/bugfix/$(printf "%03d" $FRAGMENT_COUNT)-bugfix.md"
-              echo "$commit" > "news/bugfix/$(printf "%03d" $FRAGMENT_COUNT)-bugfix.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "refactor:\|perf:\|build:"; then
-              echo "🔧 Criando fragment para internal: $commit"
-              echo "$commit" > "backend/news/internal/$(printf "%03d" $FRAGMENT_COUNT)-internal.md"
-              echo "$commit" > "news/internal/$(printf "%03d" $FRAGMENT_COUNT)-internal.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "docs:"; then
-              echo "📚 Criando fragment para documentation: $commit"
-              echo "$commit" > "backend/news/documentation/$(printf "%03d" $FRAGMENT_COUNT)-documentation.md"
-              echo "$commit" > "news/documentation/$(printf "%03d" $FRAGMENT_COUNT)-documentation.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
+            COMMIT_HASH=$(echo "$commit" | cut -d' ' -f1)
+            COMMIT_MSG=$(echo "$commit" | cut -d' ' -f2-)
+            
+            echo "📝 Processando commit: $commit"
+            
+            # Determinar tipo de fragment baseado na mensagem do commit
+            if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE\|!:"; then
+              FRAGMENT_TYPE="breaking"
+              echo "🔴 Criando fragment breaking para: $COMMIT_MSG"
+            elif echo "$COMMIT_MSG" | grep -q "feat:"; then
+              FRAGMENT_TYPE="feature"
+              echo "🟡 Criando fragment feature para: $COMMIT_MSG"
+            elif echo "$COMMIT_MSG" | grep -q "fix:"; then
+              FRAGMENT_TYPE="bugfix"
+              echo "🟢 Criando fragment bugfix para: $COMMIT_MSG"
+            elif echo "$COMMIT_MSG" | grep -q "refactor:\|perf:\|build:"; then
+              FRAGMENT_TYPE="internal"
+              echo "🔧 Criando fragment internal para: $COMMIT_MSG"
+            elif echo "$COMMIT_MSG" | grep -q "docs:"; then
+              FRAGMENT_TYPE="documentation"
+              echo "📚 Criando fragment documentation para: $COMMIT_MSG"
+            else
+              FRAGMENT_TYPE="feature"
+              echo "⚪ Criando fragment feature padrão para: $COMMIT_MSG"
             fi
+            
+            # Criar fragment no backend
+            cd backend
+            echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
+              echo "⚠️ towncrier create falhou no backend, criando manualmente..."
+              echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
+            }
+            cd ..
+            
+            # Criar fragment no repositório base
+            echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
+              echo "⚠️ towncrier create falhou no repositório base, criando manualmente..."
+              echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
+            }
           done
           
+          # Se não criou nenhum fragment, criar um padrão
           if [ ! -f "backend/news/feature/001-feature.md" ] && [ ! -f "backend/news/bugfix/001-bugfix.md" ] && [ ! -f "backend/news/breaking/001-breaking.md" ] && [ ! -f "backend/news/internal/001-internal.md" ] && [ ! -f "backend/news/documentation/001-documentation.md" ]; then
             echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
-            mkdir -p backend/news/feature
-            echo "Atualização de versão automática" > backend/news/feature/001-version-update.md
-            mkdir -p news/feature
-            echo "Atualização de versão automática" > news/feature/001-version-update.md
+            cd backend
+            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
+              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
+            }
+            cd ..
+            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
+              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
+            }
           fi
+          
           echo "📋 Fragments criados no backend:"
           find backend/news -name "*.md" -type f
           echo "📋 Fragments criados no repositório base:"
@@ -164,10 +181,14 @@ jobs:
             echo "✅ Changelog gerado com sucesso!"
           else
             echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
-            mkdir -p backend/news/feature
-            echo "Atualização de versão automática" > backend/news/feature/001-version-update.md
-            mkdir -p news/feature
-            echo "Atualização de versão automática" > news/feature/001-version-update.md
+            cd backend
+            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
+              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
+            }
+            cd ..
+            echo "Atualização de versão automática" | towncrier create --content "Atualização de versão automática" --type "feature" || {
+              echo "Atualização de versão automática" > "news/feature/001-version-update.md"
+            }
             uvx repoplone changelog
             echo "✅ Changelog gerado com fragment padrão!"
           fi
