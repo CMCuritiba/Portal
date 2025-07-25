@@ -88,6 +88,14 @@ jobs:
           echo "Commits com 'feat:': $(echo "$COMMITS" | grep -c "feat:")"
           echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
           
+          # Mostrar commits que contêm 'fix'
+          echo "Commits que contêm 'fix':"
+          echo "$COMMITS" | grep "fix" || echo "Nenhum commit com 'fix' encontrado"
+          
+          # Mostrar commits que contêm 'feat'
+          echo "Commits que contêm 'feat':"
+          echo "$COMMITS" | grep "feat" || echo "Nenhum commit com 'feat' encontrado"
+          
           # Determinar tipo de incremento baseado nos commits
           VERSION_BUMP="patch"  # padrão
           
@@ -107,6 +115,8 @@ jobs:
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
           echo "✅ VERSION_BUMP exportado: $VERSION_BUMP"
+          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
+          echo "DEBUG: VERSION_BUMP value = '$VERSION_BUMP'"
 
       - name: Generate changelog
         run: |
@@ -133,10 +143,19 @@ jobs:
           CURRENT_VERSION=$(cat version.txt)
           echo "Versão atual: $CURRENT_VERSION"
           echo "Tipo de incremento: $VERSION_BUMP"
+          echo "DEBUG: Verificando variável VERSION_BUMP..."
+          echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
+          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
           
           # Verificar se VERSION_BUMP está definido
           if [ -z "$VERSION_BUMP" ]; then
             echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
+            VERSION_BUMP="patch"
+          fi
+          
+          # Verificar se VERSION_BUMP tem valor válido
+          if [ "$VERSION_BUMP" != "major" ] && [ "$VERSION_BUMP" != "minor" ] && [ "$VERSION_BUMP" != "patch" ]; then
+            echo "❌ VERSION_BUMP tem valor inválido: '$VERSION_BUMP', usando patch como padrão"
             VERSION_BUMP="patch"
           fi
           
@@ -160,11 +179,15 @@ jobs:
           # Baseado na documentação: uvx repoplone release <segmento>
           echo "Tentando release com segmento: $VERSION_BUMP"
           
+          # Debug: verificar se a variável está definida
+          echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
+          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
+          
           # Tentar diferentes variações do comando
           echo "Tentativa 1: uvx repoplone release $VERSION_BUMP --dry-run"
-          uvx repoplone release $VERSION_BUMP --dry-run || {
-            echo "Tentativa 2: uvx repoplone release $VERSION_BUMP"
-            uvx repoplone release $VERSION_BUMP || {
+          uvx repoplone release "$VERSION_BUMP" --dry-run || {
+            echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
+            echo "y" | uvx repoplone release "$VERSION_BUMP" || {
               echo "Tentativa 3: uvx repoplone release --help"
               uvx repoplone release --help
               echo "❌ Comando release não funcionou, pulando..."
@@ -183,6 +206,13 @@ jobs:
           if [ -f "CHANGELOG.md" ]; then
             echo "Changelog atualizado:"
             tail -10 CHANGELOG.md
+          fi
+          
+          # Verificar se os fragments foram processados
+          echo "🔍 Verificando fragments processados..."
+          if [ -d "news" ]; then
+            echo "Fragments restantes:"
+            find news -name "*.md" -type f || echo "Nenhum fragment restante"
           fi
 
       - name: Commit and push changes
