@@ -1,6 +1,27 @@
 # Changelog
 
 <!-- towncrier release notes start -->
+## 2.0.13 (2025-07-25)
+
+### Backend
+
+No significant changes.
+
+
+### Frontend
+
+No significant changes.
+
+
+### Project
+
+
+#### Bugfix
+
+- tesx [#72](https://github.com/cmcuritiba/portal/pull/72)
+
+
+
 ## 2.0.12 (2025-07-25)
 
 ### Backend
