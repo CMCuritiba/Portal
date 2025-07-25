@@ -39,8 +39,21 @@ jobs:
       - name: Create lock file for RepoPlone
         run: |
           echo "📦 Criando arquivo de lock para satisfazer RepoPlone..."
-          echo '{"lockfileVersion": 1}' > package-lock.json
-          echo "✅ package-lock.json criado"
+          echo "🔍 Diretório atual: $(pwd)"
+          echo "🔍 Conteúdo do diretório:"
+          ls -la
+          
+          # Criar package-lock.json no diretório raiz
+          echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
+          echo "✅ package-lock.json criado no raiz"
+          
+          # Também criar no frontend se necessário
+          echo '{"lockfileVersion": 1, "dependencies": {}}' > frontend/package-lock.json
+          echo "✅ package-lock.json criado no frontend"
+          
+          echo "🔍 Verificando arquivos criados:"
+          ls -la package-lock.json
+          ls -la frontend/package-lock.json
 
       - name: Configure Git
         run: |
@@ -247,6 +260,12 @@ jobs:
           echo "🔍 Verificando arquivos de lock..."
           ls -la package-lock.json || echo "⚠️ package-lock.json não encontrado"
           ls -la frontend/pnpm-lock.yaml || echo "⚠️ pnpm-lock.yaml não encontrado"
+          ls -la frontend/package-lock.json || echo "⚠️ frontend/package-lock.json não encontrado"
+          
+          echo "🔍 Verificando diretório de trabalho..."
+          echo "PWD: $(pwd)"
+          echo "Conteúdo do diretório:"
+          ls -la | head -10
           
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
