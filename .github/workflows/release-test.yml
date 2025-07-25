@@ -1,0 +1,177 @@
+name: Release Test
+
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+    branches:
+      - test
+
+jobs:
+  release:
+    name: Release Test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/test'
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Towncrier
+        run: |
+          pip install towncrier
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Setup GitHub CLI
+        run: |
+          gh --version
+          echo "✅ GitHub CLI está disponível"
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          echo "✅ GitHub CLI autenticado"
+
+      - name: Check for news fragments
+        run: |
+          echo "🔍 Verificando fragments de notícias..."
+          if [ -d "news" ] && [ "$(ls -A news)" ]; then
+            echo "✅ Fragments encontrados:"
+            find news -name "*.md" -type f
+          else
+            echo "⚠️ Nenhum fragment de notícia encontrado"
+            echo "Criando fragment de exemplo..."
+            mkdir -p news/feature
+            echo "Adiciona funcionalidade de teste para branch test" > news/feature/001-test-feature.md
+          fi
+
+      - name: Build changelog with Towncrier
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "📝 Gerando changelog com Towncrier..."
+          
+          # Ler versão atual
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Versão atual: $CURRENT_VERSION"
+          
+          # Gerar changelog
+          towncrier build --yes
+          
+          echo "✅ Changelog gerado com sucesso"
+
+      - name: Update version
+        run: |
+          echo "🔄 Atualizando versão..."
+          
+          # Ler versão atual
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Versão atual: $CURRENT_VERSION"
+          
+          # Extrair números da versão
+          if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+            MAJOR=${BASH_REMATCH[1]}
+            MINOR=${BASH_REMATCH[2]}
+            PATCH=${BASH_REMATCH[3]}
+            
+            # Incrementar patch version para test
+            NEW_PATCH=$((PATCH + 1))
+            NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}-test"
+            
+            echo "Nova versão: $NEW_VERSION"
+            echo "$NEW_VERSION" > version.txt
+            
+            echo "✅ Versão atualizada para: $NEW_VERSION"
+          else
+            echo "❌ Formato de versão inválido: $CURRENT_VERSION"
+            exit 1
+          fi
+
+      - name: Commit and push changes
+        run: |
+          echo "💾 Commitando alterações..."
+          
+          # Adicionar arquivos modificados
+          git add version.txt CHANGELOG.md
+          
+          # Verificar se há mudanças
+          if git diff --staged --quiet; then
+            echo "⚠️ Nenhuma mudança para commitar"
+          else
+            # Commit das alterações
+            git commit -m "chore: bump version for test branch [skip ci]"
+            
+            # Push das alterações
+            git push origin test
+            echo "✅ Alterações enviadas para branch test"
+          fi
+
+      - name: Create and push tag
+        run: |
+          echo "🏷️ Criando tag de release..."
+          
+          # Ler nova versão
+          NEW_VERSION=$(cat version.txt)
+          TAG_NAME="${NEW_VERSION}"
+          
+          echo "Criando tag: $TAG_NAME"
+          
+          # Criar tag
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME for test branch"
+          
+          # Push da tag
+          git push origin "$TAG_NAME"
+          
+          echo "✅ Tag $TAG_NAME criada e enviada"
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "📦 Criando GitHub Release..."
+          
+          # Ler versão
+          VERSION=$(cat version.txt)
+          TAG_NAME="${VERSION}"
+          
+          # Ler changelog
+          CHANGELOG_CONTENT=$(cat CHANGELOG.md)
+          
+          # Criar release no GitHub
+          gh release create "$TAG_NAME" \
+            --title "Release $TAG_NAME (Test)" \
+            --notes "$CHANGELOG_CONTENT" \
+            --target test \
+            --prerelease
+          
+          echo "✅ GitHub Release criado: $TAG_NAME"
+
+      - name: Cleanup news fragments
+        run: |
+          echo "🧹 Limpando fragments de notícias..."
+          
+          # Remover fragments processados
+          if [ -d "news" ]; then
+            find news -name "*.md" -type f -delete
+            echo "✅ Fragments removidos"
+          fi
+          
+          # Commit da limpeza
+          git add news/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: cleanup news fragments after release [skip ci]"
+            git push origin test
+            echo "✅ Limpeza commitada"
+          fi 
