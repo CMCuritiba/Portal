@@ -1,15 +1,13 @@
-{% if sections[""] %}
-{% for category, val in definitions.items() if category in sections[""] %}
+{% for section in sections %}
+{% if sections[section] %}
 
-### {{ definitions[category]['name'] }}
+### {{ sections[section] }}
 
-{% for text, values in sections[""][category].items() %}
-- {{ text }} {{ values|join(', ') }}
+{% for category in sections[section] %}
+{% for text, issues in sections[section][category] %}
+- {{ text }}{% if issues %} ({% for issue in issues %}{{ issue }}{% if not loop.last %}, {% endif %}{% endfor %}){% endif %}
 {% endfor %}
-
 {% endfor %}
-{% else %}
-No significant changes.
-
 
 {% endif %}
+{% endfor %}

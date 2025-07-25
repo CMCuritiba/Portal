@@ -20,6 +20,7 @@ changelog = "backend/CHANGELOG.md"
 towncrier_settings = "backend/pyproject.toml"
 base_package = "Products.CMFPlone"
 publish = false
+enabled = false
 
 [frontend]
 path = "frontend"
@@ -31,6 +32,7 @@ changelog = "frontend/packages/volto-cmcuritiba/CHANGELOG.md"
 towncrier_settings = "frontend/packages/volto-cmcuritiba/towncrier.toml"
 base_package = "@plone/volto"
 publish = false
+enabled = false
 
 [cookieplone]
 template = "project"

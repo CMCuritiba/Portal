@@ -1,29 +1,21 @@
-name: Release Test (RepoPlone Style)
+name: Release Test Branch
 
 on:
   push:
     branches:
       - test
-  pull_request:
-    branches:
-      - test
+  workflow_dispatch:
 
 jobs:
   release:
-    name: Release Test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test'
-    permissions:
-      contents: write
-      packages: write
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Python
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
@@ -31,39 +23,16 @@ jobs:
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install RepoPlone via uvx
+      - name: Install RepoPlone
         run: |
-          echo "📦 Instalando RepoPlone via uvx..."
           uvx repoplone --version
-          echo "✅ RepoPlone disponível via uvx"
-          
-          echo "📋 Comandos disponíveis:"
-          uvx repoplone --help
-          
-          echo "📋 Verificando configuração do RepoPlone..."
-          echo "Repository config:"
-          cat repository.toml
 
-      - name: Setup Git
+      - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Setup GitHub Token
-        run: |
-          echo "🔑 Configurando GitHub Token..."
-          echo "GH_TOKEN configurado: ${GH_TOKEN:0:10}..."
-          echo "✅ GitHub Token configurado"
-
-      - name: Check current versions
-        run: |
-          echo "📋 Verificando versões atuais..."
-          uvx repoplone versions current
-          
-          echo "📋 Verificando próximas versões..."
-          uvx repoplone versions next
 
       - name: Analyze commits for version bump
         run: |
@@ -77,9 +46,7 @@ jobs:
           echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
           echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
           
-          # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          
           if [ -n "$LAST_TAG" ]; then
             echo "Última tag: $LAST_TAG"
             COMMITS=$(git log --oneline $LAST_TAG..HEAD)
@@ -87,10 +54,8 @@ jobs:
             echo "Nenhuma tag encontrada, analisando todos os commits"
             COMMITS=$(git log --oneline)
           fi
-          
           echo "Commits analisados:"
           echo "$COMMITS"
-          
           echo "🔍 Analisando padrões nos commits..."
           echo "Commits com 'fix:': $(echo "$COMMITS" | grep -c "fix:")"
           echo "Commits com 'feat:': $(echo "$COMMITS" | grep -c "feat:")"
@@ -99,25 +64,7 @@ jobs:
           echo "Commits com 'build:': $(echo "$COMMITS" | grep -c "build:")"
           echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
           
-          # Mostrar commits que contêm cada tipo
-          echo "Commits que contêm 'fix':"
-          echo "$COMMITS" | grep "fix" || echo "Nenhum commit com 'fix' encontrado"
-          
-          echo "Commits que contêm 'feat':"
-          echo "$COMMITS" | grep "feat" || echo "Nenhum commit com 'feat' encontrado"
-          
-          echo "Commits que contêm 'refactor':"
-          echo "$COMMITS" | grep "refactor" || echo "Nenhum commit com 'refactor' encontrado"
-          
-          echo "Commits que contêm 'perf':"
-          echo "$COMMITS" | grep "perf" || echo "Nenhum commit com 'perf' encontrado"
-          
-          echo "Commits que contêm 'build':"
-          echo "$COMMITS" | grep "build" || echo "Nenhum commit com 'build' encontrado"
-          
-          # Determinar tipo de incremento baseado nos commits
-          VERSION_BUMP="patch"  # padrão
-          
+          VERSION_BUMP="patch"
           if echo "$COMMITS" | grep -q "BREAKING CHANGE\|!:"; then
             VERSION_BUMP="major"
             echo "🔴 Breaking change detectado - MAJOR increment"
@@ -133,20 +80,14 @@ jobs:
           else
             echo "⚪ Nenhum tipo específico detectado - PATCH increment (padrão)"
           fi
-          
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
           echo "✅ VERSION_BUMP exportado: $VERSION_BUMP"
-          echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-          echo "DEBUG: VERSION_BUMP value = '$VERSION_BUMP'"
 
       - name: Create news fragments from commits
         run: |
           echo "📝 Criando fragments baseado nos commits..."
-          
-          # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          
           if [ -n "$LAST_TAG" ]; then
             echo "Última tag: $LAST_TAG"
             COMMITS=$(git log --oneline $LAST_TAG..HEAD)
@@ -162,10 +103,7 @@ jobs:
           # Também criar fragments para o repositório base (monorepo)
           mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
           
-          # Contador para fragments
           FRAGMENT_COUNT=1
-          
-          # Processar cada commit e criar fragments
           echo "$COMMITS" | while IFS= read -r commit; do
             if echo "$commit" | grep -q "BREAKING CHANGE\|!:"; then
               echo "🔴 Criando fragment para breaking: $commit"
@@ -195,7 +133,6 @@ jobs:
             fi
           done
           
-          # Se não criou nenhum fragment, criar um padrão
           if [ ! -f "backend/news/feature/001-feature.md" ] && [ ! -f "backend/news/bugfix/001-bugfix.md" ] && [ ! -f "backend/news/breaking/001-breaking.md" ] && [ ! -f "backend/news/internal/001-internal.md" ] && [ ! -f "backend/news/documentation/001-documentation.md" ]; then
             echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
             mkdir -p backend/news/feature
@@ -203,34 +140,14 @@ jobs:
             mkdir -p news/feature
             echo "Atualização de versão automática" > news/feature/001-version-update.md
           fi
-          
           echo "📋 Fragments criados no backend:"
           find backend/news -name "*.md" -type f
-          
           echo "📋 Fragments criados no repositório base:"
           find news -name "*.md" -type f
-          
-          # Debug: mostrar conteúdo dos fragments
-          echo "🔍 Conteúdo dos fragments criados:"
-          if [ -d "news" ]; then
-            for dir in news/*/; do
-              if [ -d "$dir" ]; then
-                echo "📁 Diretório: $dir"
-                for file in "$dir"*.md; do
-                  if [ -f "$file" ]; then
-                    echo "📄 Arquivo: $file"
-                    echo "Conteúdo: $(cat "$file")"
-                  fi
-                done
-              fi
-            done
-          fi
 
       - name: Generate changelog with RepoPlone
         run: |
           echo "📝 Gerando changelog com RepoPlone..."
-          
-          # Verificar se há fragments antes de gerar changelog
           echo "🔍 Verificando fragments antes de gerar changelog..."
           echo "Backend news existe: $([ -d "backend/news" ] && echo "sim" || echo "não")"
           echo "Backend news tem conteúdo: $([ -d "backend/news" ] && [ "$(ls -A backend/news)" ] && echo "sim" || echo "não")"
@@ -254,8 +171,6 @@ jobs:
             uvx repoplone changelog
             echo "✅ Changelog gerado com fragment padrão!"
           fi
-          
-          # Mostrar o changelog gerado
           echo "📋 Conteúdo do changelog:"
           if [ -f "CHANGELOG.md" ]; then
             tail -20 CHANGELOG.md
@@ -266,8 +181,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "🚀 Criando release com RepoPlone..."
-          
-          # Ler versão atual
           CURRENT_VERSION=$(cat version.txt)
           echo "Versão atual: $CURRENT_VERSION"
           echo "Tipo de incremento: $VERSION_BUMP"
@@ -275,24 +188,17 @@ jobs:
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
           
-          # Verificar se VERSION_BUMP está definido
           if [ -z "$VERSION_BUMP" ]; then
             echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
             VERSION_BUMP="patch"
           fi
-          
-          # Verificar se VERSION_BUMP tem valor válido
           if [ "$VERSION_BUMP" != "major" ] && [ "$VERSION_BUMP" != "minor" ] && [ "$VERSION_BUMP" != "patch" ]; then
             echo "❌ VERSION_BUMP tem valor inválido: '$VERSION_BUMP', usando patch como padrão"
             VERSION_BUMP="patch"
           fi
-          
           echo "Usando segmento: $VERSION_BUMP"
-          
-          # Debug: mostrar comando completo
           echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
           
-          # Verificar se o changelog foi gerado
           echo "🔍 Verificando changelog gerado..."
           if [ -f "CHANGELOG.md" ]; then
             echo "✅ Changelog encontrado:"
@@ -301,20 +207,12 @@ jobs:
             echo "⚠️ Changelog não encontrado!"
           fi
           
-          # Criar release usando RepoPlone com segmento
-          # Baseado na documentação: uvx repoplone release <segmento>
           echo "Tentando release com segmento: $VERSION_BUMP"
-          
-          # Debug: verificar se a variável está definida
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-          
-          # Tentar diferentes variações do comando
           echo "Tentativa 1: uvx repoplone release $VERSION_BUMP --dry-run"
           uvx repoplone release "$VERSION_BUMP" --dry-run || {
             echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
-            # Usar yes para confirmar automaticamente todos os prompts
-            # Se falhar no frontend, continuar apenas com backend
             yes | uvx repoplone release "$VERSION_BUMP" 2>&1 | tee release.log || {
               echo "⚠️ Release falhou, verificando se foi no frontend..."
               if grep -q "Frontend release failed" release.log; then
@@ -328,8 +226,6 @@ jobs:
             }
           }
           echo "✅ Release criado com sucesso"
-          
-          # Verificar se o backend foi liberado
           if [ -f "release.log" ]; then
             echo "📋 Log do release:"
             cat release.log
@@ -338,39 +234,9 @@ jobs:
             fi
           fi
 
-      - name: Verify applied changes
-        run: |
-          echo "🔍 Verificando mudanças aplicadas..."
-          if [ -f "version.txt" ]; then
-            echo "Versão após release: $(cat version.txt)"
-          fi
-          if [ -f "CHANGELOG.md" ]; then
-            echo "Changelog atualizado:"
-            tail -10 CHANGELOG.md
-          fi
-          echo "🔍 Verificando fragments processados..."
-          if [ -d "news" ]; then
-            echo "Fragments restantes:"
-            find news -name "*.md" -type f || echo "Nenhum fragment restante"
-          fi
-
-      - name: Commit and push changes
-        run: |
-          echo "💾 Commitando e enviando alterações..."
-          git add .
-          if git diff --staged --quiet; then
-            echo "⚠️ Nenhuma mudança para commitar"
-          else
-            git commit -m "chore: release version bump [skip ci]"
-            git push origin test
-            echo "✅ Alterações enviadas para branch test"
-          fi
-
       - name: Cleanup news fragments
-        if: always()
         run: |
           echo "🧹 Limpando fragments de notícias..."
-          if [ -d "news" ]; then
-            find news -name "*.md" -type f -delete
-            echo "✅ Fragments removidos"
-          fi 
+          rm -rf backend/news/*/0*.md
+          rm -rf news/*/0*.md
+          echo "✅ Fragments removidos" 

@@ -1,0 +1,15 @@
+{
+  "branches": ["test"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    ["@semantic-release/git", {
+      "assets": ["version.txt", "CHANGELOG.md"],
+      "message": "chore: bump version to ${nextRelease.version} [skip ci]"
+    }],
+    ["@semantic-release/github", {
+      "assets": ["version.txt", "CHANGELOG.md"]
+    }]
+  ]
+} 

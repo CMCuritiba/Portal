@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="43215603-5fc9-4076-8f04-44ec701ded37" name="Changes" comment="fix: test backend">
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/news/.changelog_template.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/backend/news/.changelog_template.jinja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/.changelog_template.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/news/.changelog_template.jinja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/001-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/001-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/002-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/002-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/003-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/003-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/004-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/004-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/005-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/005-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/006-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/006-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/007-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/007-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/008-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/008-fix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/news/bugfix/009-bugfix.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JSX File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="major/267-update-plone-6-12" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ViniciusTomVidal&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/CMCuritiba/Portal.git&quot;,
+    &quot;accountId&quot;: &quot;931f3061-2660-4580-be3f-bcf4cbe8ce6f&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;CMCuritiba&quot;,
+    &quot;repository&quot;: &quot;Portal&quot;
+  }
+}</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/frontend/packages/volto-cmcuritiba/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2rxarQ3S2JIXheMnBbjo1FWvNNo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.stacks/srv710292.hstgr.cloud.yml.backend: Compose Deployment.executor": "Run",
+    "Docker.stacks/srv710292.hstgr.cloud.yml.frontend: Compose Deployment.executor": "Run",
+    "Docker.stacks/srv710292.hstgr.cloud.yml.purger: Compose Deployment.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "test",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/vinicius/Projetos/camara-curitiba/camara-de-curitiba/frontend/packages",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "\\\\wsl.localhost\\Ubuntu\\home\\vinicius\\Projetos\\camara-curitiba\\camara-de-curitiba\\frontend\\node_modules\\stylelint",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "wsl://Ubuntu@/root/.nvm/versions/node/v22.13.0/bin/node",
+    "nodejs_package_manager_path": "\\\\wsl.localhost\\Ubuntu\\home\\vinicius\\Projetos\\camara-curitiba\\camara-de-curitiba\\frontend\\.yarn\\releases\\yarn-3.2.3.cjs",
+    "prettierjs.PrettierConfiguration.Package": "\\\\wsl.localhost\\Ubuntu\\home\\vinicius\\Projetos\\camara-curitiba\\camara-de-curitiba\\frontend\\core\\packages\\volto\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "\\\\wsl.localhost\\Ubuntu\\home\\vinicius\\Projetos\\camara-curitiba\\camara-de-curitiba\\frontend\\core\\packages\\blocks\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\frontend\packages" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\.github\workflows" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\backend\src\cmcuritiba\profiles\default\registry" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\backend\src\cmcuritiba" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\backend\src\cmcuritiba\profiles\default" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\.github\workflows" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\frontend\src\addons\volto-mui-blocks\src\components\TodasAsNoticiasBlock" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\frontend\src\addons\partidos-addon\src" />
+      <recent name="\\wsl.localhost\Ubuntu\home\vinicius\Projetos\camara-curitiba\camara-de-curitiba\frontend\src\addons\volto-camara-de-curitiba\src\components" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.stacks/srv710292.hstgr.cloud.yml.backend: Compose Deployment">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="stacks/srv710292.hstgr.cloud.yml.backend: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="backend" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="devops/stacks/srv710292.hstgr.cloud.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="stacks/srv710292.hstgr.cloud.yml.frontend: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="frontend" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="devops/stacks/srv710292.hstgr.cloud.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="stacks/srv710292.hstgr.cloud.yml.purger: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="purger" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="devops/stacks/srv710292.hstgr.cloud.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.stacks/srv710292.hstgr.cloud.yml.purger: Compose Deployment" />
+        <item itemvalue="Docker.stacks/srv710292.hstgr.cloud.yml.frontend: Compose Deployment" />
+        <item itemvalue="Docker.stacks/srv710292.hstgr.cloud.yml.backend: Compose Deployment" />
+        <item itemvalue="Docker.stacks/srv710292.hstgr.cloud.yml.purger: Compose Deployment" />
+        <item itemvalue="Docker.stacks/srv710292.hstgr.cloud.yml.frontend: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43215603-5fc9-4076-8f04-44ec701ded37" name="Changes" comment="" />
+      <created>1737503382674</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1737503382674</updated>
+      <workItem from="1737503383710" duration="887000" />
+      <workItem from="1737724365032" duration="1234000" />
+      <workItem from="1737725918632" duration="28884000" />
+      <workItem from="1737802075122" duration="12246000" />
+      <workItem from="1738066809371" duration="22283000" />
+      <workItem from="1738195987615" duration="9703000" />
+      <workItem from="1738242341278" duration="12222000" />
+      <workItem from="1738257636295" duration="608000" />
+      <workItem from="1738258278332" duration="3960000" />
+      <workItem from="1738720147878" duration="1142000" />
+      <workItem from="1739346258339" duration="30979000" />
+      <workItem from="1739543205975" duration="5893000" />
+      <workItem from="1739794844797" duration="11101000" />
+      <workItem from="1739811443308" duration="147000" />
+      <workItem from="1739811871814" duration="3215000" />
+      <workItem from="1740562240885" duration="21266000" />
+      <workItem from="1741525096876" duration="1672000" />
+      <workItem from="1741632293953" duration="34271000" />
+      <workItem from="1741971116270" duration="1899000" />
+      <workItem from="1741981792233" duration="273000" />
+      <workItem from="1742315721814" duration="9329000" />
+      <workItem from="1742336310912" duration="13725000" />
+      <workItem from="1742395911304" duration="7963000" />
+      <workItem from="1742414299531" duration="757000" />
+      <workItem from="1742491474063" duration="121000" />
+      <workItem from="1742593361430" duration="324000" />
+      <workItem from="1742996726383" duration="3743000" />
+      <workItem from="1743076918471" duration="18846000" />
+      <workItem from="1743347094378" duration="17844000" />
+      <workItem from="1743531441203" duration="708000" />
+      <workItem from="1743620067960" duration="2184000" />
+      <workItem from="1743629741659" duration="2322000" />
+      <workItem from="1743785115477" duration="8390000" />
+      <workItem from="1744066979903" duration="1890000" />
+      <workItem from="1744114703982" duration="7460000" />
+      <workItem from="1744152586109" duration="3502000" />
+      <workItem from="1744229192008" duration="4802000" />
+      <workItem from="1744289768569" duration="840000" />
+      <workItem from="1744306242692" duration="3004000" />
+      <workItem from="1744309467494" duration="10488000" />
+      <workItem from="1744392164888" duration="13845000" />
+      <workItem from="1744408510146" duration="24329000" />
+      <workItem from="1744494506606" duration="5672000" />
+      <workItem from="1744500653615" duration="404000" />
+      <workItem from="1744502134371" duration="5657000" />
+      <workItem from="1744511202699" duration="33430000" />
+      <workItem from="1744668999371" duration="5654000" />
+      <workItem from="1744677549348" duration="5515000" />
+      <workItem from="1744701049031" duration="34298000" />
+      <workItem from="1744845688901" duration="1577000" />
+      <workItem from="1744855474124" duration="5000" />
+      <workItem from="1744917729557" duration="424000" />
+      <workItem from="1745013686671" duration="9798000" />
+      <workItem from="1745027726646" duration="12807000" />
+      <workItem from="1745079712351" duration="2514000" />
+      <workItem from="1745087521211" duration="3961000" />
+      <workItem from="1745355617986" duration="11644000" />
+      <workItem from="1745602619091" duration="1160000" />
+      <workItem from="1745615380644" duration="4729000" />
+      <workItem from="1745853370600" duration="1534000" />
+      <workItem from="1745868869905" duration="2421000" />
+      <workItem from="1745953554982" duration="2345000" />
+      <workItem from="1746194057961" duration="331000" />
+      <workItem from="1746522644944" duration="5902000" />
+      <workItem from="1746537742225" duration="4032000" />
+      <workItem from="1746644850226" duration="6166000" />
+      <workItem from="1746717316296" duration="950000" />
+      <workItem from="1746894575061" duration="6701000" />
+      <workItem from="1747679734811" duration="11588000" />
+      <workItem from="1747695526871" duration="10357000" />
+      <workItem from="1747745988451" duration="20404000" />
+      <workItem from="1747830825832" duration="18425000" />
+      <workItem from="1748018656464" duration="3335000" />
+      <workItem from="1748364791197" duration="3277000" />
+      <workItem from="1748435470205" duration="44000" />
+      <workItem from="1748444778757" duration="8596000" />
+      <workItem from="1748466692483" duration="1637000" />
+      <workItem from="1748527312192" duration="6331000" />
+      <workItem from="1748539118906" duration="5860000" />
+      <workItem from="1748608248350" duration="20992000" />
+      <workItem from="1749047160775" duration="1467000" />
+      <workItem from="1749067836743" duration="14409000" />
+      <workItem from="1749125494563" duration="7293000" />
+      <workItem from="1749145798266" duration="2000" />
+      <workItem from="1749147952140" duration="12748000" />
+      <workItem from="1749748684055" duration="4560000" />
+      <workItem from="1750092543753" duration="2572000" />
+      <workItem from="1750259900865" duration="4759000" />
+      <workItem from="1750268497807" duration="4155000" />
+      <workItem from="1750703499714" duration="1139000" />
+      <workItem from="1750871859111" duration="14224000" />
+      <workItem from="1750949926730" duration="4481000" />
+      <workItem from="1751037527143" duration="5188000" />
+      <workItem from="1751059590715" duration="14467000" />
+      <workItem from="1751461203772" duration="2457000" />
+      <workItem from="1751488905142" duration="3941000" />
+      <workItem from="1751924783243" duration="7000" />
+      <workItem from="1751999333190" duration="8017000" />
+      <workItem from="1752167796631" duration="10117000" />
+      <workItem from="1752180527623" duration="3023000" />
+      <workItem from="1752242036513" duration="9115000" />
+      <workItem from="1752255604745" duration="2406000" />
+      <workItem from="1752758070023" duration="22000" />
+      <workItem from="1752758104139" duration="13599000" />
+      <workItem from="1752775107039" duration="9927000" />
+      <workItem from="1752848477108" duration="24160000" />
+      <workItem from="1753099191117" duration="11000" />
+      <workItem from="1753102557952" duration="9112000" />
+      <workItem from="1753183701430" duration="5089000" />
+      <workItem from="1753194667627" duration="22830000" />
+      <workItem from="1753277935095" duration="3759000" />
+      <workItem from="1753293288351" duration="33020000" />
+      <workItem from="1753468711180" duration="6411000" />
+    </task>
+    <task id="LOCAL-00283" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753305782948</created>
+      <option name="number" value="00283" />
+      <option name="presentableId" value="LOCAL-00283" />
+      <option name="project" value="LOCAL" />
+      <updated>1753305782948</updated>
+    </task>
+    <task id="LOCAL-00284" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753305913483</created>
+      <option name="number" value="00284" />
+      <option name="presentableId" value="LOCAL-00284" />
+      <option name="project" value="LOCAL" />
+      <updated>1753305913483</updated>
+    </task>
+    <task id="LOCAL-00285" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306132519</created>
+      <option name="number" value="00285" />
+      <option name="presentableId" value="LOCAL-00285" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306132519</updated>
+    </task>
+    <task id="LOCAL-00286" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306168136</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306168136</updated>
+    </task>
+    <task id="LOCAL-00287" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306285348</created>
+      <option name="number" value="00287" />
+      <option name="presentableId" value="LOCAL-00287" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306285349</updated>
+    </task>
+    <task id="LOCAL-00288" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306310185</created>
+      <option name="number" value="00288" />
+      <option name="presentableId" value="LOCAL-00288" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306310185</updated>
+    </task>
+    <task id="LOCAL-00289" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306747013</created>
+      <option name="number" value="00289" />
+      <option name="presentableId" value="LOCAL-00289" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306747013</updated>
+    </task>
+    <task id="LOCAL-00290" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306831371</created>
+      <option name="number" value="00290" />
+      <option name="presentableId" value="LOCAL-00290" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306831371</updated>
+    </task>
+    <task id="LOCAL-00291" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753306887009</created>
+      <option name="number" value="00291" />
+      <option name="presentableId" value="LOCAL-00291" />
+      <option name="project" value="LOCAL" />
+      <updated>1753306887009</updated>
+    </task>
+    <task id="LOCAL-00292" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307005735</created>
+      <option name="number" value="00292" />
+      <option name="presentableId" value="LOCAL-00292" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307005735</updated>
+    </task>
+    <task id="LOCAL-00293" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307172224</created>
+      <option name="number" value="00293" />
+      <option name="presentableId" value="LOCAL-00293" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307172224</updated>
+    </task>
+    <task id="LOCAL-00294" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307425532</created>
+      <option name="number" value="00294" />
+      <option name="presentableId" value="LOCAL-00294" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307425532</updated>
+    </task>
+    <task id="LOCAL-00295" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307439063</created>
+      <option name="number" value="00295" />
+      <option name="presentableId" value="LOCAL-00295" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307439063</updated>
+    </task>
+    <task id="LOCAL-00296" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307511520</created>
+      <option name="number" value="00296" />
+      <option name="presentableId" value="LOCAL-00296" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307511520</updated>
+    </task>
+    <task id="LOCAL-00297" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307619653</created>
+      <option name="number" value="00297" />
+      <option name="presentableId" value="LOCAL-00297" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307619653</updated>
+    </task>
+    <task id="LOCAL-00298" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307837699</created>
+      <option name="number" value="00298" />
+      <option name="presentableId" value="LOCAL-00298" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307837699</updated>
+    </task>
+    <task id="LOCAL-00299" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753307848372</created>
+      <option name="number" value="00299" />
+      <option name="presentableId" value="LOCAL-00299" />
+      <option name="project" value="LOCAL" />
+      <updated>1753307848372</updated>
+    </task>
+    <task id="LOCAL-00300" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753359210177</created>
+      <option name="number" value="00300" />
+      <option name="presentableId" value="LOCAL-00300" />
+      <option name="project" value="LOCAL" />
+      <updated>1753359210177</updated>
+    </task>
+    <task id="LOCAL-00301" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753389446967</created>
+      <option name="number" value="00301" />
+      <option name="presentableId" value="LOCAL-00301" />
+      <option name="project" value="LOCAL" />
+      <updated>1753389446967</updated>
+    </task>
+    <task id="LOCAL-00302" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753389565210</created>
+      <option name="number" value="00302" />
+      <option name="presentableId" value="LOCAL-00302" />
+      <option name="project" value="LOCAL" />
+      <updated>1753389565210</updated>
+    </task>
+    <task id="LOCAL-00303" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753389588901</created>
+      <option name="number" value="00303" />
+      <option name="presentableId" value="LOCAL-00303" />
+      <option name="project" value="LOCAL" />
+      <updated>1753389588901</updated>
+    </task>
+    <task id="LOCAL-00304" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753389770162</created>
+      <option name="number" value="00304" />
+      <option name="presentableId" value="LOCAL-00304" />
+      <option name="project" value="LOCAL" />
+      <updated>1753389770162</updated>
+    </task>
+    <task id="LOCAL-00305" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753390024236</created>
+      <option name="number" value="00305" />
+      <option name="presentableId" value="LOCAL-00305" />
+      <option name="project" value="LOCAL" />
+      <updated>1753390024236</updated>
+    </task>
+    <task id="LOCAL-00306" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753390098001</created>
+      <option name="number" value="00306" />
+      <option name="presentableId" value="LOCAL-00306" />
+      <option name="project" value="LOCAL" />
+      <updated>1753390098001</updated>
+    </task>
+    <task id="LOCAL-00307" summary="major(update): Plone 6.1.2">
+      <option name="closed" value="true" />
+      <created>1753390938084</created>
+      <option name="number" value="00307" />
+      <option name="presentableId" value="LOCAL-00307" />
+      <option name="project" value="LOCAL" />
+      <updated>1753390938084</updated>
+    </task>
+    <task id="LOCAL-00308" summary="feat(update): Workflow criado">
+      <option name="closed" value="true" />
+      <created>1753469123070</created>
+      <option name="number" value="00308" />
+      <option name="presentableId" value="LOCAL-00308" />
+      <option name="project" value="LOCAL" />
+      <updated>1753469123070</updated>
+    </task>
+    <task id="LOCAL-00309" summary="feat(update): Workflow criado">
+      <option name="closed" value="true" />
+      <created>1753469164680</created>
+      <option name="number" value="00309" />
+      <option name="presentableId" value="LOCAL-00309" />
+      <option name="project" value="LOCAL" />
+      <updated>1753469164680</updated>
+    </task>
+    <task id="LOCAL-00310" summary="feat(update): Workflow criado">
+      <option name="closed" value="true" />
+      <created>1753469243020</created>
+      <option name="number" value="00310" />
+      <option name="presentableId" value="LOCAL-00310" />
+      <option name="project" value="LOCAL" />
+      <updated>1753469243020</updated>
+    </task>
+    <task id="LOCAL-00311" summary="feat(update): Workflow criado">
+      <option name="closed" value="true" />
+      <created>1753469608727</created>
+      <option name="number" value="00311" />
+      <option name="presentableId" value="LOCAL-00311" />
+      <option name="project" value="LOCAL" />
+      <updated>1753469608727</updated>
+    </task>
+    <task id="LOCAL-00312" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753469984392</created>
+      <option name="number" value="00312" />
+      <option name="presentableId" value="LOCAL-00312" />
+      <option name="project" value="LOCAL" />
+      <updated>1753469984392</updated>
+    </task>
+    <task id="LOCAL-00313" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753470726877</created>
+      <option name="number" value="00313" />
+      <option name="presentableId" value="LOCAL-00313" />
+      <option name="project" value="LOCAL" />
+      <updated>1753470726877</updated>
+    </task>
+    <task id="LOCAL-00314" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753470848945</created>
+      <option name="number" value="00314" />
+      <option name="presentableId" value="LOCAL-00314" />
+      <option name="project" value="LOCAL" />
+      <updated>1753470848945</updated>
+    </task>
+    <task id="LOCAL-00315" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753470978663</created>
+      <option name="number" value="00315" />
+      <option name="presentableId" value="LOCAL-00315" />
+      <option name="project" value="LOCAL" />
+      <updated>1753470978663</updated>
+    </task>
+    <task id="LOCAL-00316" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753471087308</created>
+      <option name="number" value="00316" />
+      <option name="presentableId" value="LOCAL-00316" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471087308</updated>
+    </task>
+    <task id="LOCAL-00317" summary="feat(version): Changes version to develop">
+      <option name="closed" value="true" />
+      <created>1753471190183</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471190183</updated>
+    </task>
+    <task id="LOCAL-00318" summary="fix(backend): test">
+      <option name="closed" value="true" />
+      <created>1753471480373</created>
+      <option name="number" value="00318" />
+      <option name="presentableId" value="LOCAL-00318" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471480373</updated>
+    </task>
+    <task id="LOCAL-00319" summary="fix(backend): test">
+      <option name="closed" value="true" />
+      <created>1753471540725</created>
+      <option name="number" value="00319" />
+      <option name="presentableId" value="LOCAL-00319" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471540725</updated>
+    </task>
+    <task id="LOCAL-00320" summary="fix(backend): test">
+      <option name="closed" value="true" />
+      <created>1753471672535</created>
+      <option name="number" value="00320" />
+      <option name="presentableId" value="LOCAL-00320" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471672535</updated>
+    </task>
+    <task id="LOCAL-00321" summary="fix: test">
+      <option name="closed" value="true" />
+      <created>1753471824770</created>
+      <option name="number" value="00321" />
+      <option name="presentableId" value="LOCAL-00321" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471824770</updated>
+    </task>
+    <task id="LOCAL-00322" summary="fix: test">
+      <option name="closed" value="true" />
+      <created>1753471953785</created>
+      <option name="number" value="00322" />
+      <option name="presentableId" value="LOCAL-00322" />
+      <option name="project" value="LOCAL" />
+      <updated>1753471953785</updated>
+    </task>
+    <task id="LOCAL-00323" summary="fix: test">
+      <option name="closed" value="true" />
+      <created>1753472193962</created>
+      <option name="number" value="00323" />
+      <option name="presentableId" value="LOCAL-00323" />
+      <option name="project" value="LOCAL" />
+      <updated>1753472193962</updated>
+    </task>
+    <task id="LOCAL-00324" summary="fix: test">
+      <option name="closed" value="true" />
+      <created>1753472350550</created>
+      <option name="number" value="00324" />
+      <option name="presentableId" value="LOCAL-00324" />
+      <option name="project" value="LOCAL" />
+      <updated>1753472350550</updated>
+    </task>
+    <task id="LOCAL-00325" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753472518803</created>
+      <option name="number" value="00325" />
+      <option name="presentableId" value="LOCAL-00325" />
+      <option name="project" value="LOCAL" />
+      <updated>1753472518803</updated>
+    </task>
+    <task id="LOCAL-00326" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753472664539</created>
+      <option name="number" value="00326" />
+      <option name="presentableId" value="LOCAL-00326" />
+      <option name="project" value="LOCAL" />
+      <updated>1753472664539</updated>
+    </task>
+    <task id="LOCAL-00327" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753473415847</created>
+      <option name="number" value="00327" />
+      <option name="presentableId" value="LOCAL-00327" />
+      <option name="project" value="LOCAL" />
+      <updated>1753473415847</updated>
+    </task>
+    <task id="LOCAL-00328" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753473618909</created>
+      <option name="number" value="00328" />
+      <option name="presentableId" value="LOCAL-00328" />
+      <option name="project" value="LOCAL" />
+      <updated>1753473618909</updated>
+    </task>
+    <task id="LOCAL-00329" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753473770248</created>
+      <option name="number" value="00329" />
+      <option name="presentableId" value="LOCAL-00329" />
+      <option name="project" value="LOCAL" />
+      <updated>1753473770248</updated>
+    </task>
+    <task id="LOCAL-00330" summary="fix: frontend test bump">
+      <option name="closed" value="true" />
+      <created>1753474090469</created>
+      <option name="number" value="00330" />
+      <option name="presentableId" value="LOCAL-00330" />
+      <option name="project" value="LOCAL" />
+      <updated>1753474090469</updated>
+    </task>
+    <task id="LOCAL-00331" summary="fix: test backend">
+      <option name="closed" value="true" />
+      <created>1753474478422</created>
+      <option name="number" value="00331" />
+      <option name="presentableId" value="LOCAL-00331" />
+      <option name="project" value="LOCAL" />
+      <updated>1753474478422</updated>
+    </task>
+    <option name="localTasksCounter" value="332" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:webpack" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tslint" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:cypress" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="884ea852-eab7-4f0b-915b-8a03ce6dc661" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="884ea852-eab7-4f0b-915b-8a03ce6dc661">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/major/267-update-plone-6-12" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="fix(versionamento): ajusta semantic-release nao criar tag final" />
+    <MESSAGE value="fix(versionamento): ajusta tags homolog e latest em backend" />
+    <MESSAGE value="fix(versionamento): forçar tag de versão para release" />
+    <MESSAGE value="fix(versionamento): homolog conflito" />
+    <MESSAGE value="fix(versionamento): homolog conflito 2" />
+    <MESSAGE value="fix(versionamento): ajusta tags" />
+    <MESSAGE value="fix(versionamento): ajusta as tags release, pre-release" />
+    <MESSAGE value="fix(versionamento): ajusta as tags release, pre-release e promoção da tag release" />
+    <MESSAGE value="fix(versionamento): promove as tags corretamente" />
+    <MESSAGE value="fix(versionamento): pega o conteudo da versao" />
+    <MESSAGE value="fix(versionamento): extração com data o conteudo da versao" />
+    <MESSAGE value="chore(versionamento):versão do backend e frontend" />
+    <MESSAGE value="fix(versionamento):versão do backend e frontend" />
+    <MESSAGE value="fix(versionamento):problema versao hml" />
+    <MESSAGE value="fix(versionamento):faz bump de versao caso haja alterações nos pacotes." />
+    <MESSAGE value="fix(menu):ajusta menus inexistentes" />
+    <MESSAGE value="fix(workflow):ajusta workflow para pastas internas" />
+    <MESSAGE value="fix(menu):força nova versão" />
+    <MESSAGE value="major(update): Plone 6.1.2" />
+    <MESSAGE value="feat(update): Workflow criado" />
+    <MESSAGE value="feat(version): Changes version to develop" />
+    <MESSAGE value="fix(backend): test" />
+    <MESSAGE value="fix: test" />
+    <MESSAGE value="fix: frontend test bump" />
+    <MESSAGE value="fix: test backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: test backend" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-slider-banner/src/components/Blocks/Speakerdeck/schema.js</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/GridBlock/schema.js</url>
+          <line>36</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/GridBlock/View.tsx</url>
+          <line>22</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CategoryBlock/schema.js</url>
+          <line>5</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/NewsHomeBlock/schema.js</url>
+          <line>50</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/View.tsx</url>
+          <line>193</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CardsBlock/View.tsx</url>
+          <line>55</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/NewsHomeBlock/View.tsx</url>
+          <line>137</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/View.tsx</url>
+          <line>158</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/View.tsx</url>
+          <line>160</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/customizations/volto/components/theme/View/SidebarNews.jsx</url>
+          <line>25</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/customizations/volto/components/theme/View/NewsItemView.jsx</url>
+          <line>118</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/node_modules/@kitconcept/volto-light-theme/src/customizations/volto/components/theme/View/RenderBlocks.jsx</url>
+          <line>77</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesNoticiasBlock/View.tsx</url>
+          <line>116</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesNoticiasBlock/View.tsx</url>
+          <line>20</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CategoriasBlock/View.tsx</url>
+          <line>73</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/index.js</url>
+          <line>78</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CardsSubHomesBlock/View.tsx</url>
+          <line>74</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/components/VereadoresView/VereadoresListView.jsx</url>
+          <line>227</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesBlock/View.tsx</url>
+          <line>11</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesNoticiasBlock/View.tsx</url>
+          <line>112</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesBlock/View.tsx</url>
+          <line>14</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesBlock/View.tsx</url>
+          <line>15</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/DestaquesNoticiasBlock/schema.js</url>
+          <line>34</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/schema.js</url>
+          <line>101</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/schema.js</url>
+          <line>132</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/MidiaBlock/schema.js</url>
+          <line>108</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CardsIconsBlock/schema.js</url>
+          <line>49</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/CardsIconsBlock/schema.js</url>
+          <line>19</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/AgendaBlock/View.tsx</url>
+          <line>10</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-dropdownmenu/src/widget/MenuConfigurationForm.jsx</url>
+          <line>273</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/components/DropdownMenu/customizations/components/theme/Navigation/Navigation.jsx</url>
+          <line>39</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/components/DropdownMenu/customizations/components/theme/Navigation/Navigation.jsx</url>
+          <line>72</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/components/DropdownMenu/customizations/components/theme/Navigation/Navigation.jsx</url>
+          <line>84</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/components/DropdownMenu/customizations/components/theme/Navigation/Navigation.jsx</url>
+          <line>89</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/index.js</url>
+          <line>27</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/partidos-addon/src/controlpanels/Partidos.jsx</url>
+          <line>16</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/partidos-addon/src/controlpanels/Partidos.jsx</url>
+          <line>166</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/customizations/volto/components/theme/Footer/Footer.tsx</url>
+          <line>127</line>
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/customizations/volto/components/theme/Footer/Footer.tsx</url>
+          <line>16</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-camara-de-curitiba/src/customizations/volto/components/theme/Header/Header.tsx</url>
+          <line>373</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/NewsThumbnail/schema.js</url>
+          <line>24</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/AgendaListBlock/View.tsx</url>
+          <line>41</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/NewsThumbnail/schema.js</url>
+          <line>22</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/addons/volto-mui-blocks/src/components/NewsThumbnail/View.tsx</url>
+          <line>21</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
