@@ -7,7 +7,7 @@ import logging
 
 
 
-__version__ = "2.0.8"
+__version__ = "2.0.10"
 
 PACKAGE_NAME = "camara_de_curitiba"
 

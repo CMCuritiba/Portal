@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43215603-5fc9-4076-8f04-44ec701ded37" name="Changes" comment="fix: test backend">
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/news/.changelog_template.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/backend/news/.changelog_template.jinja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/.changelog_template.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/news/.changelog_template.jinja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/001-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/001-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/002-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/002-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/003-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/003-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/004-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/004-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/005-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/005-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/006-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/006-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/007-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/007-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/008-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/008-fix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/news/bugfix/009-bugfix.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
-    </list>
+    <list default="true" id="43215603-5fc9-4076-8f04-44ec701ded37" name="Changes" comment="fix: test backend" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -326,7 +304,7 @@
       <workItem from="1753194667627" duration="22830000" />
       <workItem from="1753277935095" duration="3759000" />
       <workItem from="1753293288351" duration="33020000" />
-      <workItem from="1753468711180" duration="6411000" />
+      <workItem from="1753468711180" duration="6882000" />
     </task>
     <task id="LOCAL-00283" summary="major(update): Plone 6.1.2">
       <option name="closed" value="true" />

@@ -1,6 +1,6 @@
 {
   "name": "volto-cmcuritiba",
-  "version": "2.0.4",
+  "version": "2.0.10",
   "description": "Câmara de Curitiba",
   "main": "src/index.js",
   "license": "MIT",
