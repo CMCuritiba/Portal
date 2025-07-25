@@ -38,6 +38,9 @@ jobs:
           echo "📦 Instalando RepoPlone via uvx..."
           uvx repoplone --version
           echo "✅ RepoPlone disponível via uvx"
+          
+          echo "📋 Comandos disponíveis:"
+          uvx repoplone --help
 
       - name: Setup Git
         run: |
@@ -54,6 +57,9 @@ jobs:
         run: |
           echo "📋 Verificando versões atuais..."
           uvx repoplone versions current
+          
+          echo "📋 Verificando próximas versões..."
+          uvx repoplone versions next
 
       - name: Analyze commits for version bump
         run: |
@@ -96,7 +102,17 @@ jobs:
       - name: Generate changelog
         run: |
           echo "📝 Gerando changelog..."
-          uvx repoplone changelog
+          
+          # Verificar se há fragments antes de gerar changelog
+          if [ -d "news" ] && [ "$(ls -A news)" ]; then
+            echo "✅ Fragments encontrados, gerando changelog..."
+            uvx repoplone changelog
+          else
+            echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
+            mkdir -p news/feature
+            echo "Nova funcionalidade adicionada" > news/feature/001-test-feature.md
+            uvx repoplone changelog
+          fi
 
       - name: Create release with RepoPlone
         env:
@@ -120,11 +136,34 @@ jobs:
           # Debug: mostrar comando completo
           echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
           
-          # Criar release usando RepoPlone com segmento de versão
-          # VERSION_BUMP pode ser: major, minor, patch, alpha, beta, rc, etc.
+          # Verificar se há fragments de notícias
+          echo "🔍 Verificando fragments de notícias..."
+          if [ -d "news" ] && [ "$(ls -A news)" ]; then
+            echo "✅ Fragments encontrados:"
+            find news -name "*.md" -type f
+          else
+            echo "⚠️ Nenhum fragment encontrado, criando um..."
+            mkdir -p news/feature
+            echo "Nova funcionalidade adicionada" > news/feature/001-test-feature.md
+          fi
+          
+          # Criar release usando RepoPlone com segmento
+          # Baseado na documentação: uvx repoplone release <segmento>
           uvx repoplone release $VERSION_BUMP --dry-run
           
           echo "✅ Release criado com sucesso"
+          
+          # Verificar se as mudanças foram aplicadas
+          echo "🔍 Verificando mudanças aplicadas..."
+          if [ -f "version.txt" ]; then
+            echo "Versão após release: $(cat version.txt)"
+          fi
+          
+          # Verificar se o changelog foi atualizado
+          if [ -f "CHANGELOG.md" ]; then
+            echo "Changelog atualizado:"
+            tail -10 CHANGELOG.md
+          fi
 
       - name: Commit and push changes
         run: |
