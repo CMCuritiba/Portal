@@ -36,13 +36,6 @@ jobs:
           uvx repoplone --version
           pip install towncrier
 
-      - name: Install frontend dependencies
-        run: |
-          echo "📦 Instalando dependências do frontend..."
-          cd frontend
-          npm install
-          echo "✅ Dependências do frontend instaladas"
-
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -59,7 +52,7 @@ jobs:
           echo "   • build: Alterações no build (PATCH)"
           echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
           echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
-
+          
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -n "$LAST_TAG" ]; then
             echo "Última tag: $LAST_TAG"
@@ -77,7 +70,7 @@ jobs:
           echo "Commits com 'perf:': $(echo "$COMMITS" | grep -c "perf:")"
           echo "Commits com 'build:': $(echo "$COMMITS" | grep -c "build:")"
           echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
-
+          
           VERSION_BUMP="patch"
           if echo "$COMMITS" | grep -q "BREAKING CHANGE\|!:"; then
             VERSION_BUMP="major"
@@ -109,18 +102,18 @@ jobs:
             echo "Nenhuma tag encontrada, analisando todos os commits"
             COMMITS=$(git log --oneline)
           fi
-
+          
           # Criar diretórios para fragments
           mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
           mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
-
+          
           # Processar cada commit e criar fragments usando towncrier create
           echo "$COMMITS" | while IFS= read -r commit; do
             COMMIT_HASH=$(echo "$commit" | cut -d' ' -f1)
             COMMIT_MSG=$(echo "$commit" | cut -d' ' -f2-)
-
+            
             echo "📝 Processando commit: $commit"
-
+            
             # Determinar tipo de fragment baseado na mensagem do commit
             if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE\|!:"; then
               FRAGMENT_TYPE="breaking"
@@ -141,7 +134,7 @@ jobs:
               FRAGMENT_TYPE="feature"
               echo "⚪ Criando fragment feature padrão para: $COMMIT_MSG"
             fi
-
+            
             # Criar fragment no backend
             cd backend
             echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
@@ -149,14 +142,14 @@ jobs:
               echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
             }
             cd ..
-
+            
             # Criar fragment no repositório base
             echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
               echo "⚠️ towncrier create falhou no repositório base, criando manualmente..."
               echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
             }
           done
-
+          
           # Se não criou nenhum fragment, criar um padrão
           if [ ! -f "backend/news/feature/001-feature.md" ] && [ ! -f "backend/news/bugfix/001-bugfix.md" ] && [ ! -f "backend/news/breaking/001-breaking.md" ] && [ ! -f "backend/news/internal/001-internal.md" ] && [ ! -f "backend/news/documentation/001-documentation.md" ]; then
             echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
@@ -169,7 +162,7 @@ jobs:
               echo "Atualização de versão automática" > "news/feature/001-version-update.md"
             }
           fi
-
+          
           echo "📋 Fragments criados no backend:"
           find backend/news -name "*.md" -type f
           echo "📋 Fragments criados no repositório base:"
@@ -183,7 +176,7 @@ jobs:
           echo "Backend news tem conteúdo: $([ -d "backend/news" ] && [ "$(ls -A backend/news)" ] && echo "sim" || echo "não")"
           echo "Repositório news existe: $([ -d "news" ] && echo "sim" || echo "não")"
           echo "Repositório news tem conteúdo: $([ -d "news" ] && [ "$(ls -A news)" ] && echo "sim" || echo "não")"
-
+          
           if [ -d "backend/news" ] && [ "$(ls -A backend/news)" ]; then
             echo "✅ Fragments encontrados no backend, gerando changelog..."
             uvx repoplone changelog
@@ -221,7 +214,7 @@ jobs:
           echo "DEBUG: Verificando variável VERSION_BUMP..."
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
-
+          
           if [ -z "$VERSION_BUMP" ]; then
             echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
             VERSION_BUMP="patch"
@@ -232,7 +225,7 @@ jobs:
           fi
           echo "Usando segmento: $VERSION_BUMP"
           echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
-
+          
           echo "🔍 Verificando changelog gerado..."
           if [ -f "CHANGELOG.md" ]; then
             echo "✅ Changelog encontrado:"
@@ -240,11 +233,11 @@ jobs:
           else
             echo "⚠️ Changelog não encontrado!"
           fi
-
+          
           echo "🔍 Verificando se Node.js/npm está disponível..."
           node --version || echo "⚠️ Node.js não encontrado"
           npm --version || echo "⚠️ npm não encontrado"
-
+          
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
@@ -253,11 +246,11 @@ jobs:
             echo "Tentativa 2: uvx repoplone release $VERSION_BUMP (com confirmação automática)"
             yes | uvx repoplone release "$VERSION_BUMP" 2>&1 | tee release.log || {
               echo "⚠️ Release falhou, verificando se foi no frontend..."
-              if grep -q "Frontend release failed\|npm.*not found\|Cannot find module" release.log; then
-                echo "🔧 Frontend falhou (npm/Node.js), mas backend foi liberado com sucesso"
+              if grep -q "Frontend release failed\|npm.*not found\|Cannot find module\|Dependencies lock file is not found" release.log; then
+                echo "🔧 Frontend falhou (npm/Node.js/lock files), mas backend foi liberado com sucesso"
                 echo "✅ Continuando workflow (frontend pode ser configurado depois)"
                 echo "📋 Log do erro do frontend:"
-                grep -A 5 -B 5 "Frontend\|npm\|Cannot find module" release.log || echo "Nenhum erro específico encontrado"
+                grep -A 5 -B 5 "Frontend\|npm\|Cannot find module\|Dependencies lock file" release.log || echo "Nenhum erro específico encontrado"
               else
                 echo "Tentativa 3: uvx repoplone release --help"
                 uvx repoplone release --help
@@ -282,4 +275,4 @@ jobs:
           echo "🧹 Limpando fragments de notícias..."
           rm -rf backend/news/*/0*.md
           rm -rf news/*/0*.md
-          echo "✅ Fragments removidos"
+          echo "✅ Fragments removidos" 
