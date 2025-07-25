@@ -91,6 +91,7 @@ jobs:
           
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
+          echo "✅ VERSION_BUMP exportado: $VERSION_BUMP"
 
       - name: Generate changelog
         run: |
@@ -103,7 +104,24 @@ jobs:
         run: |
           echo "🚀 Criando release com RepoPlone..."
           
-          # Criar release usando RepoPlone
+          # Ler versão atual
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Versão atual: $CURRENT_VERSION"
+          echo "Tipo de incremento: $VERSION_BUMP"
+          
+          # Verificar se VERSION_BUMP está definido
+          if [ -z "$VERSION_BUMP" ]; then
+            echo "❌ VERSION_BUMP não está definido, usando patch como padrão"
+            VERSION_BUMP="patch"
+          fi
+          
+          echo "Usando segmento: $VERSION_BUMP"
+          
+          # Debug: mostrar comando completo
+          echo "Comando: uvx repoplone release $VERSION_BUMP --dry-run"
+          
+          # Criar release usando RepoPlone com segmento de versão
+          # VERSION_BUMP pode ser: major, minor, patch, alpha, beta, rc, etc.
           uvx repoplone release $VERSION_BUMP --dry-run
           
           echo "✅ Release criado com sucesso"
