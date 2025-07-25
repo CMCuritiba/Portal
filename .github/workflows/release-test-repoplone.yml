@@ -26,11 +26,16 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
-      - name: Install RepoPlone
+      - name: Install uv
         run: |
-          pip install repoplone
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install Towncrier
+        run: |
+          pip install towncrier
 
       - name: Setup Git
         run: |
@@ -44,10 +49,25 @@ jobs:
           echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
           echo "✅ GitHub CLI autenticado"
 
-      - name: Check current versions
+      - name: Check current versions (RepoPlone style)
         run: |
-          echo "📋 Verificando versões atuais..."
-          repoplone versions current
+          echo "📋 Verificando versões atuais (estilo RepoPlone)..."
+          
+          echo "=== Repository ==="
+          echo "Version: $(cat version.txt)"
+          echo "Changelog: CHANGELOG.md"
+          
+          echo "=== Backend Package ==="
+          if [ -f "backend/CHANGELOG.md" ]; then
+            echo "Path: backend"
+            echo "Changelog: backend/CHANGELOG.md"
+          fi
+          
+          echo "=== Frontend Package ==="
+          if [ -f "frontend/packages/volto-cmcuritiba/CHANGELOG.md" ]; then
+            echo "Path: frontend/packages/volto-cmcuritiba"
+            echo "Changelog: frontend/packages/volto-cmcuritiba/CHANGELOG.md"
+          fi
 
       - name: Analyze commits for version bump
         run: |
@@ -86,21 +106,89 @@ jobs:
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
 
-      - name: Generate changelog
+      - name: Check for news fragments
         run: |
-          echo "📝 Gerando changelog..."
-          repoplone changelog
+          echo "🔍 Verificando fragments de notícias..."
+          if [ -d "news" ] && [ "$(ls -A news)" ]; then
+            echo "✅ Fragments encontrados:"
+            find news -name "*.md" -type f
+          else
+            echo "⚠️ Nenhum fragment de notícia encontrado"
+            echo "Criando fragment baseado no tipo de commit..."
+            case $VERSION_BUMP in
+              "major")
+                mkdir -p news/breaking
+                echo "Breaking change detectado" > news/breaking/001-breaking-change.md
+                ;;
+              "minor")
+                mkdir -p news/feature
+                echo "Nova funcionalidade adicionada" > news/feature/001-new-feature.md
+                ;;
+              "patch")
+                mkdir -p news/bugfix
+                echo "Correção de bug" > news/bugfix/001-bugfix.md
+                ;;
+            esac
+          fi
 
-      - name: Create release with RepoPlone
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Generate changelog (RepoPlone style)
         run: |
-          echo "🚀 Criando release com RepoPlone..."
+          echo "📝 Gerando changelog (estilo RepoPlone)..."
           
-          # Criar release usando RepoPlone
-          repoplone release $VERSION_BUMP --dry-run
+          # Ler versão atual
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Versão atual: $CURRENT_VERSION"
           
-          echo "✅ Release criado com sucesso"
+          # Gerar changelog com towncrier
+          towncrier build --yes --version "$CURRENT_VERSION"
+          
+          echo "✅ Changelog gerado com sucesso"
+
+      - name: Update version based on commit analysis
+        run: |
+          echo "🔄 Atualizando versão baseado na análise de commits..."
+          
+          # Ler versão atual
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Versão atual: $CURRENT_VERSION"
+          
+          # Extrair números da versão
+          if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+            MAJOR=${BASH_REMATCH[1]}
+            MINOR=${BASH_REMATCH[2]}
+            PATCH=${BASH_REMATCH[3]}
+            
+            # Incrementar baseado no tipo de commit (estilo RepoPlone)
+            case $VERSION_BUMP in
+              "major")
+                NEW_MAJOR=$((MAJOR + 1))
+                NEW_VERSION="${NEW_MAJOR}.0.0"
+                echo "🔴 MAJOR increment: $CURRENT_VERSION → $NEW_VERSION"
+                ;;
+              "minor")
+                NEW_MINOR=$((MINOR + 1))
+                NEW_VERSION="${MAJOR}.${NEW_MINOR}.0"
+                echo "🟡 MINOR increment: $CURRENT_VERSION → $NEW_VERSION"
+                ;;
+              "patch")
+                NEW_PATCH=$((PATCH + 1))
+                NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
+                echo "🟢 PATCH increment: $CURRENT_VERSION → $NEW_VERSION"
+                ;;
+              *)
+                echo "❌ Tipo de incremento inválido: $VERSION_BUMP"
+                exit 1
+                ;;
+            esac
+            
+            echo "Nova versão: $NEW_VERSION"
+            echo "$NEW_VERSION" > version.txt
+            
+            echo "✅ Versão atualizada para: $NEW_VERSION"
+          else
+            echo "❌ Formato de versão inválido: $CURRENT_VERSION"
+            exit 1
+          fi
 
       - name: Create and push tag
         run: |
