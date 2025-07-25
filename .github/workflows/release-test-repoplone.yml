@@ -65,9 +65,17 @@ jobs:
           echo "📋 Verificando próximas versões..."
           uvx repoplone versions next
 
-      - name: Analyze commits for version bump
-        run: |
-          echo "🔍 Analisando commits para determinar tipo de incremento..."
+              - name: Analyze commits for version bump
+          run: |
+            echo "🔍 Analisando commits para determinar tipo de incremento..."
+            echo "📋 Tipos de Conventional Commits suportados:"
+            echo "   • feat: Nova funcionalidade (MINOR)"
+            echo "   • fix: Correção de bug (PATCH)"
+            echo "   • refactor: Refatoração sem mudança de comportamento (PATCH)"
+            echo "   • perf: Melhoria de performance (PATCH)"
+            echo "   • build: Alterações no build (PATCH)"
+            echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
+            echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
           
           # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
@@ -86,15 +94,26 @@ jobs:
           echo "🔍 Analisando padrões nos commits..."
           echo "Commits com 'fix:': $(echo "$COMMITS" | grep -c "fix:")"
           echo "Commits com 'feat:': $(echo "$COMMITS" | grep -c "feat:")"
+          echo "Commits com 'refactor:': $(echo "$COMMITS" | grep -c "refactor:")"
+          echo "Commits com 'perf:': $(echo "$COMMITS" | grep -c "perf:")"
+          echo "Commits com 'build:': $(echo "$COMMITS" | grep -c "build:")"
           echo "Commits com 'BREAKING': $(echo "$COMMITS" | grep -c "BREAKING")"
           
-          # Mostrar commits que contêm 'fix'
+          # Mostrar commits que contêm cada tipo
           echo "Commits que contêm 'fix':"
           echo "$COMMITS" | grep "fix" || echo "Nenhum commit com 'fix' encontrado"
           
-          # Mostrar commits que contêm 'feat'
           echo "Commits que contêm 'feat':"
           echo "$COMMITS" | grep "feat" || echo "Nenhum commit com 'feat' encontrado"
+          
+          echo "Commits que contêm 'refactor':"
+          echo "$COMMITS" | grep "refactor" || echo "Nenhum commit com 'refactor' encontrado"
+          
+          echo "Commits que contêm 'perf':"
+          echo "$COMMITS" | grep "perf" || echo "Nenhum commit com 'perf' encontrado"
+          
+          echo "Commits que contêm 'build':"
+          echo "$COMMITS" | grep "build" || echo "Nenhum commit com 'build' encontrado"
           
           # Determinar tipo de incremento baseado nos commits
           VERSION_BUMP="patch"  # padrão
@@ -105,9 +124,12 @@ jobs:
           elif echo "$COMMITS" | grep -q "feat:"; then
             VERSION_BUMP="minor"
             echo "🟡 Feature detectada - MINOR increment"
-          elif echo "$COMMITS" | grep -q "fix:"; then
+          elif echo "$COMMITS" | grep -q "fix:\|refactor:\|perf:"; then
             VERSION_BUMP="patch"
-            echo "🟢 Fix detectado - PATCH increment"
+            echo "🟢 Fix/Refactor/Perf detectado - PATCH increment"
+          elif echo "$COMMITS" | grep -q "build:"; then
+            VERSION_BUMP="patch"
+            echo "🔧 Build detectado - PATCH increment (pode afetar versão de build)"
           else
             echo "⚪ Nenhum tipo específico detectado - PATCH increment (padrão)"
           fi
