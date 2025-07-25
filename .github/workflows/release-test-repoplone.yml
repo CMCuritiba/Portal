@@ -35,9 +35,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Create news fragments with towncrier create
+      - name: Create news fragments from commits
         run: |
-          echo "📝 Criando fragments usando towncrier create..."
+          echo "📝 Criando fragments baseados nos commits existentes..."
           
           # Criar diretórios para fragments
           mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
@@ -53,8 +53,9 @@ jobs:
             COMMITS=$(git log --oneline)
           fi
           
-          # Processar cada commit e criar fragments usando towncrier create
+          # Processar cada commit e criar fragments manualmente
           echo "$COMMITS" | while IFS= read -r commit; do
+            COMMIT_HASH=$(echo "$commit" | cut -d' ' -f1)
             COMMIT_MSG=$(echo "$commit" | cut -d' ' -f2-)
             
             echo "📝 Processando commit: $commit"
@@ -76,16 +77,16 @@ jobs:
             
             # Criar fragment no backend
             cd backend
-            echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
-              echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
-            }
+            echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
             cd ..
             
             # Criar fragment no repositório base
-            echo "$COMMIT_MSG" | towncrier create --content "$COMMIT_MSG" --type "$FRAGMENT_TYPE" || {
-              echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
-            }
+            echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
           done
+          
+          echo "📋 Fragments criados:"
+          find backend/news -name "*.md" -type f
+          find news -name "*.md" -type f
 
       - name: Run RepoPlone
         env:
