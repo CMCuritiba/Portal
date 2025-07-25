@@ -244,6 +244,10 @@ jobs:
           node --version || echo "⚠️ Node.js não encontrado"
           npm --version || echo "⚠️ npm não encontrado"
           
+          echo "🔍 Verificando arquivos de lock..."
+          ls -la package-lock.json || echo "⚠️ package-lock.json não encontrado"
+          ls -la frontend/pnpm-lock.yaml || echo "⚠️ pnpm-lock.yaml não encontrado"
+          
           echo "Tentando release com segmento: $VERSION_BUMP"
           echo "DEBUG: VERSION_BUMP = '$VERSION_BUMP'"
           echo "DEBUG: VERSION_BUMP length = ${#VERSION_BUMP}"
