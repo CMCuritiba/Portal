@@ -209,20 +209,48 @@ jobs:
           
           echo "📋 Fragments criados no repositório base:"
           find news -name "*.md" -type f
+          
+          # Debug: mostrar conteúdo dos fragments
+          echo "🔍 Conteúdo dos fragments criados:"
+          if [ -d "news" ]; then
+            for dir in news/*/; do
+              if [ -d "$dir" ]; then
+                echo "📁 Diretório: $dir"
+                for file in "$dir"*.md; do
+                  if [ -f "$file" ]; then
+                    echo "📄 Arquivo: $file"
+                    echo "Conteúdo: $(cat "$file")"
+                  fi
+                done
+              fi
+            done
+          fi
 
       - name: Generate changelog with RepoPlone
         run: |
           echo "📝 Gerando changelog com RepoPlone..."
           
           # Verificar se há fragments antes de gerar changelog
+          echo "🔍 Verificando fragments antes de gerar changelog..."
+          echo "Backend news existe: $([ -d "backend/news" ] && echo "sim" || echo "não")"
+          echo "Backend news tem conteúdo: $([ -d "backend/news" ] && [ "$(ls -A backend/news)" ] && echo "sim" || echo "não")"
+          echo "Repositório news existe: $([ -d "news" ] && echo "sim" || echo "não")"
+          echo "Repositório news tem conteúdo: $([ -d "news" ] && [ "$(ls -A news)" ] && echo "sim" || echo "não")"
+          
           if [ -d "backend/news" ] && [ "$(ls -A backend/news)" ]; then
-            echo "✅ Fragments encontrados, gerando changelog..."
+            echo "✅ Fragments encontrados no backend, gerando changelog..."
+            uvx repoplone changelog
+            echo "✅ Changelog gerado com sucesso!"
+          elif [ -d "news" ] && [ "$(ls -A news)" ]; then
+            echo "✅ Fragments encontrados no repositório, gerando changelog..."
             uvx repoplone changelog
             echo "✅ Changelog gerado com sucesso!"
           else
             echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
             mkdir -p backend/news/feature
             echo "Atualização de versão automática" > backend/news/feature/001-version-update.md
+            mkdir -p news/feature
+            echo "Atualização de versão automática" > news/feature/001-version-update.md
             uvx repoplone changelog
             echo "✅ Changelog gerado com fragment padrão!"
           fi
