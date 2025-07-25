@@ -1,4 +1,4 @@
-name: Release Test
+name: Release Test (RepoPlone Style)
 
 on:
   push:
@@ -28,11 +28,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Towncrier
+      - name: Install RepoPlone
         run: |
-          pip install towncrier
+          pip install repoplone
 
-      - name: Configure Git
+      - name: Setup Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -41,8 +41,13 @@ jobs:
         run: |
           gh --version
           echo "✅ GitHub CLI está disponível"
-          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
           echo "✅ GitHub CLI autenticado"
+
+      - name: Check current versions
+        run: |
+          echo "📋 Verificando versões atuais..."
+          repoplone versions current
 
       - name: Analyze commits for version bump
         run: |
@@ -81,114 +86,27 @@ jobs:
           echo "Tipo de incremento: $VERSION_BUMP"
           echo "VERSION_BUMP=$VERSION_BUMP" >> $GITHUB_ENV
 
-      - name: Check for news fragments
+      - name: Generate changelog
         run: |
-          echo "🔍 Verificando fragments de notícias..."
-          if [ -d "news" ] && [ "$(ls -A news)" ]; then
-            echo "✅ Fragments encontrados:"
-            find news -name "*.md" -type f
-          else
-            echo "⚠️ Nenhum fragment de notícia encontrado"
-            echo "Criando fragment baseado no tipo de commit..."
-            mkdir -p news/feature
-            case $VERSION_BUMP in
-              "major")
-                echo "Breaking change detectado" > news/breaking/001-breaking-change.md
-                ;;
-              "minor")
-                echo "Nova funcionalidade adicionada" > news/feature/001-new-feature.md
-                ;;
-              "patch")
-                echo "Correção de bug" > news/bugfix/001-bugfix.md
-                ;;
-            esac
-          fi
+          echo "📝 Gerando changelog..."
+          repoplone changelog
 
-      - name: Build changelog with Towncrier
+      - name: Create release with RepoPlone
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          echo "📝 Gerando changelog com Towncrier..."
+          echo "🚀 Criando release com RepoPlone..."
           
-          # Ler versão atual
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Versão atual: $CURRENT_VERSION"
+          # Criar release usando RepoPlone
+          repoplone release $VERSION_BUMP --dry-run
           
-          # Gerar changelog com versão especificada
-          towncrier build --yes --version "$CURRENT_VERSION"
-          
-          echo "✅ Changelog gerado com sucesso"
-
-      - name: Update version based on commit analysis
-        run: |
-          echo "🔄 Atualizando versão baseado na análise de commits..."
-          
-          # Ler versão atual
-          CURRENT_VERSION=$(cat version.txt)
-          echo "Versão atual: $CURRENT_VERSION"
-          
-          # Extrair números da versão
-          if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
-            MAJOR=${BASH_REMATCH[1]}
-            MINOR=${BASH_REMATCH[2]}
-            PATCH=${BASH_REMATCH[3]}
-            
-            # Incrementar baseado no tipo de commit
-            case $VERSION_BUMP in
-              "major")
-                NEW_MAJOR=$((MAJOR + 1))
-                NEW_VERSION="${NEW_MAJOR}.0.0"
-                echo "🔴 MAJOR increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              "minor")
-                NEW_MINOR=$((MINOR + 1))
-                NEW_VERSION="${MAJOR}.${NEW_MINOR}.0"
-                echo "🟡 MINOR increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              "patch")
-                NEW_PATCH=$((PATCH + 1))
-                NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
-                echo "🟢 PATCH increment: $CURRENT_VERSION → $NEW_VERSION"
-                ;;
-              *)
-                echo "❌ Tipo de incremento inválido: $VERSION_BUMP"
-                exit 1
-                ;;
-            esac
-            
-            echo "Nova versão: $NEW_VERSION"
-            echo "$NEW_VERSION" > version.txt
-            
-            echo "✅ Versão atualizada para: $NEW_VERSION"
-          else
-            echo "❌ Formato de versão inválido: $CURRENT_VERSION"
-            exit 1
-          fi
-
-      - name: Commit and push changes
-        run: |
-          echo "💾 Commitando alterações..."
-          
-          # Adicionar arquivos modificados
-          git add version.txt CHANGELOG.md
-          
-          # Verificar se há mudanças
-          if git diff --staged --quiet; then
-            echo "⚠️ Nenhuma mudança para commitar"
-          else
-            # Commit das alterações
-            git commit -m "chore: bump version for test branch [skip ci]"
-            
-            # Push das alterações
-            git push origin test
-            echo "✅ Alterações enviadas para branch test"
-          fi
+          echo "✅ Release criado com sucesso"
 
       - name: Create and push tag
         run: |
           echo "🏷️ Criando tag de release..."
           
-          # Ler nova versão
+          # Obter nova versão do version.txt
           NEW_VERSION=$(cat version.txt)
           TAG_NAME="${NEW_VERSION}-test"
           
@@ -204,7 +122,7 @@ jobs:
 
       - name: Create GitHub Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "📦 Criando GitHub Release..."
           
@@ -223,6 +141,25 @@ jobs:
             --prerelease
           
           echo "✅ GitHub Release criado: $TAG_NAME"
+
+      - name: Commit changes
+        run: |
+          echo "💾 Commitando alterações..."
+          
+          # Adicionar arquivos modificados
+          git add version.txt CHANGELOG.md
+          
+          # Verificar se há mudanças
+          if git diff --staged --quiet; then
+            echo "⚠️ Nenhuma mudança para commitar"
+          else
+            # Commit das alterações
+            git commit -m "chore: bump version for test branch [skip ci]"
+            
+            # Push das alterações
+            git push origin test
+            echo "✅ Alterações enviadas para branch test"
+          fi
 
       - name: Cleanup news fragments
         run: |
