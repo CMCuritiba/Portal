@@ -155,39 +155,39 @@ jobs:
             COMMITS=$(git log --oneline)
           fi
           
-          # Criar diretórios para fragments
-          mkdir -p news/feature news/fix news/refactor news/perf news/build
+          # Criar diretórios para fragments baseado na configuração do Towncrier
+          mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
           
           # Contador para fragments
           FRAGMENT_COUNT=1
           
           # Processar cada commit e criar fragments
           echo "$COMMITS" | while IFS= read -r commit; do
-            if echo "$commit" | grep -q "feat:"; then
+            if echo "$commit" | grep -q "BREAKING CHANGE\|!:"; then
+              echo "🔴 Criando fragment para breaking: $commit"
+              echo "$commit" > "news/breaking/$(printf "%03d" $FRAGMENT_COUNT)-breaking.md"
+              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
+            elif echo "$commit" | grep -q "feat:"; then
               echo "🟡 Criando fragment para feature: $commit"
               echo "$commit" > "news/feature/$(printf "%03d" $FRAGMENT_COUNT)-feature.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             elif echo "$commit" | grep -q "fix:"; then
-              echo "🟢 Criando fragment para fix: $commit"
-              echo "$commit" > "news/fix/$(printf "%03d" $FRAGMENT_COUNT)-fix.md"
+              echo "🟢 Criando fragment para bugfix: $commit"
+              echo "$commit" > "news/bugfix/$(printf "%03d" $FRAGMENT_COUNT)-bugfix.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "refactor:"; then
-              echo "🔧 Criando fragment para refactor: $commit"
-              echo "$commit" > "news/refactor/$(printf "%03d" $FRAGMENT_COUNT)-refactor.md"
+            elif echo "$commit" | grep -q "refactor:\|perf:\|build:"; then
+              echo "🔧 Criando fragment para internal: $commit"
+              echo "$commit" > "news/internal/$(printf "%03d" $FRAGMENT_COUNT)-internal.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "perf:"; then
-              echo "⚡ Criando fragment para perf: $commit"
-              echo "$commit" > "news/perf/$(printf "%03d" $FRAGMENT_COUNT)-perf.md"
-              FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
-            elif echo "$commit" | grep -q "build:"; then
-              echo "🏗️ Criando fragment para build: $commit"
-              echo "$commit" > "news/build/$(printf "%03d" $FRAGMENT_COUNT)-build.md"
+            elif echo "$commit" | grep -q "docs:"; then
+              echo "📚 Criando fragment para documentation: $commit"
+              echo "$commit" > "news/documentation/$(printf "%03d" $FRAGMENT_COUNT)-documentation.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             fi
           done
           
           # Se não criou nenhum fragment, criar um padrão
-          if [ ! -f "news/feature/001-feature.md" ] && [ ! -f "news/fix/001-fix.md" ] && [ ! -f "news/refactor/001-refactor.md" ] && [ ! -f "news/perf/001-perf.md" ] && [ ! -f "news/build/001-build.md" ]; then
+          if [ ! -f "news/feature/001-feature.md" ] && [ ! -f "news/bugfix/001-bugfix.md" ] && [ ! -f "news/breaking/001-breaking.md" ] && [ ! -f "news/internal/001-internal.md" ] && [ ! -f "news/documentation/001-documentation.md" ]; then
             echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
             mkdir -p news/feature
             echo "Atualização de versão automática" > news/feature/001-version-update.md
