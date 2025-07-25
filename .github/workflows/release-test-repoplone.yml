@@ -156,6 +156,10 @@ jobs:
           fi
           
           # Criar diretórios para fragments baseado na configuração do Towncrier
+          # RepoPlone usa o backend como principal, então criamos fragments lá
+          mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
+          
+          # Também criar fragments para o repositório base (monorepo)
           mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
           
           # Contador para fragments
@@ -165,35 +169,45 @@ jobs:
           echo "$COMMITS" | while IFS= read -r commit; do
             if echo "$commit" | grep -q "BREAKING CHANGE\|!:"; then
               echo "🔴 Criando fragment para breaking: $commit"
+              echo "$commit" > "backend/news/breaking/$(printf "%03d" $FRAGMENT_COUNT)-breaking.md"
               echo "$commit" > "news/breaking/$(printf "%03d" $FRAGMENT_COUNT)-breaking.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             elif echo "$commit" | grep -q "feat:"; then
               echo "🟡 Criando fragment para feature: $commit"
+              echo "$commit" > "backend/news/feature/$(printf "%03d" $FRAGMENT_COUNT)-feature.md"
               echo "$commit" > "news/feature/$(printf "%03d" $FRAGMENT_COUNT)-feature.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             elif echo "$commit" | grep -q "fix:"; then
               echo "🟢 Criando fragment para bugfix: $commit"
+              echo "$commit" > "backend/news/bugfix/$(printf "%03d" $FRAGMENT_COUNT)-bugfix.md"
               echo "$commit" > "news/bugfix/$(printf "%03d" $FRAGMENT_COUNT)-bugfix.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             elif echo "$commit" | grep -q "refactor:\|perf:\|build:"; then
               echo "🔧 Criando fragment para internal: $commit"
+              echo "$commit" > "backend/news/internal/$(printf "%03d" $FRAGMENT_COUNT)-internal.md"
               echo "$commit" > "news/internal/$(printf "%03d" $FRAGMENT_COUNT)-internal.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             elif echo "$commit" | grep -q "docs:"; then
               echo "📚 Criando fragment para documentation: $commit"
+              echo "$commit" > "backend/news/documentation/$(printf "%03d" $FRAGMENT_COUNT)-documentation.md"
               echo "$commit" > "news/documentation/$(printf "%03d" $FRAGMENT_COUNT)-documentation.md"
               FRAGMENT_COUNT=$((FRAGMENT_COUNT + 1))
             fi
           done
           
           # Se não criou nenhum fragment, criar um padrão
-          if [ ! -f "news/feature/001-feature.md" ] && [ ! -f "news/bugfix/001-bugfix.md" ] && [ ! -f "news/breaking/001-breaking.md" ] && [ ! -f "news/internal/001-internal.md" ] && [ ! -f "news/documentation/001-documentation.md" ]; then
+          if [ ! -f "backend/news/feature/001-feature.md" ] && [ ! -f "backend/news/bugfix/001-bugfix.md" ] && [ ! -f "backend/news/breaking/001-breaking.md" ] && [ ! -f "backend/news/internal/001-internal.md" ] && [ ! -f "backend/news/documentation/001-documentation.md" ]; then
             echo "⚠️ Nenhum commit convencional encontrado, criando fragment padrão..."
+            mkdir -p backend/news/feature
+            echo "Atualização de versão automática" > backend/news/feature/001-version-update.md
             mkdir -p news/feature
             echo "Atualização de versão automática" > news/feature/001-version-update.md
           fi
           
-          echo "📋 Fragments criados:"
+          echo "📋 Fragments criados no backend:"
+          find backend/news -name "*.md" -type f
+          
+          echo "📋 Fragments criados no repositório base:"
           find news -name "*.md" -type f
 
       - name: Generate changelog with RepoPlone
@@ -201,14 +215,14 @@ jobs:
           echo "📝 Gerando changelog com RepoPlone..."
           
           # Verificar se há fragments antes de gerar changelog
-          if [ -d "news" ] && [ "$(ls -A news)" ]; then
+          if [ -d "backend/news" ] && [ "$(ls -A backend/news)" ]; then
             echo "✅ Fragments encontrados, gerando changelog..."
             uvx repoplone changelog
             echo "✅ Changelog gerado com sucesso!"
           else
             echo "⚠️ Nenhum fragment encontrado, criando um antes de gerar changelog..."
-            mkdir -p news/feature
-            echo "Atualização de versão automática" > news/feature/001-version-update.md
+            mkdir -p backend/news/feature
+            echo "Atualização de versão automática" > backend/news/feature/001-version-update.md
             uvx repoplone changelog
             echo "✅ Changelog gerado com fragment padrão!"
           fi
