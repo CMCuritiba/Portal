@@ -65,17 +65,17 @@ jobs:
           echo "📋 Verificando próximas versões..."
           uvx repoplone versions next
 
-              - name: Analyze commits for version bump
-          run: |
-            echo "🔍 Analisando commits para determinar tipo de incremento..."
-            echo "📋 Tipos de Conventional Commits suportados:"
-            echo "   • feat: Nova funcionalidade (MINOR)"
-            echo "   • fix: Correção de bug (PATCH)"
-            echo "   • refactor: Refatoração sem mudança de comportamento (PATCH)"
-            echo "   • perf: Melhoria de performance (PATCH)"
-            echo "   • build: Alterações no build (PATCH)"
-            echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
-            echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
+      - name: Analyze commits for version bump
+        run: |
+          echo "🔍 Analisando commits para determinar tipo de incremento..."
+          echo "📋 Tipos de Conventional Commits suportados:"
+          echo "   • feat: Nova funcionalidade (MINOR)"
+          echo "   • fix: Correção de bug (PATCH)"
+          echo "   • refactor: Refatoração sem mudança de comportamento (PATCH)"
+          echo "   • perf: Melhoria de performance (PATCH)"
+          echo "   • build: Alterações no build (PATCH)"
+          echo "   • BREAKING CHANGE: Mudança incompatível (MAJOR)"
+          echo "   • chore/docs/style/test/ci/revert: Não afetam versionamento"
           
           # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
@@ -216,22 +216,18 @@ jobs:
               echo "❌ Comando release não funcionou, pulando..."
             }
           }
-          
           echo "✅ Release criado com sucesso"
-          
-          # Verificar se as mudanças foram aplicadas
+
+      - name: Verify applied changes
+        run: |
           echo "🔍 Verificando mudanças aplicadas..."
           if [ -f "version.txt" ]; then
             echo "Versão após release: $(cat version.txt)"
           fi
-          
-          # Verificar se o changelog foi atualizado
           if [ -f "CHANGELOG.md" ]; then
             echo "Changelog atualizado:"
             tail -10 CHANGELOG.md
           fi
-          
-          # Verificar se os fragments foram processados
           echo "🔍 Verificando fragments processados..."
           if [ -d "news" ]; then
             echo "Fragments restantes:"
@@ -241,18 +237,20 @@ jobs:
       - name: Commit and push changes
         run: |
           echo "💾 Commitando e enviando alterações..."
-          
-          # Adicionar todos os arquivos modificados
           git add .
-          
-          # Verificar se há mudanças
           if git diff --staged --quiet; then
             echo "⚠️ Nenhuma mudança para commitar"
           else
-            # Commit das alterações
             git commit -m "chore: release version bump [skip ci]"
-            
-            # Push das alterações
             git push origin test
             echo "✅ Alterações enviadas para branch test"
+          fi
+
+      - name: Cleanup news fragments
+        if: always()
+        run: |
+          echo "🧹 Limpando fragments de notícias..."
+          if [ -d "news" ]; then
+            find news -name "*.md" -type f -delete
+            echo "✅ Fragments removidos"
           fi 
