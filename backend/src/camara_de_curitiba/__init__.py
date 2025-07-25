@@ -5,7 +5,7 @@ from zope.i18nmessageid import MessageFactory
 import logging
 
 
-__version__ = "2.0.6"
+__version__ = "2.0.7"
 
 PACKAGE_NAME = "camara_de_curitiba"
 
