@@ -55,29 +55,6 @@ jobs:
           ls -la package-lock.json
           ls -la frontend/package-lock.json
 
-      - name: Verify working directory and lock files
-        run: |
-          echo "🔍 Verificando diretório de trabalho e arquivos de lock..."
-          echo "PWD: $(pwd)"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          
-          # Verificar se estamos no diretório correto
-          if [ "$(pwd)" != "$GITHUB_WORKSPACE" ]; then
-            echo "⚠️ Mudando para GITHUB_WORKSPACE..."
-            cd "$GITHUB_WORKSPACE"
-            echo "Novo PWD: $(pwd)"
-          fi
-          
-          # Criar lock files novamente no diretório correto
-          echo '{"lockfileVersion": 1, "dependencies": {}}' > package-lock.json
-          echo '{"lockfileVersion": 1, "dependencies": {}}' > yarn.lock
-          
-          echo "🔍 Verificando arquivos de lock no diretório atual:"
-          ls -la package-lock.json yarn.lock || echo "⚠️ Arquivos de lock não encontrados"
-          
-          echo "🔍 Conteúdo do diretório atual:"
-          ls -la | grep -E "(package|yarn|lock)" || echo "Nenhum arquivo de lock encontrado"
-
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
