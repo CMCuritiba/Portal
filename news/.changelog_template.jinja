@@ -1,7 +1,8 @@
 {% for section in sections %}
+{% set section_name = sections[section] %}
 {% if sections[section] %}
 
-### {{ sections[section] }}
+### {{ section_name }}
 
 {% for category in sections[section] %}
 {% for text, issues in sections[section][category] %}
@@ -10,8 +11,4 @@
 {% endfor %}
 
 {% endif %}
-{% endfor %}
-
-{% if not sections %}
-No significant changes.
-{% endif %} 
+{% endfor %} 
