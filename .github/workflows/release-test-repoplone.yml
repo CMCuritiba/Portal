@@ -38,11 +38,11 @@ jobs:
       - name: Create news fragments from commits
         run: |
           echo "📝 Criando fragments baseados nos commits existentes..."
-          
+
           # Criar diretórios para fragments
           mkdir -p backend/news/breaking backend/news/feature backend/news/bugfix backend/news/internal backend/news/documentation
           mkdir -p news/breaking news/feature news/bugfix news/internal news/documentation
-          
+
           # Obter commits desde a última tag
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -n "$LAST_TAG" ]; then
@@ -52,14 +52,14 @@ jobs:
             echo "Nenhuma tag encontrada, analisando todos os commits"
             COMMITS=$(git log --oneline)
           fi
-          
+
           # Processar cada commit e criar fragments manualmente
           echo "$COMMITS" | while IFS= read -r commit; do
             COMMIT_HASH=$(echo "$commit" | cut -d' ' -f1)
             COMMIT_MSG=$(echo "$commit" | cut -d' ' -f2-)
-            
+
             echo "📝 Processando commit: $commit"
-            
+
             # Determinar tipo de fragment baseado na mensagem do commit
             if echo "$COMMIT_MSG" | grep -q "BREAKING CHANGE\|!:"; then
               FRAGMENT_TYPE="breaking"
@@ -74,16 +74,16 @@ jobs:
             else
               FRAGMENT_TYPE="feature"
             fi
-            
+
             # Criar fragment no backend
             cd backend
-            echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
+            echo "$COMMIT_MSG" > "news/$(date +%s)-$FRAGMENT_TYPE.md"
             cd ..
-            
+
             # Criar fragment no repositório base
-            echo "$COMMIT_MSG" > "news/$FRAGMENT_TYPE/$(date +%s)-$FRAGMENT_TYPE.md"
+            echo "$COMMIT_MSG" > "news/$(date +%s)-$FRAGMENT_TYPE.md"
           done
-          
+
           echo "📋 Fragments criados:"
           find backend/news -name "*.md" -type f
           find news -name "*.md" -type f
